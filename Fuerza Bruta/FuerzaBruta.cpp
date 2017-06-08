@@ -156,7 +156,7 @@ int calcFrontera(struct Graph* grafo, vector<int> vec){
 void cliqueMaxFrontAux(struct Graph* grafo, int n, int ite, int ultUsado, vector<int>& vecAux, int &res, vector<int>& vecRes){
 	if(ite == n){
 		if(esClique(grafo, vecAux)){		// si es cliqué, entonces me fijo si tiene frontera mayor
-			mostrarVec(vecAux);
+			// mostrarVec(vecAux);
 			int cant = calcFrontera(grafo, vecAux); 
 			// cout << "La cant es: " << cant << endl;
 			if(cant > res){
@@ -193,11 +193,11 @@ int cliqueMaxFront(struct Graph* grafo){
 	vector<int> vecAux(n);
 	int res = 0;
 	cliqueMaxFrontAux(grafo, n, 0, -1, vecAux, res, vecRes);	// función auxiliar que hace todo
-	cout << "El resultado es " << res << endl;
-	cout << "Los nodos de la clique son: ";
-	mostrarUnosVec(vecRes);
-	int cantUn = cantUnosVec(vecRes);
-	cout << "Tiene " << cantUn << " nodos" << endl;
-	cout << endl;
+	// cout << "El resultado es " << res << endl;
+	// cout << "Los nodos de la clique son: ";
+	// mostrarUnosVec(vecRes);
+	// int cantUn = cantUnosVec(vecRes);
+	// cout << "Tiene " << cantUn << " nodos" << endl;
+	// cout << endl;
 	return 0;
 }

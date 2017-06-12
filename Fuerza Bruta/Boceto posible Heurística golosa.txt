@@ -1,0 +1,12 @@
+La idea es:
+
+> Encuentro el nodo de grado máximo
+> Veo las fronteras que se forman con todos sus vecinos y me guardo la máxima (si es mayor que la anterior que tengo). Si no es mayor, no la guardo pero igual ahora sumé un nodo a mi "cliqué de heurística"
+> Veo todos los vecinos del último nodo que agregué a mi "cliqué de heurística" y, si son adyacentes a todos los nodos que había en mi "cliqué de heurística", calculo su frontera. Me quedo con el máximo de ellos (y guardo su frontera si ésta es mayor a la que ya tenía). Nuevamente, agregué un nodo más a mi "cliqué de heurística".
+> Este proceso seguirá hasta que el nodo que agrego no tenga vecinos que sean adyacentes a todos los nodos de mi "cliqué de heurística". En ese caso devuelvo la mayor frontera, que tenía guardada.
+
+Como máximo el proceso debiera tener n iteraciones (ya que en cada iteración agrego un nodo nuevo y tengo un total de n nodos). Si no agregué ningún nodo, entonces termina.
+
+---------------------------------------------------------------------------------
+
+Por otro lado, se podría hacer una heurística similar solo que en vez de sumar el nodo que me genera la frontera máxima sin importarme cuál es el grado de ese nodo, busco el nodo de máximo grado que me genere una cliqué y sumo ese (sin importarme si hay otro nodo de mejor frontera ya que quizás más adelante el nodo de mayor grado me de una frontera mejor).

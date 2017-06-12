@@ -135,7 +135,7 @@ void genGraphNigualM(Graph* grafo, int cantNodos){			// grafo con M aristas
 		addEdge(grafo, i, x1);
 	}
 
-	mostrarMatriz(grafo->matrizAdy, n);
+	// mostrarMatriz(grafo->matrizAdy, n);
 }
 
 void expGrafosNigualM(){			// testea grafos de N = M, 40 instancias de longitudes entre 2 y 20
@@ -145,7 +145,8 @@ void expGrafosNigualM(){			// testea grafos de N = M, 40 instancias de longitude
 
 	std::chrono::time_point<std::chrono::system_clock> start, end;
 
-	for(int i = 2; i < 21; i++){		// testea grafos de N = M
+	for(int i = 2; i < 25; i++){		// testea grafos de N = M
+		cout << "Voy por n = " << i << endl;
 		for(int j = 0; j < 40; j++){
 			s << i;
 			s << ",";
@@ -190,7 +191,8 @@ void expGrafosCompletos(){			// testea grafos completos
 
 	std::chrono::time_point<std::chrono::system_clock> start, end;
 
-	for(int i = 2; i < 21; i++){
+	for(int i = 2; i < 25; i++){
+		cout << "Voy por n = " << i << endl;
 		for(int j = 0; j < 40; j++){
 			s << i;
 			s << ",";
@@ -211,24 +213,90 @@ void expGrafosCompletos(){			// testea grafos completos
 	}
 }
 
-void genGraphMitadAristas(Graph* grafo, int cantNodos){		// genera grafo con (n - 1) * (n / 2) aristas
+void genGraphMitadAristas(Graph* grafo, int cantNodos){		// genera grafo con (n - 1) * (n / 4) aristas aprox
 	int n = cantNodos;
 	int m;
 	if(n % 2 == 0){
-		m = n * n / 4
+		m = n * n / 4;
 	}else{
-		m = n * ((n - 1) / 2) / 2
+		m = n * ((n - 1) / 2) / 2;
 	}
 	if(n == 3){
 		m = 3;
 	}
 
-	for(int fil = 0; fil < n; fil++){
-		for(int col = 0; col < n; col++){
+	createGraph(grafo, n, m);
 
+	for(int fil = 0; fil < n; fil++){
+		if(n % 2 == 0){
+			int k = 0;
+			for(int col = 0; col < n; col++){
+				if(grafo->matrizAdy[fil][col] == 1){
+					k++;
+				}
+			}
+			int i = rand() % (n - 1);			// rango [0, n - 1]
+			while(k < n / 2){
+				if(i % n == fil || grafo->matrizAdy[fil][i % n] == 1){
+					i++;
+				}else{
+					int j = i % n;
+					addEdge(grafo, fil, j);
+					i++;
+					k++;						
+				}
+			}
+		}else{
+			int k = 0;
+			for(int col = 0; col < n; col++){
+				if(grafo->matrizAdy[fil][col] == 1){
+					k++;
+				}
+			}
+			int i = rand() % (n - 1);			// rango [0, n - 1]
+			while(k < (n - 1) / 2) {
+				if(i % n == fil || grafo->matrizAdy[fil][i % n] == 1){
+					i++;
+				}else{
+					int j = i % n;
+					addEdge(grafo, fil, j);
+					i++;
+					k++;						
+				}
+			}
 		}
 	}
 
+	// mostrarMatriz(grafo->matrizAdy, n);
+}
+
+void expGrafosMitadAristas(){			// testea grafos con la mitad de aristas
+	fstream s ("ExpMitadAristas.csv", ios::out);
+
+	s << "cantNod,Tiempo,Tipo" << endl;
+
+	std::chrono::time_point<std::chrono::system_clock> start, end;
+
+	for(int i = 2; i < 25; i++){
+		cout << "Voy por n = " << i << endl;
+		for(int j = 0; j < 40; j++){
+			s << i;
+			s << ",";
+
+			Graph grafo;
+			genGraphMitadAristas(&grafo, i);
+
+			start = std::chrono::system_clock::now();
+			int h1 = cliqueMaxFront(&grafo);
+			end = std::chrono::system_clock::now();
+
+			std::chrono::duration<double, std::milli> elapsed_seconds = end-start;
+
+			s << elapsed_seconds.count();
+			s << ",";
+			s << "MitadAristas" << endl;
+		}
+	}
 }
 
 int main(){
@@ -237,7 +305,8 @@ int main(){
 	// Test2();
 	// TestsPracAlgunos();
 	// testsA();
-	// expGrafosNigualM();
-	// expGrafosCompletos();
+	expGrafosNigualM();
+	expGrafosMitadAristas();
+	expGrafosCompletos();
 	return 0;
 }

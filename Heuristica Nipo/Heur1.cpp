@@ -128,6 +128,14 @@ bool sonAdyacentes(struct Graph* grafo, int nodo1, int nodo2){
 	}
 }
 
+bool noEstabaEnClique(struct Graph* grafo, vector<int> vec, int nodo){
+	if(vec[nodo] == 0){
+		return true;
+	}else{
+		return false;
+	}
+}
+
 void ParaHeuristica(struct Graph* grafo, int &res, vector<int>& vecAux, vector<int>& vecRes){
 	
 	int nodoGM = nodoGradoMaximo(grafo);		// arranco por un nodo de grado máximo
@@ -138,10 +146,12 @@ void ParaHeuristica(struct Graph* grafo, int &res, vector<int>& vecAux, vector<i
 	int posFrontMejor = 0;
 	int ultNodoAg = nodoGM;
 
+	// hasta acá O(n^2)
+
 	// necesito 3 vectores ya que uno me tiene que guardar el mejor que tenía antes (que podía ser el de 1 nodo), 
 	// otro tiene que ir guardando la mejor sol de 2, y otro servir para calcular las fronteras de todas las posCliques
 	// el último no puede ser el mismo que el primero ya que más adelante puede tener menos nodos (el primero)
-	for(int i = 0; i < grafo->n; i++){
+	for(int i = 0; i < grafo->n; i++){			// este ciclo es O(n^3)
 		if(i != nodoGM && sonAdyacentes(grafo, nodoGM, i)){
 			vecAux[i] = 1;
 			int aux = calcFrontera(grafo, vecAux);
@@ -165,11 +175,11 @@ void ParaHeuristica(struct Graph* grafo, int &res, vector<int>& vecAux, vector<i
 	// los que estaban antes
 	int ultNodoAux = ultNodoAg;
 	bool b = true;
-	while(b){
+	while(b){			// en el peor caso este ciclo se recorre (n-3) veces
 		b = false;
 		posFrontMejor = 0;
-		for(int i = 0; i++; i < grafo->n){
-			if(sonAdyacentes(grafo, i, ultNodoAg) && nodoFormaClique(grafo, vecPasos, i)){
+		for(int i = 0; i++; i < grafo->n){			// O(n^3)
+			if(sonAdyacentes(grafo, i, ultNodoAg) && noEstabaEnClique(grafo, vecPasos, i) && nodoFormaClique(grafo, vecPasos, i)){
 				b = true;
 				vecAux[i] = 1;
 				int frontAux = calcFrontera(grafo, vecAux);
@@ -195,7 +205,7 @@ void ParaHeuristica(struct Graph* grafo, int &res, vector<int>& vecAux, vector<i
 	// de nodos X+1 por lo que la pongo en vecAux, pero antes de pasar a la próxima iteración actualizo la mejor frontera de todas
 }
 
-void HeuristicaNipo(Graph* grafo){
+void HeuristicaNipo(Graph* grafo){		// total complej: O(n^4)
 	int res = 0;
 	vector<int> vecAux(grafo->n, 0);
 	vector<int> vecRes(grafo->n, 0);

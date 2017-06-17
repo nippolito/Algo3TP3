@@ -1,4 +1,4 @@
-#include "Heur1.cpp"
+#include "Heur1.h"
 #include <fstream>
 #include <random>
 #include <chrono>

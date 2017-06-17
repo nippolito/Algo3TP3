@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <vector>
+#include <utility>
 
 using namespace std;
 
@@ -205,16 +206,20 @@ void ParaHeuristica(struct Graph* grafo, int &res, vector<int>& vecAux, vector<i
 	// de nodos X+1 por lo que la pongo en vecAux, pero antes de pasar a la próxima iteración actualizo la mejor frontera de todas
 }
 
-void HeuristicaNipo(Graph* grafo){		// total complej: O(n^4)
+pair< vector<int> , int> HeuristicaNipo(Graph* grafo){		// total complej: O(n^4)
 	int res = 0;
 	vector<int> vecAux(grafo->n, 0);
 	vector<int> vecRes(grafo->n, 0);
 
 	ParaHeuristica(grafo, res, vecAux, vecRes);
+
+	pair< vector<int> , int> resultado (vecRes, res);
+
 	cout << "El resultado es " << res << endl;
 	cout << "Los nodos de la clique son: ";
 	mostrarUnosVec(vecRes);
 	int cantUn = cantUnosVec(vecRes);
 	cout << "Tiene " << cantUn << " nodos" << endl;
 	cout << endl;
+	return resultado;
 }

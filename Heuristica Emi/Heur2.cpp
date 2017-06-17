@@ -130,6 +130,13 @@ int cantNodos(vector<int> nodos){
 }
 
 
+bool sortByGrade(int i, int j, Graph* grafo){
+		return(gradoNodo(grafo, i) > gradoNodo(grafo, j));
+
+	}
+
+
+
 
 void ParaHeuristica(struct Graph* grafo, int &res, vector<int>& vecRes){
 	
@@ -141,25 +148,33 @@ void ParaHeuristica(struct Graph* grafo, int &res, vector<int>& vecRes){
 	//Como encontrar la clique maxima es un problema NP, vamos a implementar una heuristica para obtenerla.
 	//Vamos a ordenar los nodos por grado de manera que d(NodosOrdenados[i]) >= d(NodosOrdenados[i+1])
 	
-	bool sortByGrade(int i, int j){
-		return(gradoNodo(grafo, i) > gradoNodo(grafo, j))
-
-	}
-
-	vector<int> NodosOrdenados;
-	for (int i = 0; i < grafo->n; i++)
+	int cantNodosG = grafo->n;
+	
+	int NodosOrdenados[cantNodosG];
+	for (int i = 0; i < cantNodosG; i++)
 	{
-		NodosOrdenados.push_back(i)
+		NodosOrdenados[i] = i;
 	}
 	
-	sort(NodosOrdenados.begin(), NodosOrdenados.end(), sortByGrade)
+	for (int i = 0; i < cantNodosG; i++)
+	{
+		int posMaxParcial = i;
+		for (int j = i; j < cantNodosG; j++)
+		{
+			if(gradoNodo(grafo, NodosOrdenados[j]) > gradoNodo(grafo, NodosOrdenados[posMaxParcial]))
+			posMaxParcial = j;
+		}
+		int aux = NodosOrdenados[i];
+		NodosOrdenados[i] = NodosOrdenados[posMaxParcial];
+		NodosOrdenados[posMaxParcial] = aux;
+	}
 
 
-	for (int i = 0; i < NodosOrdenados.size(); i++)
+	for (int i = 0; i < cantNodosG; i++)
 	{
 		vector<int> vecPasos(grafo->n, 0); //creo nueva clique
 		vecPasos[i] = 1;
-		for (int j = 0; j < NodosOrdenados.size(); j++) //Itero en orden de grado
+		for (int j = 0; j < cantNodosG; j++) //Itero en orden de grado
 		{
 			if (i != j && nodoFormaClique(grafo, vecPasos, i) ) // Si no es el nodo inicial y forma clique lo agrego
 			{
@@ -169,15 +184,15 @@ void ParaHeuristica(struct Graph* grafo, int &res, vector<int>& vecRes){
 
 		if (cantNodos(vecRes) < cantNodos(vecPasos)) //Si la clique creada es mas grande que la maxima guardada la reemplazo
 		{
-			vecRes = vecPasos
+			vecRes = vecPasos;
 		}
 	}
 
-	res = calcFrontera(grafo, vecRes)
+	res = calcFrontera(grafo, vecRes);
 
 }
 
-void HeuristicaEmi(Graph* grafo){		// total complej: O(n^4)
+void HeuristicaEmi(Graph* grafo){		// total complej: O(n^3)
 	int res = 0;
 	vector<int> vecRes(grafo->n, 0);
 
@@ -190,6 +205,11 @@ void HeuristicaEmi(Graph* grafo){		// total complej: O(n^4)
 	cout << endl;
 }
 
+/*
+int main(){
+	return 0;
+}
+*/
 
 /* Unused functions
 

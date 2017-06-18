@@ -3,6 +3,8 @@
 #include <iostream>
 #include <stdlib.h>
 #include <vector>
+#include <set>
+#include "BusquedaLocal.h"
 
 using namespace std;
 
@@ -144,56 +146,99 @@ void MostrarMatriz(Graph g){
 	}
 }
 
-void CalcularCliqueMaxVecinos(Graph g, float alfa){
+Clique CalcularCliqueMaxVecinos(Graph g, float alfa, int ciclosGrasp){
 	srand(time(NULL));
-	vector<int> vecinos(g.n,0);
-
-	//Preprocesamiento
-
-	CalcularGrados(g, vecinos);
-
-	Clique clique;
-	clique.vacia = true;
-	clique.numeroVecinos = 0;
-	clique.miembros= vector<int>(g.n, 0);
-	clique.vecinos= vector<int>(g.n, 0);
-	
-	vector<int> listaReducidaCandidatos; //Hago una lista de candidatos posibles de los cuales comenzar con GRASP
-
-	//Construccion
-
-	vector<int> candidatos;
-	g.AgregarSiHaceClique(clique, candidatos);
-	
-	while (candidatos.size() > 0)
-	{	
-		listaReducidaCandidatos.clear();
-		int max = DevolveMaxDeCandidatos(vecinos, candidatos);
-		int min = DevolveMinDeCandidatos(vecinos, candidatos);
-
-		for (int i = 0; i < candidatos.size(); ++i)
+	//estructuras para el busqueda local de grego
+	set<int> matrix[g.n];
+	for (int i = 0; i < g.n; ++i)
+	{
+		for (int j = 0; j < g.n; ++j)
 		{
-			if ( vecinos[candidatos[i]] > 0 && vecinos[candidatos[i]] >= max - alfa*(max - min)) 
-				listaReducidaCandidatos.push_back(candidatos[i]);
+			if (g.matrizAdy[i][j]){
+				matrix[j].insert(i);
+				matrix[i].insert(j);
+			}
 		}
-		if (listaReducidaCandidatos.size() == 0) break;
+	}
+	
+	Clique solucionActual;
+	solucionActual.numeroVecinos = 0;
+	solucionActual.miembros= vector<int>(g.n, 0);
 
-		int theChosenOne = rand() % listaReducidaCandidatos.size();
+	for (int ciclo = 0; ciclo < ciclosGrasp; ++ciclo)
+	{
 		
-		clique.vacia = false;
-		clique.miembros[listaReducidaCandidatos[theChosenOne]] = 1; //agrego el elegido a la clique
-		g.AgregarVecinos(clique,listaReducidaCandidatos[theChosenOne]); //agrego sus vecinos que no estan ya en la clique al contador de la frontera
-		
-		g.ContarVecinos(clique, vecinos);
-		
-		candidatos.clear();
-		
-		g.AgregarSiHaceClique(clique, candidatos);
+		//Preprocesamiento
+		vector<int> vecinos(g.n,0);
+		CalcularGrados(g, vecinos);
 
+		Clique clique;
+		clique.vacia = true;
+		clique.numeroVecinos = 0;
+		clique.miembros= vector<int>(g.n, 0);
+		clique.vecinos= vector<int>(g.n, 0); 
+		
+		vector<int> listaReducidaCandidatos; //Hago una lista de candidatos posibles de los cuales comenzar con GRASP
+
+		//Construccion
+
+		vector<int> candidatos;
+		g.AgregarSiHaceClique(clique, candidatos); //como la clique esta vacia, candidatos = V
+		
+		while (candidatos.size() > 0) //hayan candidatos para agregar a la clique
+		{	
+			listaReducidaCandidatos.clear();
+			int max = DevolveMaxDeCandidatos(vecinos, candidatos);
+			int min = DevolveMinDeCandidatos(vecinos, candidatos);
+
+			for (int i = 0; i < candidatos.size(); ++i)
+			{
+				if ( vecinos[candidatos[i]] > 0 && vecinos[candidatos[i]] >= max - alfa*(max - min)) //si aportan mas de un vecino y estan en rango
+					listaReducidaCandidatos.push_back(candidatos[i]);
+			}
+			if (listaReducidaCandidatos.size() == 0) break; //si no hay candidatos que aumenten el resultado actual
+
+			int theChosenOne = rand() % listaReducidaCandidatos.size(); //random del GRASP 
+			
+			clique.vacia = false;
+			clique.miembros[listaReducidaCandidatos[theChosenOne]] = 1; //agrego el elegido a la clique
+			g.AgregarVecinos(clique,listaReducidaCandidatos[theChosenOne]); //agrego sus vecinos que no estan ya en la clique al contador de la frontera
+			
+			g.ContarVecinos(clique, vecinos); //actualiza el vector de vecinos diciendo cuanto aporta cada uno si lo agregase a la clique
+			
+			candidatos.clear(); //borro el vector de candidatos
+			
+			g.AgregarSiHaceClique(clique, candidatos); //lo lleno con todos los vertices que pueden agrandar la clique
+
+		}
+
+
+		//Busqueda Local
+		set<int> solAct;
+		for (int i = 0; i < g.n; ++i)
+		{
+			if (clique.miembros[i]) solAct.insert(i);
+		}
+
+		int numeroFrontera = BusquedaLocal(matrix, solAct, g.n, 0);
+		
+		//Comparacion con solucion actual
+		if (numeroFrontera > solucionActual.numeroVecinos){
+			solucionActual.numeroVecinos = numeroFrontera;
+			for (int i = 0; i < g.n; ++i)
+			{
+				if(solAct.find(i) == solAct.end()){
+					solucionActual.miembros[i] = 0;
+				}
+				else{
+					solucionActual.miembros[i] = 1;
+				}
+			}
+		}
+		
 	}
 
-	//Busqueda Local
-
+	return solucionActual;
 
 }
 
@@ -201,7 +246,7 @@ int main(){
 	Graph g;
 
 	cin >> g.n; cin >> g.m;
-	g.InicializarMatriz();
+	g.matrizAdy = vector<vector<int> >(g.n, vector<int>(g.n, 0));
 	for (int i = 0; i < g.m; ++i)
 	{
 		int o, d;
@@ -213,7 +258,10 @@ int main(){
 	float alfa;
 	cin >> alfa;
 	
-	CalcularCliqueMaxVecinos(g, alfa);
+	Clique res = CalcularCliqueMaxVecinos(g, alfa, 5);
+
+	res.MostraClique();
 
 	return 0;
 }
+

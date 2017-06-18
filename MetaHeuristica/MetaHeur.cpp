@@ -4,24 +4,25 @@
 #include <stdlib.h>
 #include <vector>
 #include <set>
-#include "BusquedaLocal.h"
+#include "BusquedaLocalLineal.h"
 
 using namespace std;
 
 
 struct Clique
 {	
-	bool vacia;
+	int size;
 	int numeroVecinos;
 	vector<int> vecinos;
 	vector<int> miembros;
 	void MostraClique(){
 		cout << "Cantidad de vecinos: " << numeroVecinos << endl;
+		cout << "Tamaño: " << size << endl;
 		for (int i = 0; i < miembros.size(); ++i)
 		{
 			if (miembros[i])
 			{
-				cout << i << " ";
+				cout << i+1 << " ";
 			}
 		}
 		cout << endl;
@@ -44,14 +45,14 @@ struct Graph
 
 	void AgregarSiHaceClique(Clique cq, vector<int>& v)
 	{
-		if (cq.vacia){
+		if (cq.size == 0){
 			for (int i = 0; i < n; ++i)
 			{
 				v.push_back(i);
 			}
 			return;
 		}
-
+		
 		for (int i = 0; i < n; ++i)
 		{
 			if(cq.miembros[i] == 0)
@@ -67,22 +68,16 @@ struct Graph
 		}
 	};
 
-	void AgregarVecinos(Clique& cq, int nodo){
+	void AgregarVecinos(Clique& cq, int nodo, int vecinos){
 		//agrega el nodo a miembros, lo saca de vecinos porque asumimos que solia ser un vecino, incrementamos el contador por cada 
 		//vecino nuevo que antes no estaba
-		if (cq.numeroVecinos != 0) cq.numeroVecinos--;	
-
+		if (cq.numeroVecinos != 0) cq.numeroVecinos -= cq.size;	
+		
+		cq.size++;
+		
 		cq.miembros[nodo] = 1;
-		for (int i = 0; i < n; ++i)
-		{
-			if (matrizAdy[nodo][i] == 1 && cq.miembros[i] == 0) {
-				if (cq.vecinos[i] == 0){
-					cq.numeroVecinos++;
-				}
-				cq.vecinos[i] = 1;
-			}
-		}
-		cq.vecinos[nodo] = 0;
+		cq.numeroVecinos += vecinos;
+		
 	};
 
 	void ContarVecinos(Clique& cq, vector<int>& vecinos)
@@ -94,7 +89,7 @@ struct Graph
 				int vec = 0;
 				for (int j = 0; j < n; ++j)
 				{
-					if (cq.miembros[j] == 0 && cq.vecinos[j] == 0 && matrizAdy[i][j] == 1) vec++;
+					if (cq.miembros[j] == 0 && matrizAdy[i][j] == 1) vec++;
 				}
 				vecinos[i] = vec;
 			}
@@ -103,6 +98,27 @@ struct Graph
 				vecinos[i] = 0;
 			}
 		}
+	}
+
+	int CalcularFrontera(Clique cq)
+	{
+		cq.vecinos = vector<int>(n, 0);
+		for (int i = 0; i < n; ++i)
+		{
+			if (cq.miembros[i]){
+				for (int j = 0; j < n; ++j)
+				{
+					if (cq.miembros[j] == 0 && matrizAdy[i][j] == 1) cq.vecinos[j] = 1;
+				}
+			}
+		}
+
+		int res = 0;
+		for (int i = 0; i < n; ++i)
+		{
+			if (cq.vecinos[i]) res++;
+		}
+		return res;
 	}
 };
 
@@ -162,6 +178,7 @@ Clique CalcularCliqueMaxVecinos(Graph g, float alfa, int ciclosGrasp){
 	}
 	
 	Clique solucionActual;
+	solucionActual.size = 0;
 	solucionActual.numeroVecinos = 0;
 	solucionActual.miembros= vector<int>(g.n, 0);
 
@@ -172,8 +189,9 @@ Clique CalcularCliqueMaxVecinos(Graph g, float alfa, int ciclosGrasp){
 		vector<int> vecinos(g.n,0);
 		CalcularGrados(g, vecinos);
 
+
 		Clique clique;
-		clique.vacia = true;
+		clique.size = 0;
 		clique.numeroVecinos = 0;
 		clique.miembros= vector<int>(g.n, 0);
 		clique.vecinos= vector<int>(g.n, 0); 
@@ -193,16 +211,15 @@ Clique CalcularCliqueMaxVecinos(Graph g, float alfa, int ciclosGrasp){
 
 			for (int i = 0; i < candidatos.size(); ++i)
 			{
-				if ( vecinos[candidatos[i]] > 0 && vecinos[candidatos[i]] >= max - alfa*(max - min)) //si aportan mas de un vecino y estan en rango
+				if ( vecinos[candidatos[i]] > clique.size && vecinos[candidatos[i]] >= max - alfa*(max - min)) //si aportan mas de un vecino y estan en rango
 					listaReducidaCandidatos.push_back(candidatos[i]);
 			}
 			if (listaReducidaCandidatos.size() == 0) break; //si no hay candidatos que aumenten el resultado actual
 
 			int theChosenOne = rand() % listaReducidaCandidatos.size(); //random del GRASP 
 			
-			clique.vacia = false;
 			clique.miembros[listaReducidaCandidatos[theChosenOne]] = 1; //agrego el elegido a la clique
-			g.AgregarVecinos(clique,listaReducidaCandidatos[theChosenOne]); //agrego sus vecinos que no estan ya en la clique al contador de la frontera
+			g.AgregarVecinos(clique,listaReducidaCandidatos[theChosenOne], vecinos[listaReducidaCandidatos[theChosenOne]]); //agrego sus vecinos que no estan ya en la clique al contador de la frontera
 			
 			g.ContarVecinos(clique, vecinos); //actualiza el vector de vecinos diciendo cuanto aporta cada uno si lo agregase a la clique
 			
@@ -213,6 +230,7 @@ Clique CalcularCliqueMaxVecinos(Graph g, float alfa, int ciclosGrasp){
 		}
 
 
+
 		//Busqueda Local
 		set<int> solAct;
 		for (int i = 0; i < g.n; ++i)
@@ -220,11 +238,13 @@ Clique CalcularCliqueMaxVecinos(Graph g, float alfa, int ciclosGrasp){
 			if (clique.miembros[i]) solAct.insert(i);
 		}
 
-		int numeroFrontera = BusquedaLocal(matrix, solAct, g.n, 0);
-		
+		int numeroFrontera = lineal::BusquedaLocalLineal(matrix, solAct, g.n, 0);
+
 		//Comparacion con solucion actual
+		//if (solucionActual.numeroVecinos < clique.numeroVecinos) solucionActual = clique;
 		if (numeroFrontera > solucionActual.numeroVecinos){
 			solucionActual.numeroVecinos = numeroFrontera;
+			solucionActual.size = solAct.size();
 			for (int i = 0; i < g.n; ++i)
 			{
 				if(solAct.find(i) == solAct.end()){
@@ -235,6 +255,7 @@ Clique CalcularCliqueMaxVecinos(Graph g, float alfa, int ciclosGrasp){
 				}
 			}
 		}
+
 		
 	}
 
@@ -251,14 +272,15 @@ int main(){
 	{
 		int o, d;
 		cin >> o; cin >> d;
-		g.matrizAdy[o][d] = 1;
-		g.matrizAdy[d][o] = 1;
+		g.matrizAdy[o-1][d-1] = 1;
+		g.matrizAdy[d-1][o-1] = 1;
 	}
 	cout << "Envie parametro alfa" << endl;
 	float alfa;
 	cin >> alfa;
 	
-	Clique res = CalcularCliqueMaxVecinos(g, alfa, 5);
+	cout << "A calcular clique max vecinos" << endl;
+	Clique res = CalcularCliqueMaxVecinos(g, alfa, 100);
 
 	res.MostraClique();
 

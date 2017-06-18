@@ -1,5 +1,5 @@
-#ifndef BUSQUEDA_LOCAL_H
-#define BUSQUEDA_LOCAL_H
+#ifndef BUSQUEDA_LOCAL_LINEAL_H
+#define BUSQUEDA_LOCAL_LINEAL_H
 
 #include <iostream>
 #include <set>
@@ -7,13 +7,7 @@
 
 using namespace std;
 
-void mostrarSet(set<int>& s){
-	for(set<int>::iterator it  = s.begin(); it != s.end();  it ++){
-		cout << *it << "; " ;
-	}
-	cout << endl;
-}
-
+namespace lineal{
 int CalcularFronteras(set<int> matrix [], set<int>& solucion){
 	int res = 0;
 	for(set<int>::iterator itSol = solucion.begin(); itSol != solucion.end(); itSol ++ ){
@@ -25,18 +19,17 @@ int CalcularFronteras(set<int> matrix [], set<int>& solucion){
 	return res;
 }
 
-int BusquedaLocal(set<int> matrix [], set<int>& solAct, int n , int m){
+int BusquedaLocalLineal(set<int> matrix [], set<int>& solAct, int n , int m){
 
 	bool noEncontrePozo = true;
-	int solucionTalcualEstaba ;
-	
+
 	while(noEncontrePozo){
 		set<int> solucionesSumandoNodo;
 		set<int> solucionesRestandoNodo; 						
 		
 		pair<int, int> NodoQueMaximizaAgregarUnNodo = pair<int,int>(-1,-1);
 		pair<int, int> NodoQueMaximizaSacarUnNodo = pair<int,int>(-1,-1);
-
+		int solucionTalcualEstaba ;
 
 		// guardo primer las soluciones que surgen de agregarle un nodo
 		for(int i = 0; i < n; i ++){
@@ -82,9 +75,9 @@ int BusquedaLocal(set<int> matrix [], set<int>& solAct, int n , int m){
 			solAct.insert(*it);
 		}
 		
-		if(solucionTalcualEstaba > NodoQueMaximizaSacarUnNodo.second && solucionTalcualEstaba > NodoQueMaximizaAgregarUnNodo.second)
+		if(solucionTalcualEstaba >= NodoQueMaximizaSacarUnNodo.second && solucionTalcualEstaba >= NodoQueMaximizaAgregarUnNodo.second)
 			noEncontrePozo = false; // encontre pozo
-		else if( NodoQueMaximizaAgregarUnNodo.second > NodoQueMaximizaSacarUnNodo.second){ // me conviene sumar un nodo
+		else if( NodoQueMaximizaAgregarUnNodo.second >= NodoQueMaximizaSacarUnNodo.second){ // me conviene sumar un nodo
 			solAct.insert(NodoQueMaximizaAgregarUnNodo.first);
 		}
 		else{// me conviene restar un nodo
@@ -93,8 +86,7 @@ int BusquedaLocal(set<int> matrix [], set<int>& solAct, int n , int m){
 		
 	}
 
-	return solucionTalcualEstaba;
-
+	return  CalcularFronteras(matrix, solAct);
 }
-
+}
 #endif

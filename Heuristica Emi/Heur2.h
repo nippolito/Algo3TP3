@@ -218,6 +218,12 @@ void ParaHeuristica(struct Graph* grafo, int &res, vector<int>& vecRes){
 		if (cantNodos(vecRes) < cantNodos(vecPasos)) //Si la clique creada es mas grande que la maxima guardada la reemplazo
 		{
 			vecRes = vecPasos;
+		}else if(cantNodos(vecRes) == cantNodos(vecPasos)){ //Si la clique creada es igual de grande que la guardada, pero con mayor frontera, la reemplazo.
+
+			if (calcFrontera(grafo, vecPasos) > calcFrontera(grafo, vecRes))
+			{
+				vecRes = vecPasos;
+			}
 		}
 
 		/*

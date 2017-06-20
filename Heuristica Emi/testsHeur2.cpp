@@ -86,10 +86,45 @@ void Test2(){		// No encuentra correctamente la clique maxima. Sin embargo, devu
 	HeuristicaEmi(&grafo);
 }
 
+void Test3(){		//El grafo de entrada es completo. La clique maxima es todo el grafo. NO es la solucion correcta
+	Graph grafo;
+	int n = 3;
+	int m = 3;
+	createGraph(&grafo, n, m);
+	addEdge(&grafo, 0, 1);
+	addEdge(&grafo, 0, 2);
+	addEdge(&grafo, 1, 2);
+	HeuristicaEmi(&grafo);
+}
+
+void TestEstrella(){		//Es el peor caso para la heur 1. Esta heur resuelve el problema.
+	Graph grafo;
+	int n = 14;
+	int m = 12;
+	createGraph(&grafo, n, m);
+	addEdge(&grafo, 3, 0);
+	addEdge(&grafo, 3, 1);
+	addEdge(&grafo, 3, 2);
+	addEdge(&grafo, 3, 4);
+	addEdge(&grafo, 3, 5);
+
+	addEdge(&grafo, 7, 9);
+	addEdge(&grafo, 7, 6);
+	addEdge(&grafo, 7, 8);
+	addEdge(&grafo, 7, 10);
+
+	addEdge(&grafo, 10, 13);
+	addEdge(&grafo, 10, 12);
+	addEdge(&grafo, 10, 11);
+	HeuristicaEmi(&grafo);
+}
+
 int main(){
 	//Test0();
 	//Test1();
 	//TestX();
-	Test2();
+	//Test2();
+	//Test3();
+	TestEstrella();
 	return 0;
 }

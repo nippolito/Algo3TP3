@@ -1,4 +1,4 @@
-#include "Heur1.h"
+#include "Heur.h"
 #include <fstream>
 #include <random>
 #include <chrono>
@@ -82,7 +82,7 @@ void Test2(){		// debe dar que es el nodo 5 (estrella), y res = 7
 	HeuristicaNipo(&grafo);
 }
 
-void genGrafoMalo(Graph* grafo, int cantNodos){		// n >= 5, sino tira segmentation fault
+void genGrafoMaloNipo(Graph* grafo, int cantNodos){		// n >= 5, sino tira segmentation fault
 	int n = cantNodos;
 	int m = cantNodos - 2;
 
@@ -147,14 +147,50 @@ void genGrafoMalo(Graph* grafo, int cantNodos){		// n >= 5, sino tira segmentati
 	// mostrarMatriz(grafo->matrizAdy, n);
 }
 
-void expGrafoMalo(){
-	fstream s ("ExpGrafoMaloHeurNipo.csv", ios::out);
+void genPeorCasoEmi(struct Graph* grafo, int n){
+	//Genero la cantidad de aristas, en base a la cantidad de nodos que me piden.
+	int m;
+
+	if (n == 0 || n == 1){m = 0;};
+	if (n == 2){ m = 1;};
+	if (n > 2){ m = n;};
+
+
+	createGraph(grafo, n, m);
+	
+	if (m == 0){ return;}
+	if (m == 1){addEdge(grafo, 0, 1); return;}
+	if (m == 3){addEdge(grafo, 0, 1);addEdge(grafo, 0, 2); addEdge(grafo, 1, 2); return;}
+	
+	if (n > 3)
+	{
+		addEdge(grafo, 0, 1);
+		addEdge(grafo, 0, 2);
+		addEdge(grafo, 1, 2);
+			
+		for (int i = 3; i < n; i++)
+		{
+			if (i % 2 == 0)
+			{
+				addEdge(grafo, 0, i);
+			} else{
+				addEdge(grafo, 1, i);
+			}
+
+		}
+		return;
+	}
+}
+
+void expGrafoMaloNipo(){
+	fstream s ("ExpGrafosMalosHeurNipo.csv", ios::out);
 
 	s << "cantNod,Res,Tiempo,Tipo" << endl;
 
 	cout << "Arranca grafo malo Nipo" << endl;
 
 	std::chrono::time_point<std::chrono::system_clock> start, end;
+	std::chrono::time_point<std::chrono::system_clock> start1, end1;
 
 	for(int i = 5; i < 601; i++){
 		cout << "Voy por n = " << i << endl;
@@ -163,7 +199,7 @@ void expGrafoMalo(){
 			s << ",";
 
 			Graph grafo;
-			genGrafoMalo(&grafo, i);
+			genGrafoMaloNipo(&grafo, i);
 
 			pair<vector<int>, int> resultado;
 
@@ -178,7 +214,90 @@ void expGrafoMalo(){
 
 			s << elapsed_seconds.count();
 			s << ",";
-			s << "GrafoMaloNipo" << endl;
+			s << "GrafoMaloNipoHeurNipo" << endl;
+
+			// Ahora todo lo mismo pero con la heurística de Emi
+			s << i;
+			s << ",";
+
+			Graph grafo1;
+			genGrafoMaloNipo(&grafo1, i);
+
+			pair <vector<int>, int> resultado1;
+
+			start1 = std::chrono::system_clock::now();
+			resultado1 = HeuristicaEmi(&grafo);
+			end1 = std::chrono::system_clock::now();
+
+			std::chrono::duration<double, std::milli> elapsed_secondsA = end1-start1;
+
+			s << resultado1.second;
+			s << ",";
+
+			s << elapsed_secondsA.count();
+			s << ",";
+			s << "GrafoMaloNipoHeurEmi" << endl;
+
+		}
+	}
+}
+
+void expGrafoMaloEmi(){
+	fstream s ("ExpGrafosMalosHeurEmi.csv", ios::out);
+
+	s << "cantNod,Res,Tiempo,Tipo" << endl;
+
+	cout << "Arranca grafo malo Emi" << endl;
+
+	std::chrono::time_point<std::chrono::system_clock> start, end;
+	std::chrono::time_point<std::chrono::system_clock> start1, end1;
+
+	for(int i = 5; i < 601; i++){
+		cout << "Voy por n = " << i << endl;
+		for(int j = 0; j < 40; j++){
+			s << i;
+			s << ",";
+
+			Graph grafo;
+			genPeorCasoEmi(&grafo, i);
+
+			pair<vector<int>, int> resultado;
+
+			start = std::chrono::system_clock::now();
+			resultado = HeuristicaNipo(&grafo);
+			end = std::chrono::system_clock::now();
+
+			std::chrono::duration<double, std::milli> elapsed_seconds = end-start;
+
+			s << resultado.second;
+			s << ",";
+
+			s << elapsed_seconds.count();
+			s << ",";
+			s << "GrafoMaloEmiHeurNipo" << endl;
+
+			// Ahora todo lo mismo pero con la heurística de Emi
+			s << i;
+			s << ",";
+
+			Graph grafo1;
+			genPeorCasoEmi(&grafo1, i);
+
+			pair <vector<int>, int> resultado1;
+
+			start1 = std::chrono::system_clock::now();
+			resultado1 = HeuristicaEmi(&grafo);
+			end1 = std::chrono::system_clock::now();
+
+			std::chrono::duration<double, std::milli> elapsed_secondsA = end1-start1;
+
+			s << resultado1.second;
+			s << ",";
+
+			s << elapsed_secondsA.count();
+			s << ",";
+			s << "GrafoMaloEmiHeurEmi" << endl;
+
 		}
 	}
 }
@@ -193,6 +312,7 @@ int main(){
 	// genGrafoMalo(&grafo1, 3);
 	// Graph grafo2;
 	// genGrafoMalo(&grafo2, 4);
-	expGrafoMalo();
+	expGrafoMaloNipo();
+	expGrafoMaloEmi();
 	return 0;
 }

@@ -35,7 +35,7 @@ int main(){
 	//cout << "cantAristasDisponibles : "<< cantAristasDisponibles << endl;
 	int m = ((densidad) *cantAristasDisponibles )  / 2;
 
-	cout << n <<" "<< m+cantAristasEnClique + cantAristasEnClique << endl;
+	cout << n <<" "<< m+cantAristasEnClique  << endl;
 
 	for(int i = 0; i < c ; i ++ ){
 		for(int j = i+1; j < c; j++){

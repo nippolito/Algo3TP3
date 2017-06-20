@@ -31,7 +31,7 @@ int BusquedaLocalLineal(set<int> matrix [], set<int>& solAct, int n , int m){
 		pair<int, int> NodoQueMaximizaSacarUnNodo = pair<int,int>(-1,-1);
 		int solucionTalcualEstaba ;
 
-		// guardo primer las soluciones que surgen de agregarle un nodo
+		// guardo las soluciones que surgen de agregarle un nodo
 		for(int i = 0; i < n; i ++){
 			if(solAct.find(n) == solAct.end()){   // si el nodo no pertenece en la actual solución me fijo si es vecino de todo los que si lo hacen
 				bool esVecinoDeTodos = true;

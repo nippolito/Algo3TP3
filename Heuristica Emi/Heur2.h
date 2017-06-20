@@ -98,7 +98,7 @@ int calcFrontera(struct Graph* grafo, vector<int> vec){
 
 
 
-//ATENCION! ESTA FUNCION FUE MODIFICADA RESPECTO A HEUR1.HPP
+//ATENCION! ESTA FUNCION FUE MODIFICADA RESPECTO A HEUR1.H
 bool nodoFormaClique(struct Graph* grafo, vector<int> vec, int nodo){
 	bool res = true;
 	for(int i = 0; i < vec.size(); i++){
@@ -113,7 +113,7 @@ bool nodoFormaClique(struct Graph* grafo, vector<int> vec, int nodo){
 	//cout << "se agrego el " << nodo << endl;
 	return res;
 }
-//ATENCION! ESTA FUNCION FUE MODIFICADA RESPECTO A HEUR1.HPP
+//ATENCION! ESTA FUNCION FUE MODIFICADA RESPECTO A HEUR1.H
 
 
 
@@ -136,6 +136,45 @@ bool sortByGrade(int i, int j, Graph* grafo){
 
 	}
 
+
+//Condiciones de uso del generador: Crear un grafo vacio y pasarlo como parametro. Luego, en vez de llamar a createGraph, llamar al gen
+//Para evitar perder memoria, borrar el grafo pasado como parametro una vez utilizado.
+void GeneradorPeorCasoHeur2(struct Graph* grafo, int n){
+	//Genero la cantidad de aristas, en base a la cantidad de nodos que me piden.
+	int m;
+
+	if (n == 0 || n == 1){m = 0;};
+	if (n == 2){ m = 1;};
+	if (n > 2){ m = n;};
+
+
+	createGraph(grafo, n, m);
+	
+	if (m == 0){ return;}
+	if (m == 1){addEdge(grafo, 0, 1); return;}
+	if (m == 3){addEdge(grafo, 0, 1);addEdge(grafo, 0, 2); addEdge(grafo, 1, 2); return;}
+	
+	if (n > 3)
+	{
+		addEdge(grafo, 0, 1);
+		addEdge(grafo, 0, 2);
+		addEdge(grafo, 1, 2);
+			
+		for (int i = 3; i < n; i++)
+		{
+			if (i % 2 == 0)
+			{
+				addEdge(grafo, 0, i);
+			} else{
+				addEdge(grafo, 1, i);
+			}
+
+		}
+		return;
+	}
+
+
+}
 
 
 

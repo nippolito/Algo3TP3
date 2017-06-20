@@ -23,9 +23,6 @@ void Test0(){	// debiera devolver res = 3 y la clique es 0-1-2
 }
 
 
-
-
-
 void Test1(){	// debiera devolver res = 8 y la clique 0-1-2-3
 	Graph grafo;
 	int n = 10;
@@ -119,12 +116,21 @@ void TestEstrella(){		//Es el peor caso para la heur 1. Esta heur resuelve el pr
 	HeuristicaEmi(&grafo);
 }
 
+void TestGen(){ // Se crea un K3. Luego, se van adhiriendo nodos a los nodos 0 y 1, aumentando su grado. Siempre encuentra la clique,
+				//pero le pifia por 1 en cada iteracion. 
+	Graph grafo;
+	int n = 6;
+	GeneradorPeorCasoHeur2(&grafo, n);
+	HeuristicaEmi(&grafo);
+}
+
 int main(){
 	//Test0();
 	//Test1();
 	//TestX();
 	//Test2();
 	//Test3();
-	TestEstrella();
+	//TestEstrella();
+	//TestGen();
 	return 0;
 }

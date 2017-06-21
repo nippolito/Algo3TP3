@@ -1,5 +1,5 @@
-#include "Heur.h"
-#include "FuerzaBruta.cpp"
+//#include "Heur.h"
+#include "../FuerzaBruta/FuerzaBruta.cpp"
 #include <iostream>
 #include <fstream>
 #include <random>
@@ -39,16 +39,16 @@ void todosContraTodosCompleto(){
 	int n = 2;
 	int m = n * (n - 1) / 2;
 
-	for (int i =0; i < 25; i++;) //Asegurarse que termina con un -1
+	for (int i =0; i < 25; i++) //Asegurarse que termina con un -1
 	{
 		cout << "Voy por n = " << i << endl;
 		for (int l = 0; l < 40; l++) // ESTO VARIA SEGUN CUANTAS REPETICIONES QUERES QUE CORRA! Para tiempos puede que sea solo 5.
 		{
-			o << voyPorN;
+			o << i;
 			o << ",";
 		
 			Graph grafo;
-			genGraphComp(&grafo, i)
+			genGraphComp(&grafo, i);
 
 			//Ya tengo el grafo armado
 			pair<vector<int>, int> resultado;
@@ -67,7 +67,7 @@ void todosContraTodosCompleto(){
 			o << "Grafo_Completo_Heur_Nipo" << endl;
 
 			// Ahora todo lo mismo pero con la heurística de Emi
-			o << voyPorN;
+			o << i;
 			o << ",";
 
 			pair <vector<int>, int> resultado1;
@@ -86,7 +86,7 @@ void todosContraTodosCompleto(){
 			o << "Grafo_Completo_Heur_Emi" << endl;
 
 			//Y ahora para exacto
-			o << voyPorN;
+			o << i;
 			o << ",";
 
 			int resultado2;
@@ -95,12 +95,12 @@ void todosContraTodosCompleto(){
 			resultado2 = cliqueMaxFront(&grafo);
 			end2 = std::chrono::system_clock::now();
 
-			std::chrono::duration<double, std::milli> elapsed_secondsA = end2-start2;
+			std::chrono::duration<double, std::milli> elapsed_secondsB = end2-start2;
 
 			o << resultado2;
 			o << ",";
 
-			o << elapsed_secondsA.count();
+			o << elapsed_secondsB.count();
 			o << ",";
 			o << "Grafo_Completo_Exacto" << endl;
 

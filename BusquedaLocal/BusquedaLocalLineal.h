@@ -20,32 +20,8 @@ int CalcularFronteras(set<int> matrix [], set<int>& solucion){
 	return res;
 }
 
-int BusquedaLocalLineal(Graph& grafo, vector<int>& solAct){
-	int n = grafo.n;
-	int m = garfo.m;
-	set<int> matrix [n];
-	for(int i = 0 ; i < n; i++){
-		for(int j = 0; j < n; j++){
-			if(grafo.matrizAdy[i][j] == 1)
-				matrix[i].insert(j);
-		}
-	}
-	set<int> solAct2;
-	int solActSize = solAct.size()
-	for(int i = 0; i < solActSize; i++){
-		solAct2.insert(solAct[i]);		
-	}
 
-	int res =  BusquedaLocalLineal(matrix, solAct2, n, m  )
-	solAct.clear();
-	for(set<int>::iterator it; it != solAct2.end(); it++){
-		solAct.push_back(*it);
-	}
-	return res;
-
-}
-
-int BusquedaLocalLineal(set<int> matrix [], set<int>& solAct, int n , int m){
+int BusquedaLocalLinealAux(set<int> matrix [], set<int>& solAct, int n , int m){
 
 	bool noEncontrePozo = true;
 
@@ -114,5 +90,32 @@ int BusquedaLocalLineal(set<int> matrix [], set<int>& solAct, int n , int m){
 
 	return  CalcularFronteras(matrix, solAct);
 }
+
+int BusquedaLocalLineal(Graph* grafo, vector<int>& solAct){
+	int n = grafo->n;
+	int m = grafo->m;
+	set<int> matrix [n];
+	for(int i = 0 ; i < n; i++){
+		for(int j = 0; j < n; j++){
+			if(grafo->matrizAdy[i][j] == 1)
+				matrix[i].insert(j);
+		}
+	}
+	set<int> solAct2;
+	int solActSize = solAct.size();
+	for(int i = 0; i < solActSize; i++){
+		solAct2.insert(solAct[i]);		
+	}
+
+	int res =  BusquedaLocalLinealAux(matrix, solAct2, n, m);
+	solAct.clear();
+	for(set<int>::iterator it; it != solAct2.end(); it++){
+		solAct.push_back(*it);
+	}
+	return res;
+
+}
+
+
 }
 #endif

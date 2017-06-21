@@ -1,4 +1,5 @@
-#include "Heur.h"
+//#include "Heur.h" SE INCLUYE EN BUSQUEDALOCAL.H
+#include "../BusquedaLocal/BusquedaLocalLineal.h"
 #include <fstream>
 #include <random>
 #include <chrono>
@@ -191,10 +192,12 @@ void expGrafoMaloNipo(){
 
 	std::chrono::time_point<std::chrono::system_clock> start, end;
 	std::chrono::time_point<std::chrono::system_clock> start1, end1;
+	std::chrono::time_point<std::chrono::system_clock> startBLN, endBLN;
+	std::chrono::time_point<std::chrono::system_clock> startBLE, endBLE;
 
 	for(int i = 5; i < 601; i++){
 		cout << "Voy por n = " << i << endl;
-		for(int j = 0; j < 40; j++){
+		for(int j = 0; j < 5; j++){ //decia 40
 			s << i;
 			s << ",";
 
@@ -215,6 +218,28 @@ void expGrafoMaloNipo(){
 			s << elapsed_seconds.count();
 			s << ",";
 			s << "GrafoMaloNipoHeurNipo" << endl;
+
+
+
+
+			//Busqueda Local con resultado de la Heuristica Nipo
+			int resultadoBLN;
+			startBLN = std::chrono::system_clock::now();
+			resultadoBLN = lineal::BusquedaLocalLineal(&grafo, resultado.first);
+			endBLN = std::chrono::system_clock::now();
+
+			std::chrono::duration<double, std::milli> elapsed_secondsBLN = endBLN-startBLN;
+
+			s << resultadoBLN;
+			s << ",";
+
+			s << elapsed_secondsBLN.count();
+			s << ",";
+			s << "GrafoMaloNipoHeurNipoBL" << endl;
+
+
+
+
 
 			// Ahora todo lo mismo pero con la heurística de Emi
 			s << i;
@@ -238,6 +263,25 @@ void expGrafoMaloNipo(){
 			s << ",";
 			s << "GrafoMaloNipoHeurEmi" << endl;
 
+
+
+
+
+			//Busqueda Local con resultado de la Heuristica Emi
+			int resultadoBLE;
+			startBLE = std::chrono::system_clock::now();
+			resultadoBLE = lineal::BusquedaLocalLineal(&grafo, resultado1.first);
+			endBLE = std::chrono::system_clock::now();
+
+			std::chrono::duration<double, std::milli> elapsed_secondsBLE = endBLE-startBLE;
+
+			s << resultadoBLE;
+			s << ",";
+
+			s << elapsed_secondsBLE.count();
+			s << ",";
+			s << "GrafoMaloNipoHeurEmiBL" << endl;
+
 		}
 	}
 }
@@ -251,10 +295,12 @@ void expGrafoMaloEmi(){
 
 	std::chrono::time_point<std::chrono::system_clock> start, end;
 	std::chrono::time_point<std::chrono::system_clock> start1, end1;
+	std::chrono::time_point<std::chrono::system_clock> startBLN, endBLN;
+	std::chrono::time_point<std::chrono::system_clock> startBLE, endBLE;
 
 	for(int i = 5; i < 601; i++){
 		cout << "Voy por n = " << i << endl;
-		for(int j = 0; j < 40; j++){
+		for(int j = 0; j < 5; j++){ //decia 40
 			s << i;
 			s << ",";
 
@@ -275,6 +321,27 @@ void expGrafoMaloEmi(){
 			s << elapsed_seconds.count();
 			s << ",";
 			s << "GrafoMaloEmiHeurNipo" << endl;
+
+
+
+
+			//Busqueda Local con resultado de la Heuristica Nipo
+			int resultadoBLN;
+			startBLN = std::chrono::system_clock::now();
+			resultadoBLN = lineal::BusquedaLocalLineal(&grafo, resultado.first);
+			endBLN = std::chrono::system_clock::now();
+
+			std::chrono::duration<double, std::milli> elapsed_secondsBLN = endBLN-startBLN;
+
+			s << resultadoBLN;
+			s << ",";
+
+			s << elapsed_secondsBLN.count();
+			s << ",";
+			s << "GrafoMaloEmiHeurNipoBL" << endl;
+
+
+
 
 			// Ahora todo lo mismo pero con la heurística de Emi
 			s << i;
@@ -298,9 +365,27 @@ void expGrafoMaloEmi(){
 			s << ",";
 			s << "GrafoMaloEmiHeurEmi" << endl;
 
+
+
+			//Busqueda Local con resultado de la Heuristica Emi
+			int resultadoBLE;
+			startBLE = std::chrono::system_clock::now();
+			resultadoBLE = lineal::BusquedaLocalLineal(&grafo, resultado1.first);
+			endBLE = std::chrono::system_clock::now();
+
+			std::chrono::duration<double, std::milli> elapsed_secondsBLE = endBLE-startBLE;
+
+			s << resultadoBLE;
+			s << ",";
+
+			s << elapsed_secondsBLE.count();
+			s << ",";
+			s << "GrafoMaloEmiHeurEmiBL" << endl;
+
 		}
 	}
 }
+
 
 int main(){
 	// Test1();
@@ -313,6 +398,6 @@ int main(){
 	// Graph grafo2;
 	// genGrafoMalo(&grafo2, 4);
 	expGrafoMaloNipo();
-	expGrafoMaloEmi();
+//	expGrafoMaloEmi();
 	return 0;
 }

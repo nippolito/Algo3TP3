@@ -1,9 +1,16 @@
+#include "../TestingEmiNipo/Heur.h"
 #include <iostream>
 #include <stdlib.h>
 #include <math.h>
 #include <vector>
 
 using namespace std;
+
+/*
+TODOS LOS STRUCT Y FUNCIONES SE IMPORTAN DE HEUR.H PARA QUE HAYA CONSISTENCIA Y SE PUEDA COMPILAR.
+OJO! SI UNA FUNCION SE LLAMA IGUAL ACA Y HEUR.H PERO HACEN COSAS DISTINTAS ESTO VA A FALLAR!
+(ej, que "cantUnosVec" este implementado de distinta forma en heur.h y al correr fuerza bruta no funcione correctamente)
+
 
 struct Graph 			    // n-> Number of vertices, m-> Number of edges
 {
@@ -83,6 +90,8 @@ int gradoNodo(struct Graph* grafo, int nodo){
 	return res;
 }
 
+*/
+
 bool esClique(struct Graph* grafo, vector<int>& vec){
 	bool b = true;
 	if(cantUnosVec(vec) == 0){
@@ -101,7 +110,7 @@ bool esClique(struct Graph* grafo, vector<int>& vec){
 	}
 	return b;
 }
-
+/*
 int calcFrontera(struct Graph* grafo, vector<int> vec){
 	int res = 0;
 	int cantNodClique = cantUnosVec(vec);
@@ -114,7 +123,7 @@ int calcFrontera(struct Graph* grafo, vector<int> vec){
 	}
 	return res;
 }
-
+*/
 // auxiliar. La función de backtracking clásica
 // void cliqueMaxFrontAux(struct Graph* grafo, int n, int ite, vector<int>& vecAux, int &res, vector<int>& vecRes){
 // 	if(ite == n){
@@ -199,8 +208,5 @@ int cliqueMaxFront(struct Graph* grafo){
 	// int cantUn = cantUnosVec(vecRes);
 	// cout << "Tiene " << cantUn << " nodos" << endl;
 	// cout << endl;
-	
-
-	return res;
-	//NOTA: AHORA DEVUELVO EL RESULTADO (antes solo lo guardaba y devolvia siempre 0)
+	return 0;
 }

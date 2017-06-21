@@ -1,4 +1,5 @@
 #include "Heur.h"
+#include "FuerzaBruta.cpp"
 #include <iostream>
 #include <fstream>
 #include <random>
@@ -7,44 +8,47 @@
 
 using namespace std;
 
+
+void genGraphComp(Graph* grafo, int cantNodos){		// genera un grafo completo de n nodos
+	int n = cantNodos;
+	int m = n * (n - 1) / 2;
+	createGraph(grafo, n, m);
+
+	int k = 0;
+	for(int fil = 0; fil < n; fil++){
+		for(int col = 0; col < n; col++){
+			if(fil != col){
+				addEdge(grafo, fil, col);
+			}
+		}
+	}
+	
+	// mostrarMatriz(grafo->matrizAdy, n);
+}
+
 //TODO: FUNCIONES DE COTA
-void heurGraphGrego(){
-	ifstream f("tuvieja.csv"); //Poner el nombre del archivo de entrada ya creado anteriormente! Puede ser cualquiera creado por grego
-	fstream o ("RESULTADOS_GRAFOS_X_GREGO.csv", ios::out);
-	//Nota: Reemplazar el nombre del csv por el tipo de grafo de input (Poco denso, mitad denso, etc)
+void todosContraTodosCompleto(){
+	ifstream f("tuvieja.csv"); //Poner el nombre del archivo de entrada ya creado anteriormente!
+	fstream o ("todosContraTodosCompleto.txt", ios::out);
 	o << "cantNod,Res,Tiempo,Tipo" << endl;
 
 	std::chrono::time_point<std::chrono::system_clock> start, end;
 	std::chrono::time_point<std::chrono::system_clock> start1, end1;
-	std::chrono::time_point<std::chrono::system_clock> start2, end2;
+		std::chrono::time_point<std::chrono::system_clock> start2, end2;
 
-	int n;
-	int m;
+	int n = 2;
+	int m = n * (n - 1) / 2;
 
-	f >> n;
-	int voyPorN = 0;
-	while (n != -1) //Asegurarse que termina con un -1
+	for (int i =0; i < 25; i++;) //Asegurarse que termina con un -1
 	{
-		voyPorN++;
-		cout << "Voy por n = " << voyPorN << endl;
-		for (int l = 0; l < 40; l++) // ESTO VARIA SEGUN EL INPUT! Para tiempos puede que sea solo 5.
+		cout << "Voy por n = " << i << endl;
+		for (int l = 0; l < 40; l++) // ESTO VARIA SEGUN CUANTAS REPETICIONES QUERES QUE CORRA! Para tiempos puede que sea solo 5.
 		{
 			o << voyPorN;
 			o << ",";
 		
 			Graph grafo;
-			f >> m;
-			//cout << "Nodos: " << n <<", Aristas: " << m << endl;
-			createGraph(&grafo, n, m);
-			int s;
-			int d;
-				for (int k = 0; k < m; k++)
-				{
-					f >> s;
-					f >> d;
-					addEdge(&grafo, s, d);
-					//cout << "Se agrego la arista: " << s << "-" << d << endl;
-				}
+			genGraphComp(&grafo, i)
 
 			//Ya tengo el grafo armado
 			pair<vector<int>, int> resultado;
@@ -60,7 +64,7 @@ void heurGraphGrego(){
 
 			o << elapsed_seconds.count();
 			o << ",";
-			o << "Grafo_GENERADO_X_GREGO_HeurNipo" << endl;
+			o << "Grafo_Completo_Heur_Nipo" << endl;
 
 			// Ahora todo lo mismo pero con la heurística de Emi
 			o << voyPorN;
@@ -79,10 +83,11 @@ void heurGraphGrego(){
 
 			o << elapsed_secondsA.count();
 			o << ",";
-			o << "Grafo_GENERADO_X_GREGOHeurEmi" << endl;
+			o << "Grafo_Completo_Heur_Emi" << endl;
 
-			/* EN CASO DE QUERER CORRER FUERZA BRUTA, DESCOMENTAR ESTE PEDAZO DE CODIGO.
-			Nota: Recordar que para n>25 esto no termina nunca.
+			//Y ahora para exacto
+			o << voyPorN;
+			o << ",";
 
 			int resultado2;
 
@@ -97,10 +102,7 @@ void heurGraphGrego(){
 
 			o << elapsed_secondsA.count();
 			o << ",";
-			o << "Grafo_GENERADO_X_GREGO_Exacto" << endl;
-
-
-			*/
+			o << "Grafo_Completo_Exacto" << endl;
 
 			cout << "\n\n\n\n" << endl;
 			f >> n;
@@ -109,10 +111,12 @@ void heurGraphGrego(){
 		
 	}
 return;
-
 }
+
+
+
+
+
 int main(){
-	heurGraphGrego();
-	
 	return 1;
 }

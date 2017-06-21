@@ -272,7 +272,7 @@ void ParaHeuristicaEmi(struct Graph* grafo, int &res, vector<int>& vecRes){
 	int cantNodosG = grafo->n;
 	
 	int NodosOrdenados[cantNodosG];
-	for (int i = 0; i < cantNodosG; i++)
+	for (int i = 0; i < cantNodosG; i++) 
 	{
 		NodosOrdenados[i] = i;
 	}

@@ -6,7 +6,7 @@ using namespace std;
 
 NOTA IMPORTANTE:
 Para correr los tests y ponerlos en un txt, compilar, y con el objeto desde consola ejecutar:
-./<script.o> &> <tuvieja.txt>
+./<script.o> &> <tuvieja.csv>
 
 */
 void densAristasMitad(){		// hay una clique fija de 10 (excepto hasta menores a 20 que es de 4)
@@ -20,13 +20,13 @@ void densAristasMitad(){		// hay una clique fija de 10 (excepto hasta menores a 
 				c = 4;
 				n = i;
 				d = 0.5;
-				genGrafoEmi(c, n, d);
+				genGrafo(c, n, d);
 
 			}else{
 				c = 10;
 				n = i;
 				d = 0.5;
-				genGrafoEmi(c, n, d);
+				genGrafo(c, n, d);
 			}
 		}
 	}
@@ -38,12 +38,12 @@ void densGrafComp(){		// hay una clique fija de 10 (excepto hasta menores a 20 q
 	int n; //Tamaño del grafo
 	int d; //Tamaño de la densidad
 
-	for(int i = 5; i < 50; i++){ //era 600
+	for(int i = 5; i < 50; i++){ //era 601
 		for(int j = 0; j < 40; j++){
 			c = 4;
 			n = i;
 			d = 1;
-			genGrafoEmi(c, n, d);
+			genGrafo(c, n, d);
 		}
 	}
 
@@ -55,18 +55,18 @@ void densPocasArist(){		// hay una clique fija de 10 (excepto hasta menores a 20
 	int n; //Tamaño del grafo
 	int d; //Tamaño de la densidad
 
-	for(int i = 5; i < 601; i++){
+	for(int i = 5; i < 51; i++){//eran 601
 		for(int j = 0; j < 40; j++){
 			if(i <= 20){
 				c = 4;
 				n = i;
 				d = 0.1;
-				genGrafoEmi(c, n, d);
+				genGrafo(c, n, d);
 			}else{
 				c = 10;
 				n = i;
 				d = 0.1;
-				genGrafoEmi(c, n, d);
+				genGrafo(c, n, d);
 			}
 		}
 	}
@@ -76,7 +76,7 @@ void densPocasArist(){		// hay una clique fija de 10 (excepto hasta menores a 20
 
 int main(){
 	//densAristasMitad();
-	// densGrafComp();
+	//densGrafComp();
 	//densPocasArist();
 
 	return 0;

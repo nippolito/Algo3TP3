@@ -2,7 +2,7 @@
 
 using namespace std;
 
-void genGrafoEmi(int c, int n, double densidad){
+void genGrafo(int c, int n, double densidad){
 	srand (time(NULL));	 
 
 	//cout << "Ingresar tamaño de clique que se quiere tener: " ES C;

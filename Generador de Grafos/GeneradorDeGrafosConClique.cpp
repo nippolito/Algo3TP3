@@ -33,7 +33,7 @@ int main(){
 	int cantAristasEnClique = c*(c-1)/2;
 	int cantAristasDisponibles = (n*(n-1)/2) - cantAristasEnClique;
 	//cout << "cantAristasDisponibles : "<< cantAristasDisponibles << endl;
-	int m = ((densidad) *cantAristasDisponibles )  / 2;
+	int m = (densidad) *cantAristasDisponibles;
 
 	cout << n <<" "<< m+cantAristasEnClique  << endl;
 

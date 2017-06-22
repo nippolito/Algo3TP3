@@ -9,12 +9,15 @@ Para correr los tests y ponerlos en un txt, compilar, y con el objeto desde cons
 ./<script.o> &> <tuvieja.csv>
 
 */
+
+// preguntarle a Emi como correr exactamente
+
 void densAristasMitad(){		// hay una clique fija de 10 (excepto hasta menores a 20 que es de 4)
 	int c; //Tamaño de la clique 
 	int n; //Tamaño del grafo
 	int d; //Tamaño de la densidad
 
-	for(int i = 5; i < 601; i++){ //601
+	for(int i = 5; i < 501; i++){ //601
 		for(int j = 0; j < 40; j++){
 			if(i <= 20){
 				c = 4;

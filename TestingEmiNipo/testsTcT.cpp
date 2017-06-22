@@ -39,10 +39,10 @@ void todosContraTodosCompleto(){
 	int n = 2;
 	int m = n * (n - 1) / 2;
 
-	for (int i =0; i < 25; i++) //Asegurarse que termina con un -1
+	for (int i = 1; i < 25; i++) //Asegurarse que termina con un -1
 	{
 		cout << "Voy por n = " << i << endl;
-		for (int l = 0; l < 40; l++) // ESTO VARIA SEGUN CUANTAS REPETICIONES QUERES QUE CORRA! Para tiempos puede que sea solo 5.
+		for (int l = 0; l < 20; l++) // ESTO VARIA SEGUN CUANTAS REPETICIONES QUERES QUE CORRA! Para tiempos puede que sea solo 5.
 		{
 			o << i;
 			o << ",";

@@ -195,9 +195,9 @@ void expGrafoMaloNipo(){
 	std::chrono::time_point<std::chrono::system_clock> startBLN, endBLN;
 	std::chrono::time_point<std::chrono::system_clock> startBLE, endBLE;
 
-	for(int i = 5; i < 601; i++){
+	for(int i = 5; i < 501; i++){
 		cout << "Voy por n = " << i << endl;
-		for(int j = 0; j < 5; j++){ //decia 40
+		for(int j = 0; j < 10; j++){ //decia 40
 			s << i;
 			s << ",";
 
@@ -298,9 +298,9 @@ void expGrafoMaloEmi(){
 	std::chrono::time_point<std::chrono::system_clock> startBLN, endBLN;
 	std::chrono::time_point<std::chrono::system_clock> startBLE, endBLE;
 
-	for(int i = 5; i < 601; i++){
+	for(int i = 5; i < 501; i++){
 		cout << "Voy por n = " << i << endl;
-		for(int j = 0; j < 5; j++){ //decia 40
+		for(int j = 0; j < 10; j++){ //decia 40
 			s << i;
 			s << ",";
 
@@ -397,7 +397,7 @@ int main(){
 	// genGrafoMalo(&grafo1, 3);
 	// Graph grafo2;
 	// genGrafoMalo(&grafo2, 4);
-	expGrafoMaloNipo();
+/*	expGrafoMaloNipo();*/
 //	expGrafoMaloEmi();
 	return 0;
 }

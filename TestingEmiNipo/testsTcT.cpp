@@ -28,18 +28,18 @@ void genGraphComp(Graph* grafo, int cantNodos){		// genera un grafo completo de 
 
 //TODO: FUNCIONES DE COTA
 void todosContraTodosCompleto(){
-	ifstream f("tuvieja.csv"); //Poner el nombre del archivo de entrada ya creado anteriormente!
+	// ifstream f("tuvieja.csv"); //Poner el nombre del archivo de entrada ya creado anteriormente!
 	fstream o ("todosContraTodosCompleto.txt", ios::out);
 	o << "cantNod,Res,Tiempo,Tipo" << endl;
 
 	std::chrono::time_point<std::chrono::system_clock> start, end;
 	std::chrono::time_point<std::chrono::system_clock> start1, end1;
-		std::chrono::time_point<std::chrono::system_clock> start2, end2;
+	std::chrono::time_point<std::chrono::system_clock> start2, end2;
 
 	int n = 2;
 	int m = n * (n - 1) / 2;
 
-	for (int i = 1; i < 25; i++) //Asegurarse que termina con un -1
+	for (int i = 1; i < 24; i++) //Asegurarse que termina con un -1
 	{
 		cout << "Voy por n = " << i << endl;
 		for (int l = 0; l < 20; l++) // ESTO VARIA SEGUN CUANTAS REPETICIONES QUERES QUE CORRA! Para tiempos puede que sea solo 5.
@@ -104,8 +104,8 @@ void todosContraTodosCompleto(){
 			o << ",";
 			o << "Grafo_Completo_Exacto" << endl;
 
-			cout << "\n\n\n\n" << endl;
-			f >> n;
+			// cout << "\n\n\n\n" << endl;
+			// f >> n;
 			
 		}
 		
@@ -118,5 +118,6 @@ return;
 
 
 int main(){
+	todosContraTodosCompleto();
 	return 1;
 }

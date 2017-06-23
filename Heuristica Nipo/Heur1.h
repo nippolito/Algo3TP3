@@ -178,9 +178,9 @@ void ParaHeuristica(struct Graph* grafo, int &res, vector<int>& vecAux, vector<i
 	bool b = true;
 	while(b){			// en el peor caso este ciclo se recorre (n-3) veces
 		b = false;
-		posFrontMejor = 0;
-		for(int i = 0; i++; i < grafo->n){			// O(n^3)
-			if(sonAdyacentes(grafo, i, ultNodoAg) && noEstabaEnClique(grafo, vecPasos, i) && nodoFormaClique(grafo, vecPasos, i)){
+		posFrontMejor = -1;
+		for(int i = 0; i < grafo->n; i++){			// O(n^3)
+			if(sonAdyacentes(grafo, i, ultNodoAg) && noEstabaEnClique(grafo, vecAux, i) && nodoFormaClique(grafo, vecAux, i)){
 				b = true;
 				vecAux[i] = 1;
 				int frontAux = calcFrontera(grafo, vecAux);

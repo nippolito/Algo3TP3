@@ -197,7 +197,7 @@ void expGrafoMaloNipo(){
 
 	for(int i = 5; i < 501; i++){
 		cout << "Voy por n = " << i << endl;
-		for(int j = 0; j < 10; j++){ //decia 40
+		for(int j = 0; j < 25; j++){ //decia 40
 			s << i;
 			s << ",";
 
@@ -220,25 +220,20 @@ void expGrafoMaloNipo(){
 			s << "GrafoMaloNipoHeurNipo" << endl;
 
 
-
-
 			//Busqueda Local con resultado de la Heuristica Nipo
-			int resultadoBLN;
-			startBLN = std::chrono::system_clock::now();
-			resultadoBLN = lineal::BusquedaLocalLineal(&grafo, resultado.first);
-			endBLN = std::chrono::system_clock::now();
+			// int resultadoBLN;
+			// startBLN = std::chrono::system_clock::now();
+			// resultadoBLN = lineal::BusquedaLocalLineal(&grafo, resultado.first);
+			// endBLN = std::chrono::system_clock::now();
 
-			std::chrono::duration<double, std::milli> elapsed_secondsBLN = endBLN-startBLN;
+			// std::chrono::duration<double, std::milli> elapsed_secondsBLN = endBLN-startBLN;
 
-			s << resultadoBLN;
-			s << ",";
+			// s << resultadoBLN;
+			// s << ",";
 
-			s << elapsed_secondsBLN.count();
-			s << ",";
-			s << "GrafoMaloNipoHeurNipoBL" << endl;
-
-
-
+			// s << elapsed_secondsBLN.count();
+			// s << ",";
+			// s << "GrafoMaloNipoHeurNipoBL" << endl;
 
 
 			// Ahora todo lo mismo pero con la heurística de Emi
@@ -268,26 +263,26 @@ void expGrafoMaloNipo(){
 
 
 			//Busqueda Local con resultado de la Heuristica Emi
-			int resultadoBLE;
-			startBLE = std::chrono::system_clock::now();
-			resultadoBLE = lineal::BusquedaLocalLineal(&grafo, resultado1.first);
-			endBLE = std::chrono::system_clock::now();
+			// int resultadoBLE;
+			// startBLE = std::chrono::system_clock::now();
+			// // resultadoBLE = lineal::BusquedaLocalLineal(&grafo, resultado1.first);
+			// endBLE = std::chrono::system_clock::now();
 
-			std::chrono::duration<double, std::milli> elapsed_secondsBLE = endBLE-startBLE;
+			// std::chrono::duration<double, std::milli> elapsed_secondsBLE = endBLE-startBLE;
 
-			s << resultadoBLE;
-			s << ",";
+			// s << resultadoBLE;
+			// s << ",";
 
-			s << elapsed_secondsBLE.count();
-			s << ",";
-			s << "GrafoMaloNipoHeurEmiBL" << endl;
+			// s << elapsed_secondsBLE.count();
+			// s << ",";
+			// s << "GrafoMaloNipoHeurEmiBL" << endl;
 
 		}
 	}
 }
 
 void expGrafoMaloEmi(){
-	fstream s ("ExpGrafosMalosHeurEmi.csv", ios::out);
+	fstream s ("ExpGrafosMalosHeurEmi3.csv", ios::out);
 
 	s << "cantNod,Res,Tiempo,Tipo" << endl;
 
@@ -298,9 +293,9 @@ void expGrafoMaloEmi(){
 	std::chrono::time_point<std::chrono::system_clock> startBLN, endBLN;
 	std::chrono::time_point<std::chrono::system_clock> startBLE, endBLE;
 
-	for(int i = 5; i < 501; i++){
+	for(int i = 462; i < 501; i++){
 		cout << "Voy por n = " << i << endl;
-		for(int j = 0; j < 10; j++){ //decia 40
+		for(int j = 0; j < 25; j++){ //decia 40
 			s << i;
 			s << ",";
 
@@ -326,19 +321,19 @@ void expGrafoMaloEmi(){
 
 
 			//Busqueda Local con resultado de la Heuristica Nipo
-			int resultadoBLN;
-			startBLN = std::chrono::system_clock::now();
-			resultadoBLN = lineal::BusquedaLocalLineal(&grafo, resultado.first);
-			endBLN = std::chrono::system_clock::now();
+			// int resultadoBLN;
+			// startBLN = std::chrono::system_clock::now();
+			// resultadoBLN = lineal::BusquedaLocalLineal(&grafo, resultado.first);
+			// endBLN = std::chrono::system_clock::now();
 
-			std::chrono::duration<double, std::milli> elapsed_secondsBLN = endBLN-startBLN;
+			// std::chrono::duration<double, std::milli> elapsed_secondsBLN = endBLN-startBLN;
 
-			s << resultadoBLN;
-			s << ",";
+			// s << resultadoBLN;
+			// s << ",";
 
-			s << elapsed_secondsBLN.count();
-			s << ",";
-			s << "GrafoMaloEmiHeurNipoBL" << endl;
+			// s << elapsed_secondsBLN.count();
+			// s << ",";
+			// s << "GrafoMaloEmiHeurNipoBL" << endl;
 
 
 
@@ -368,24 +363,168 @@ void expGrafoMaloEmi(){
 
 
 			//Busqueda Local con resultado de la Heuristica Emi
-			int resultadoBLE;
-			startBLE = std::chrono::system_clock::now();
-			resultadoBLE = lineal::BusquedaLocalLineal(&grafo, resultado1.first);
-			endBLE = std::chrono::system_clock::now();
+			// int resultadoBLE;
+			// startBLE = std::chrono::system_clock::now();
+			// resultadoBLE = lineal::BusquedaLocalLineal(&grafo, resultado1.first);
+			// endBLE = std::chrono::system_clock::now();
 
-			std::chrono::duration<double, std::milli> elapsed_secondsBLE = endBLE-startBLE;
+			// std::chrono::duration<double, std::milli> elapsed_secondsBLE = endBLE-startBLE;
 
-			s << resultadoBLE;
-			s << ",";
+			// s << resultadoBLE;
+			// s << ",";
 
-			s << elapsed_secondsBLE.count();
-			s << ",";
-			s << "GrafoMaloEmiHeurEmiBL" << endl;
+			// s << elapsed_secondsBLE.count();
+			// s << ",";
+			// s << "GrafoMaloEmiHeurEmiBL" << endl;
 
 		}
 	}
 }
 
+void genGraphComp(Graph* grafo, int cantNodos){		// genera un grafo completo de n nodos
+	int n = cantNodos;
+	int m = n * (n - 1) / 2;
+	createGraph(grafo, n, m);
+
+	int k = 0;
+	for(int fil = 0; fil < n; fil++){
+		for(int col = 0; col < n; col++){
+			if(fil != col){
+				addEdge(grafo, fil, col);
+			}
+		}
+	}
+	
+	// mostrarMatriz(grafo->matrizAdy, n);
+}
+
+void funcionEneCubo(int n){
+	int x = 0;
+	int y = 0;
+	int z = 0;
+	for(int i = 0; i < n; i++){
+		for(int j = 0; j < n; j++){
+			y++;
+			for(int k = 0; k < n; k++){
+				x++;
+				z = x + y;
+				int w = 37;
+			}
+		}
+	}
+}
+
+void funcionEneCuarta(int n){
+	int x = 0;
+	int y = 0;
+	int z = 0;
+	for(int i = 0; i < n; i++){
+		for(int j = 0; j < n; j++){
+			for(int k = 0; k < n; k++){
+				z++;
+				for(int a = 0; a < n; a++){
+					x++;
+					y = z + x;
+				}
+			}
+		}
+	}
+}
+
+void expComplej(){	// testea los tiempos de nuestras heurísticas en grafos completos y los tiempos de las funciones de complejidad
+	fstream s ("ExpComplej2.csv", ios::out);
+
+	s << "cantNod,Res,Tiempo,Tipo" << endl;
+
+	std::chrono::time_point<std::chrono::system_clock> start, end;
+	std::chrono::time_point<std::chrono::system_clock> start1, end1;
+	std::chrono::time_point<std::chrono::system_clock> startEneCubo, endEneCubo;
+	std::chrono::time_point<std::chrono::system_clock> startEneCuarta, endEneCuarta;
+
+	cout << "Arranca Exp Complej" << endl;
+
+	for(int i = 362; i < 401; i++){
+		cout << "Voy por n = " << i << endl;
+		Graph grafo;
+		genGraphComp(&grafo, i);
+		for(int j = 0; j < 10; j++){ //decia 40
+			s << i;
+			s << ",";
+
+			pair<vector<int>, int> resultado;
+
+			start = std::chrono::system_clock::now();
+			resultado = HeuristicaNipo(&grafo);
+			end = std::chrono::system_clock::now();
+
+			std::chrono::duration<double, std::milli> elapsed_seconds = end-start;
+
+			s << resultado.second;
+			s << ",";
+
+			s << elapsed_seconds.count();
+			s << ",";
+			s << "CompletoHeurNipo" << endl;
+
+
+			// Ahora todo lo mismo pero con la heurística de Emi
+			s << i;
+			s << ",";
+
+			pair <vector<int>, int> resultado1;
+
+			start1 = std::chrono::system_clock::now();
+			resultado1 = HeuristicaEmi(&grafo);
+			end1 = std::chrono::system_clock::now();
+
+			std::chrono::duration<double, std::milli> elapsed_secondsA = end1-start1;
+
+			s << resultado1.second;
+			s << ",";
+
+			s << elapsed_secondsA.count();
+			s << ",";
+			s << "CompletoHeurEmi" << endl;
+
+
+			// Ahora todo lo mismo con la función Ene cubo
+			s << i;
+			s << ",";
+
+			startEneCubo = std::chrono::system_clock::now();
+			funcionEneCubo(i);
+			endEneCubo = std::chrono::system_clock::now();
+
+			std::chrono::duration<double, std::milli> elapsed_secondsEneCubo = endEneCubo - startEneCubo;
+
+			s << 0;
+			s << ",";
+
+			s << elapsed_secondsEneCubo.count();
+			s << ",";
+			s << "FuncionEneCubo" << endl;
+
+
+
+			// Ahora todo lo mismo con la función Ene cuarta
+			s << i;
+			s << ",";
+
+			startEneCuarta = std::chrono::system_clock::now();
+			funcionEneCuarta(i);
+			endEneCuarta = std::chrono::system_clock::now();
+
+			std::chrono::duration<double, std::milli> elapsed_secondsEneCuarta = endEneCuarta - startEneCuarta;
+
+			s << 0;
+			s << ",";
+
+			s << elapsed_secondsEneCuarta.count();
+			s << ",";
+			s << "FuncionEneCuarta" << endl;
+		}
+	}
+}
 
 int main(){
 	// Test1();
@@ -397,7 +536,8 @@ int main(){
 	// genGrafoMalo(&grafo1, 3);
 	// Graph grafo2;
 	// genGrafoMalo(&grafo2, 4);
-/*	expGrafoMaloNipo();*/
-//	expGrafoMaloEmi();
+	// expGrafoMaloNipo();
+	// expGrafoMaloEmi();
+	expComplej();
 	return 0;
 }

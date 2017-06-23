@@ -1,4 +1,4 @@
-#include <iostream>
+#include <iostream>	
 #include "GeneradorDeGrafosModif.cpp"
 using namespace std;
 
@@ -17,7 +17,7 @@ void densAristasMitad(){		// hay una clique fija de 10 (excepto hasta menores a 
 	int n; //Tamaño del grafo
 	int d; //Tamaño de la densidad
 
-	for(int i = 5; i < 501; i++){ //601
+	for(int i = 300; i < 301; i++){ //601
 		for(int j = 0; j < 40; j++){
 			if(i <= 20){
 				c = 4;
@@ -78,7 +78,7 @@ void densPocasArist(){		// hay una clique fija de 10 (excepto hasta menores a 20
 }
 
 int main(){
-	//densAristasMitad();
+	densAristasMitad();
 	//densGrafComp();
 	//densPocasArist();
 

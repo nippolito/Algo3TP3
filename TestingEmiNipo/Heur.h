@@ -84,7 +84,7 @@ int gradoNodo(struct Graph* grafo, int nodo){
 	return res;
 }
 
-int calcFrontera(struct Graph* grafo, vector<int> vec){
+int calcFrontera(struct Graph* grafo, vector<int>& vec){
 	int res = 0;
 	int cantNodClique = cantUnosVec(vec);
 	for(int i = 0; i < vec.size(); i++){
@@ -92,7 +92,6 @@ int calcFrontera(struct Graph* grafo, vector<int> vec){
 			int aux = gradoNodo(grafo, i) - cantNodClique + 1;
 			res = res + aux;
 		}
-
 	}
 	return res;
 }
@@ -111,7 +110,7 @@ int nodoGradoMaximo(struct Graph* grafo){
 	return res;
 }
 
-bool nodoFormaClique(struct Graph* grafo, vector<int> vec, int nodo){
+bool nodoFormaClique(struct Graph* grafo, vector<int>& vec, int nodo){
 	bool res = true;
 	for(int i = 0; i < grafo->n; i++){
 		if(i != nodo && vec[i] == 1 && grafo->matrizAdy[nodo][i] == 0){
@@ -122,7 +121,7 @@ bool nodoFormaClique(struct Graph* grafo, vector<int> vec, int nodo){
 }
 
 //ATENCION! ESTA FUNCION FUE MODIFICADA RESPECTO A HEUR1.H
-bool nodoFormaCliqueA(struct Graph* grafo, vector<int> vec, int nodo){
+bool nodoFormaCliqueA(struct Graph* grafo, vector<int>& vec, int nodo){
 	bool res = true;
 	for(int i = 0; i < vec.size(); i++){
 		if (vec[i] == 1)
@@ -164,7 +163,7 @@ bool sonAdyacentes(struct Graph* grafo, int nodo1, int nodo2){
 	}
 }
 
-bool noEstabaEnClique(struct Graph* grafo, vector<int> vec, int nodo){
+bool noEstabaEnClique(struct Graph* grafo, vector<int>& vec, int nodo){
 	if(vec[nodo] == 0){
 		return true;
 	}else{
@@ -213,9 +212,9 @@ void ParaHeuristica(struct Graph* grafo, int &res, vector<int>& vecAux, vector<i
 	bool b = true;
 	while(b){			// en el peor caso este ciclo se recorre (n-3) veces
 		b = false;
-		posFrontMejor = 0;
-		for(int i = 0; i++; i < grafo->n){			// O(n^3)
-			if(sonAdyacentes(grafo, i, ultNodoAg) && noEstabaEnClique(grafo, vecPasos, i) && nodoFormaClique(grafo, vecPasos, i)){
+		posFrontMejor = -1;
+		for(int i = 0; i < grafo->n; i++){			// O(n^3)
+			if(sonAdyacentes(grafo, i, ultNodoAg) && noEstabaEnClique(grafo, vecAux, i) && nodoFormaClique(grafo, vecAux, i)){
 				b = true;
 				vecAux[i] = 1;
 				int frontAux = calcFrontera(grafo, vecAux);
@@ -234,7 +233,6 @@ void ParaHeuristica(struct Graph* grafo, int &res, vector<int>& vecAux, vector<i
 		vecAux = vecPasos;
 		ultNodoAg = ultNodoAux;
 	}
-
 	res = mejorFront;
 
 	// siempre en vecPasos me queda la mejor frontera con X nodos. Luego, esa mejor me va a servir para la cantidad

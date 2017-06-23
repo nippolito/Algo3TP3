@@ -102,7 +102,7 @@ void heurGraphGrego(){
 
 			*/
 
-			cout << "\n\n\n\n" << endl;
+			cout << "\n" << endl;
 			f >> n;
 			
 		}

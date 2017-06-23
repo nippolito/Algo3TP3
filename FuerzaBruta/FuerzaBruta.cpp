@@ -208,5 +208,5 @@ int cliqueMaxFront(struct Graph* grafo){
 	// int cantUn = cantUnosVec(vecRes);
 	// cout << "Tiene " << cantUn << " nodos" << endl;
 	// cout << endl;
-	return 0;
+	return res;
 }

@@ -67,7 +67,7 @@ int main(){
 
 
 	}
-	cout << "\n\n\n\n\n"<<endl;
+	cout << "\n"<<endl;
 	}	
 
 	return 0 ;

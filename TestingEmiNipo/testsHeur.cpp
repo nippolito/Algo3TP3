@@ -1,8 +1,10 @@
 //#include "Heur.h" SE INCLUYE EN BUSQUEDALOCAL.H
 #include "../BusquedaLocal/BusquedaLocalLineal.h"
+#include "../FuerzaBruta/FuerzaBruta.cpp"
 #include <fstream>
 #include <random>
 #include <chrono>
+#include <iostream>
 
 using namespace std;
 
@@ -81,6 +83,110 @@ void Test2(){		// debe dar que es el nodo 5 (estrella), y res = 7
 	addEdge(&grafo, 5, 6);
 	addEdge(&grafo, 5, 7);
 	HeuristicaNipo(&grafo);
+}
+
+void genGraphComp(Graph* grafo, int cantNodos){		// genera un grafo completo de n nodos
+	int n = cantNodos;
+	int m = n * (n - 1) / 2;
+	createGraph(grafo, n, m);
+
+	int k = 0;
+	for(int fil = 0; fil < n; fil++){
+		for(int col = 0; col < n; col++){
+			if(fil != col){
+				addEdge(grafo, fil, col);
+			}
+		}
+	}
+	
+	// mostrarMatriz(grafo->matrizAdy, n);
+}
+
+//TODO: FUNCIONES DE COTA
+void todosContraTodosCompleto(){
+	// ifstream f("tuvieja.csv"); //Poner el nombre del archivo de entrada ya creado anteriormente!
+	fstream o ("todosContraTodosCompleto.txt", ios::out);
+	o << "cantNod,Res,Tiempo,Tipo" << endl;
+
+	std::chrono::time_point<std::chrono::system_clock> start, end;
+	std::chrono::time_point<std::chrono::system_clock> start1, end1;
+	std::chrono::time_point<std::chrono::system_clock> start2, end2;
+
+	int n = 2;
+	int m = n * (n - 1) / 2;
+
+	for (int i = 1; i < 24; i++) //Asegurarse que termina con un -1
+	{
+		cout << "Voy por n = " << i << endl;
+		for (int l = 0; l < 20; l++) // ESTO VARIA SEGUN CUANTAS REPETICIONES QUERES QUE CORRA! Para tiempos puede que sea solo 5.
+		{
+			o << i;
+			o << ",";
+		
+			Graph grafo;
+			genGraphComp(&grafo, i);
+
+			//Ya tengo el grafo armado
+			pair<vector<int>, int> resultado;
+
+			start = std::chrono::system_clock::now();
+			resultado = HeuristicaNipo(&grafo);
+			end = std::chrono::system_clock::now();
+
+			std::chrono::duration<double, std::milli> elapsed_seconds = end-start;
+
+			o << resultado.second;
+			o << ",";
+
+			o << elapsed_seconds.count();
+			o << ",";
+			o << "Grafo_Completo_Heur_Nipo" << endl;
+
+			// Ahora todo lo mismo pero con la heurística de Emi
+			o << i;
+			o << ",";
+
+			pair <vector<int>, int> resultado1;
+
+			start1 = std::chrono::system_clock::now();
+			resultado1 = HeuristicaEmi(&grafo);
+			end1 = std::chrono::system_clock::now();
+
+			std::chrono::duration<double, std::milli> elapsed_secondsA = end1-start1;
+
+			o << resultado1.second;
+			o << ",";
+
+			o << elapsed_secondsA.count();
+			o << ",";
+			o << "Grafo_Completo_Heur_Emi" << endl;
+
+			//Y ahora para exacto
+			o << i;
+			o << ",";
+
+			int resultado2;
+
+			start2 = std::chrono::system_clock::now();
+			resultado2 = cliqueMaxFront(&grafo);
+			end2 = std::chrono::system_clock::now();
+
+			std::chrono::duration<double, std::milli> elapsed_secondsB = end2-start2;
+
+			o << resultado2;
+			o << ",";
+
+			o << elapsed_secondsB.count();
+			o << ",";
+			o << "Grafo_Completo_Exacto" << endl;
+
+			// cout << "\n\n\n\n" << endl;
+			// f >> n;
+			
+		}
+		
+	}
+	return;
 }
 
 void genGrafoMaloNipo(Graph* grafo, int cantNodos){		// n >= 5, sino tira segmentation fault
@@ -295,7 +401,7 @@ void expGrafoMaloEmi(){
 
 	for(int i = 462; i < 501; i++){
 		cout << "Voy por n = " << i << endl;
-		for(int j = 0; j < 25; j++){ //decia 40
+		for(int j = 0; j < 40; j++){ //decia 40
 			s << i;
 			s << ",";
 
@@ -384,20 +490,26 @@ void expGrafoMaloEmi(){
 void grafosMalosResultadoExactoNipo(){
 	fstream s ("ResultadosGrafoMaloNipo.csv", ios::out);
 
-	s << "cantNod,Res" << endl;
+	s << "cantNod,Res,Tipo" << endl;
 
 	int k = 6;
 	for(int i = 14; i < 550; i++){
 		s << i;
 		s << ",";
 		if(i % 3 == 2){
-			s << k << endl;
+			s << k;
+			s << ",";
+			s << "Resultado" << endl;
 		}else{
 			if(i % 3 == 0){
-				s << k << endl;
+				s << k;
+				s << ",";
+				s << "Resultado" << endl;
 			}else{
-				s << k << endl;
+				s << k;
 				k = k + 2;
+				s << ",";
+				s << "Resultado" << endl;
 			}
 		}
 	}
@@ -547,6 +659,8 @@ void expComplej(){	// testea los tiempos de nuestras heurísticas en grafos comp
 		}
 	}
 }
+
+
 
 int main(){
 	// Test1();

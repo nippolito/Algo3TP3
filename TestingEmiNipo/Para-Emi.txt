@@ -2,7 +2,7 @@
 	> Gráficos totales:
 		> Completos y mitad aristas random tiempos Heur1, Heur2, Exacto hasta n = 24 o 23 (un gráfico con 6 curvas). ESTE SEGURO
 		> Completos y mitad aristas random resultado Heur1, Heur2, Exacto hasta n = 24 o 23 (un gráfico con 6 curvas). ESTE SEGURO
-		> Completos hasta n grande con curva complejidad Heur1, Heur2 (un gráfico con 4 curvas). Esto es para justificar las complejidades. ESTE SEGURO
+		> Completos hasta n grande con curva complejidad Heur1, Heur2 (un gráfico con 4 curvas). Esto es para justificar las complejidades. ESTE SEGURO ------------ OK
 		> Peor caso Emi y Nipo con cada uno de los algoritmos tiempos hasta n grande (un gráfico con 4 curvas). ESTE NO TAN SEGURO
 		> Peor caso Emi y Nipo con cada uno de los algoritmos resultados hasta n grande (un gráfico con 4 curvas). ESTE SEGURO
 		> Al azar con cierta densidad de aristas hasta n grande. ESTE SEGURO, DOS CON DENSIDADES DISTINTAS

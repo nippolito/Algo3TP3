@@ -381,6 +381,28 @@ void expGrafoMaloEmi(){
 	}
 }
 
+void grafosMalosResultadoExactoNipo(){
+	fstream s ("ResultadosGrafoMaloNipo.csv", ios::out);
+
+	s << "cantNod,Res" << endl;
+
+	int k = 6;
+	for(int i = 14; i < 550; i++){
+		s << i;
+		s << ",";
+		if(i % 3 == 2){
+			s << k << endl;
+		}else{
+			if(i % 3 == 0){
+				s << k << endl;
+			}else{
+				s << k << endl;
+				k = k + 2;
+			}
+		}
+	}
+}
+
 void genGraphComp(Graph* grafo, int cantNodos){		// genera un grafo completo de n nodos
 	int n = cantNodos;
 	int m = n * (n - 1) / 2;
@@ -538,6 +560,7 @@ int main(){
 	// genGrafoMalo(&grafo2, 4);
 	// expGrafoMaloNipo();
 	// expGrafoMaloEmi();
-	expComplej();
+	// expComplej();
+	// grafosMalosResultadoExactoNipo();
 	return 0;
 }

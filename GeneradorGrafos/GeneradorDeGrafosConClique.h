@@ -1,9 +1,14 @@
+#ifndef GENERADOR_GRAFOS_H
+#define GENERADOR_GRAFOS_H
+
 #include <iostream>
 #include <stdlib.h>
 #include <set>
 #include <map>
 #include <utility>
 #include <stdio.h>
+#include "../FuerzaBruta/FuerzaBruta.h"
+#include "../BusquedaLocal/BusquedaLocalLineal.h"
 
 using namespace std;
 
@@ -11,19 +16,10 @@ bool EstanDefinidos(set<int> set[], int c1, int c2){
 	return (set[c1].find(c2) != set[c1].end());
 }
 
-int main(){
+void generadorGrafoRandom(Graph* grafo, int n, double densidad, int semilla,int c){
 	
-	srand (time(NULL));	 
-	while(true){
+	srand (semilla);	 
 
-	//cout << "Ingresar tamaño de clique que se quiere tener: ";
-	int c ;  cin >> c ;
-	if(c == -1) return 0 ;
-	//cout << "\nIngresar cantidad de nodos total del grafo :";
-	int n ; cin >> n;
-	double densidad = 0; 
-	//cout << "\n Ingresar densidad, entre 0 y 1 (Densidad del gafo en realcion a los ejes que no estan en la clique): ";
-	cin >> densidad;
 	
 	bool matrix [n][n];
 	for(int i = 0; i < n; i ++){
@@ -35,14 +31,14 @@ int main(){
 	//cout << "cantAristasDisponibles : "<< cantAristasDisponibles << endl;
 	int m = (densidad) *cantAristasDisponibles;
 
-	cout << n <<" "<< m+cantAristasEnClique  << endl;
 
+	createGraph(grafo, n, m);
+	
 	for(int i = 0; i < c ; i ++ ){
 		for(int j = i+1; j < c; j++){
 			matrix[i][j] = true;
 			matrix[j][i] = true;
-			
-			cout << i+1 << " " << j+1 <<endl;
+			addEdge(grafo,i,j);
 		}
 	}
 	for(int i = 0; i < m ; i ++){
@@ -63,12 +59,9 @@ int main(){
 		matrix[c1][c2] = true;
 		matrix[c2][c1] = true;
 		
-		cout << c1+1 << " " << c2+1  << endl;
-
+		addEdge(grafo,c1,c2);
 
 	}
-	cout << "\n"<<endl;
-	}	
-
-	return 0 ;
 }
+
+#endif

@@ -24,8 +24,10 @@ int CalcularFronteras(set<int> matrix [], set<int>& solucion){
 int BusquedaLocalLinealAux(set<int> matrix [], set<int>& solAct, int n , int m){
 
 	bool noEncontrePozo = true;
+	int cantidadDeIteraciones = 0;
 
 	while(noEncontrePozo){
+		cantidadDeIteraciones++;
 		set<int> solucionesSumandoNodo;
 		set<int> solucionesRestandoNodo; 						
 		
@@ -87,6 +89,7 @@ int BusquedaLocalLinealAux(set<int> matrix [], set<int>& solAct, int n , int m){
 		}
 		
 	}
+	cout << "Cantidad De Iteraciones : " << cantidadDeIteraciones <<  endl;
 
 	return  CalcularFronteras(matrix, solAct);
 }
@@ -104,14 +107,22 @@ int BusquedaLocalLineal(Graph* grafo, vector<int>& solAct){
 	set<int> solAct2;
 	int solActSize = solAct.size();
 	for(int i = 0; i < solActSize; i++){
-		solAct2.insert(solAct[i]);		
+		if( solAct[i] == 1 ){
+		 cout << i <<  " ";
+		 solAct2.insert(i);		
+		}
 	}
+	cout << " \n";
 
 	int res =  BusquedaLocalLinealAux(matrix, solAct2, n, m);
+	
 	solAct.clear();
-	for(set<int>::iterator it; it != solAct2.end(); it++){
+	for(set<int>::iterator it=solAct2.begin(); it != solAct2.end(); it++){
+		cout << *it << " ";
 		solAct.push_back(*it);
 	}
+	cout << "\n";
+
 	return res;
 
 }

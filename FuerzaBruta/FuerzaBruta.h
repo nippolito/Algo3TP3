@@ -1,3 +1,6 @@
+#ifndef FUERZA_BRUTA_H
+#define FUERZA_BRUTA_H
+
 #include "../TestingEmiNipo/Heur.h"
 #include <iostream>
 #include <stdlib.h>
@@ -210,3 +213,5 @@ int cliqueMaxFront(struct Graph* grafo){
 	// cout << endl;
 	return res;
 }
+
+#endif

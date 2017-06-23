@@ -1,3 +1,6 @@
+#ifndef HEUR_H
+#define HEUR_H
+
 #include <iostream>
 #include <stdlib.h>
 #include <math.h>
@@ -373,3 +376,5 @@ pair< vector<int> , int> HeuristicaEmi(Graph* grafo){		// total complej: O(n^3)
 	// cout << endl;
 	return resultado;
 }
+
+#endif

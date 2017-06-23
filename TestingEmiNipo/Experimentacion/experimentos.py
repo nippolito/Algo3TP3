@@ -83,9 +83,9 @@ def GrafosMalosNipo():
 	Res_count = ResultadosPosta.groupby('cantNod').mean()
 	List4 = Res_count.Res.tolist()
 
-	dataf1 = pd.DataFrame({'MCMF': List2, 'MFCGM': List3, 'Máxima frontera': List4, 'CantVertices': enes})
+	dataf1 = pd.DataFrame({'MFCGM': List3, 'Máxima frontera': List4, 'CantVertices': enes})
 	dataf1.astype(float)
-	dataf1.plot(title='', x='CantVertices', style=['-.r', '--b', '--g'])
+	dataf1.plot(title='', x='CantVertices', style=['--r', '--b'])
 	# dataf1.plot(title='', x='CantVertices', logy=True, kind='scatter', colorbar=True)
 	plt.ylabel('Frontera devuelta')
 	plt.xlabel('Cantidad de nodos entrada')
@@ -93,28 +93,24 @@ def GrafosMalosNipo():
 	plt.show()
 
 def GrafosMalosEmi():
-	df1 = pd.read_csv('ExpGrafosMalosHeurEmi2.csv')
-	df2 = pd.read_csv('ResultadosGrafoMaloEmi.csv')
+	df1 = pd.read_csv('peorcasoemi.csv')
+	df2 = pd.read_csv('resCompletos.csv')
 
-	enes = range(14, 501)
+	enes = range(1, 501)
 
 	# consumo = [(math.pow(n, 3) * math.log(100, 2)) for n in enes]
 
-	HeurEmi = df1[df1['Tipo'] == 'GrafoMaloNipoHeurEmi']
-	HeurEmi_count = HeurEmi.groupby('cantNod').mean()
+	HeurEmi = df1[df1['Tipo'] == 'peorCasoEmi']
+	HeurEmi_count = HeurEmi.groupby('cantNod').mean() + 1
 	List2 = HeurEmi_count.Res.tolist()
 
-	HeurNipo = df1[df1['Tipo'] == 'GrafoMaloNipoHeurNipo']
-	HeurNipo_count = HeurNipo.groupby('cantNod').mean()
-	List3 = HeurNipo_count.Res.tolist()
-
-	ResultadosPosta = df2[df2['Tipo'] == 'Resultado']
+	ResultadosPosta = df2[df2['Tipo'] == 'resCompleto']
 	Res_count = ResultadosPosta.groupby('cantNod').mean()
 	List4 = Res_count.Res.tolist()
 
-	dataf1 = pd.DataFrame({'MCMF': List2, 'MFCGM': List3, 'Máxima frontera': List4, 'CantVertices': enes})
+	dataf1 = pd.DataFrame({'MCMF': List2, 'Máxima frontera': List4, 'CantVertices': enes})
 	dataf1.astype(float)
-	dataf1.plot(title='', x='CantVertices', style=['--r', '--b', '--g'])
+	dataf1.plot(title='', x='CantVertices', style=['.g', '.c'], logy=True)
 	# dataf1.plot(title='', x='CantVertices', logy=True, kind='scatter', colorbar=True)
 	plt.ylabel('Frontera devuelta')
 	plt.xlabel('Cantidad de nodos entrada')
@@ -153,7 +149,8 @@ def GrafosMalosEmi():
 
 # expComplejNipo()
 # expComplejEmi()
-GrafosMalosNipo()
+# GrafosMalosNipo()
+GrafosMalosEmi()
 
 
 

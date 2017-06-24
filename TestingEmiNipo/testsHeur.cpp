@@ -590,9 +590,9 @@ void expGrafoMaloGrego(){
 }
 
 void expGrafoRandomDensidadMedia(){
-	srand(60);  //SEMILLA ARBITRARIA PERO SIEMPRE QUE SEA LA MISMA SI SE QUIEREN LOS MISMO GRAFOS
+	srand(125);  //SEMILLA ARBITRARIA PERO SIEMPRE QUE SEA LA MISMA SI SE QUIEREN LOS MISMO GRAFOS
 
-	fstream s ("ExpGrafosRandom.csv", ios::out);
+	fstream s ("ExpGrafosRandomN250a400.csv", ios::out);
 
 	s << "cantNod,Res,Tiempo,Tipo" << endl;
 
@@ -603,7 +603,7 @@ void expGrafoRandomDensidadMedia(){
 	std::chrono::time_point<std::chrono::system_clock> startBLN, endBLN;
 	std::chrono::time_point<std::chrono::system_clock> startBLE, endBLE;
 
-	for(int i = 1; i < 401; i++){
+	for(int i = 251; i < 401; i++){
 		cout << "Voy por n = " << i << endl;
 		for(int j = 0; j < 40; j++){ 
 			s << i;
@@ -630,22 +630,22 @@ void expGrafoRandomDensidadMedia(){
 
 			//Busqueda Local con resultado de la Heuristica Nipo
 
-			s << i;
-			s << ",";
+			// s << i;
+			// s << ",";
 
-			int resultadoBLN;
-			 startBLN = std::chrono::system_clock::now();
-			 resultadoBLN = lineal::BusquedaLocalLineal(&grafo, resultado.first);
-			 endBLN = std::chrono::system_clock::now();
+			// int resultadoBLN;
+			//  startBLN = std::chrono::system_clock::now();
+			//  resultadoBLN = lineal::BusquedaLocalLineal(&grafo, resultado.first);
+			//  endBLN = std::chrono::system_clock::now();
 
-			std::chrono::duration<double, std::milli> elapsed_secondsBLN = endBLN-startBLN;
+			// std::chrono::duration<double, std::milli> elapsed_secondsBLN = endBLN-startBLN;
 
-			s << resultadoBLN;
-			s << ",";
+			// s << resultadoBLN;
+			// s << ",";
 
-			s << elapsed_secondsBLN.count();
-			s << ",";
-			s << "GrafoRandomDMediaHeurGregoNippo" << endl;
+			// s << elapsed_secondsBLN.count();
+			// s << ",";
+			// s << "GrafoRandomDMediaHeurGregoNippo" << endl;
 
 
 			//Ahora todo lo mismo pero con la heurística de Emi
@@ -671,22 +671,22 @@ void expGrafoRandomDensidadMedia(){
 			s << "GrafoRandomDMediaHeurEmi" << endl;
 
 
-			s << i;
-			s << ",";
+			// s << i;
+			// s << ",";
 
-			resultadoBLN;
-			 startBLN = std::chrono::system_clock::now();
-			 resultadoBLN = lineal::BusquedaLocalLineal(&grafo, resultado1.first);
-			 endBLN = std::chrono::system_clock::now();
+			// resultadoBLN;
+			//  startBLN = std::chrono::system_clock::now();
+			//  resultadoBLN = lineal::BusquedaLocalLineal(&grafo, resultado1.first);
+			//  endBLN = std::chrono::system_clock::now();
 
-			 elapsed_secondsBLN = endBLN-startBLN;
+			//  elapsed_secondsBLN = endBLN-startBLN;
 
-			s << resultadoBLN;
-			s << ",";
+			// s << resultadoBLN;
+			// s << ",";
 
-			s << elapsed_secondsBLN.count();
-			s << ",";
-			s << "GrafoRandomDMediaHeurGregoEmi" << endl;
+			// s << elapsed_secondsBLN.count();
+			// s << ",";
+			// s << "GrafoRandomDMediaHeurGregoEmi" << endl;
 
 
 			//Ahora todo lo mismo pero con la heurística d
@@ -854,7 +854,7 @@ void expComplej(){	// testea los tiempos de nuestras heurísticas en grafos comp
 void expGrafoTodosContraTodos(){
 	srand(54);  //SEMILLA ARBITRARIA PERO SIEMPRE QUE SEA LA MISMA SI SE QUIEREN LOS MISMO GRAFOS
 
-	fstream s ("SeguroFueRandom.csv", ios::out);
+	fstream s ("NoPuedeSerTanBueno.csv", ios::out);
 
 	s << "cantNod,Res,Tiempo,Tipo" << endl;
 
@@ -864,7 +864,7 @@ void expGrafoTodosContraTodos(){
 	std::chrono::time_point<std::chrono::system_clock> start1, end1;
 	std::chrono::time_point<std::chrono::system_clock> startBLN, endBLN;
 
-	for(int i = 50; i < 51; i++){
+	for(int i = 37; i < 38; i++){
 		cout << "Voy por n = " << i << endl;
 		for(int j = 0; j < 5; j++){ 
 			s << i;
@@ -950,7 +950,7 @@ int main(){
 	// expComplej();
 	// grafosMalosResultadoExactoNipo();
 	//expGrafoMaloGrego();
-	expGrafoTodosContraTodos();
-	// expGrafoRandomDensidadMedia();
+	// expGrafoTodosContraTodos();
+	expGrafoRandomDensidadMedia();
 	return 0;
 }

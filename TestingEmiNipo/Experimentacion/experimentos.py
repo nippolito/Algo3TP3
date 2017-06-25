@@ -5,6 +5,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import random
 import math
+import numpy as np
 
 # from pylab import *
 # rcParams['figure.figsize'] = 15,5
@@ -117,40 +118,147 @@ def GrafosMalosEmi():
 
 	plt.show()	
 
-# def expC():
-# 	df1 = pd.read_csv('ExpMinC.csv')
-# 	df2 = pd.read_csv('ExpMedC.csv')
-# 	df3 = pd.read_csv('ExpMaxC.csv')
+def TodosvsTodosEne35Res():
+	df1 = pd.read_csv('ExpTodosContraTodosAzar.csv')
 
-# 	enes = range(2, 451)
+	enes = range(1, 36)
 
-# 	# consumo = [(math.pow(n, 3) * math.log(100, 2)) for n in enes]
+	# consumo = [(math.pow(n, 3) * math.log(100, 2)) for n in enes]
 
-# 	NigualM = df1[df1['Tipo'] == 'MinC']
-# 	NigualM_count = NigualM.groupby('cantNod').mean()
-# 	List1 = NigualM_count.Tiempo_ms.tolist()
+	HeurEmi = df1[df1['Tipo'] == 'GrafoRandomDMediaHeurEmi']
+	HeurEmi_count = HeurEmi.groupby('cantNod').mean()
+	List2 = HeurEmi_count.Res.tolist()
 
-# 	Completo = df3[df3['Tipo'] == 'MaxC']
-# 	Completo_count = Completo.groupby('cantNod').mean()
-# 	List2 = Completo_count.Tiempo_ms.tolist()
+	HeurNipo = df1[df1['Tipo'] == 'GrafoRandomDMediaHeurNipo']
+	HeurNipo_count = HeurNipo.groupby('cantNod').mean()
+	List3 = HeurNipo_count.Res.tolist()
 
-# 	mitadAristas = df2[df2['Tipo'] == 'MedC']
-# 	mitadAristas_count = mitadAristas.groupby('cantNod').mean()
-# 	List3 = mitadAristas_count.Tiempo_ms.tolist()
+	ResultadosPosta = df1[df1['Tipo'] == 'Exacto']
+	Res_count = ResultadosPosta.groupby('cantNod').mean()
+	List4 = Res_count.Res.tolist()
 
-# 	dataf1 = pd.DataFrame({'T1': List1, 'T3': List2, 'T2': List3, 'CantVertices': enes})
-# 	dataf1.astype(float)
-# 	dataf1.plot(title='', x='CantVertices')
-# 	# dataf1.plot(title='', x='CantVertices', logy=True, kind='scatter', colorbar=True)
-# 	plt.ylabel('Tiempo en ms')
-# 	plt.xlabel('Maximo peso de arista')
+	dataf1 = pd.DataFrame({'MCMF': List2, 'MFCGM': List3, 'Exacto': List4, 'CantVertices': enes})
+	dataf1.astype(float)
+	dataf1.plot(title='', x='CantVertices', style=['--r', '--c', '.b'])
+	# dataf1.plot(title='', x='CantVertices', logy=True, kind='scatter', colorbar=True)
+	plt.ylabel('Frontera devuelta')
+	plt.xlabel('Cantidad de nodos entrada')
 
-# 	plt.show()	
+	plt.show()
+
+def TodosvsTodosEne35Tiempo():
+	df1 = pd.read_csv('ExpTodosContraTodosAzar.csv')
+
+	enes = range(1, 36)
+
+	# consumo = [(math.pow(n, 3) * math.log(100, 2)) for n in enes]
+
+	HeurEmi = df1[df1['Tipo'] == 'GrafoRandomDMediaHeurEmi']
+	HeurEmi_count = HeurEmi.groupby('cantNod').mean()
+	List2 = HeurEmi_count.Tiempo_ms.tolist()
+
+	HeurNipo = df1[df1['Tipo'] == 'GrafoRandomDMediaHeurNipo']
+	HeurNipo_count = HeurNipo.groupby('cantNod').mean()
+	List3 = HeurNipo_count.Tiempo_ms.tolist()
+
+	ResultadosPosta = df1[df1['Tipo'] == 'Exacto']
+	Res_count = ResultadosPosta.groupby('cantNod').mean()
+	List4 = Res_count.Tiempo_ms.tolist()
+
+	dataf1 = pd.DataFrame({'MCMF': List2, 'MFCGM': List3, 'Exacto': List4, 'CantVertices': enes})
+	dataf1.astype(float)
+	dataf1.plot(title='', x='CantVertices', style=['--r', '--c', '--b'], logy=True)
+	# dataf1.plot(title='', x='CantVertices', logy=True, kind='scatter', colorbar=True)
+	plt.ylabel('Tiempo en ms')
+	plt.xlabel('Cantidad de nodos entrada')
+
+	plt.show()	
+
+def RandomHasta378Res():
+	df1 = pd.read_csv('ExpGrafosRandomN250.csv')
+
+	enes = range(1, 379)
+
+	# consumo = [(math.pow(n, 3) * math.log(100, 2)) for n in enes]
+
+	HeurEmi = df1[df1['Tipo'] == 'GrafoRandomDMediaHeurEmi']
+	HeurEmi_count = HeurEmi.groupby('cantNod').mean()
+	List2 = HeurEmi_count.Res.tolist()
+
+	HeurNipo = df1[df1['Tipo'] == 'GrafoRandomDMediaHeurNipo']
+	HeurNipo_count = HeurNipo.groupby('cantNod').mean()
+	List3 = HeurNipo_count.Res.tolist()
+
+	dataf1 = pd.DataFrame({'MCMF': List2, 'MFCGM': List3, 'CantVertices': enes})
+	dataf1.astype(float)
+	dataf1.plot(title='', x='CantVertices', style=['--y', '--m'])
+	# dataf1.plot(title='', x='CantVertices', logy=True, kind='scatter', colorbar=True)
+	plt.ylabel('Frontera devuelta')
+	plt.xlabel('Cantidad de nodos entrada')
+
+	plt.show()
+
+def RandomHasta378Tiempo():
+	df1 = pd.read_csv('ExpGrafosRandomN250.csv')
+
+	enes = range(1, 379)
+
+	# consumo = [(math.pow(n, 3) * math.log(100, 2)) for n in enes]
+
+	HeurEmi = df1[df1['Tipo'] == 'GrafoRandomDMediaHeurEmi']
+	HeurEmi_count = HeurEmi.groupby('cantNod').mean()
+	List2 = HeurEmi_count.Tiempo_ms.tolist()
+
+	HeurNipo = df1[df1['Tipo'] == 'GrafoRandomDMediaHeurNipo']
+	HeurNipo_count = HeurNipo.groupby('cantNod').mean()
+	List3 = HeurNipo_count.Tiempo_ms.tolist()
+
+	dataf1 = pd.DataFrame({'MCMF': List2, 'MFCGM': List3, 'CantVertices': enes})
+	dataf1.astype(float)
+	dataf1.plot(title='', x='CantVertices', style=['--y', '--m'])
+	# dataf1.plot(title='', x='CantVertices', logy=True, kind='scatter', colorbar=True)
+	plt.ylabel('Tiempos en ms')
+	plt.xlabel('Cantidad de nodos entrada')
+
+	plt.show()
+
+def densidadHeurEmi():
+	df1 = pd.read_csv('ExpGrafosDensidadVariable.csv')
+
+	enes = range(1, 251)
+
+	# consumo = [(math.pow(n, 3) * math.log(100, 2)) for n in enes]
+
+	densidad = np.arange(0.1, 1.0, 0.1)
+
+	HeurEmi = df1[df1['Tipo'] == 'GrafoRandomDVarHeurEmi']
+	HeurEmi_count = HeurEmi.groupby('cantDens').mean()
+	List2 = HeurEmi_count.Res.tolist()
+
+	HeurNipo = df1[df1['Tipo'] == 'GrafoRandomDVarExacto']
+	HeurNipo_count = HeurNipo.groupby('cantDens').mean()
+	List3 = HeurNipo_count.Res.tolist()
+
+	dataf1 = pd.DataFrame({'MCMF': List2, 'Exacto': List3, 'Densidad': densidad})
+	dataf1.astype(float)
+	dataf1.plot(title='', x='Densidad', style=['--r', '--b'])
+	# dataf1.plot(title='', x='CantVertices', logy=True, kind='scatter', colorbar=True)
+	plt.ylabel('Resultado')
+	plt.xlabel('Densidad')
+
+	plt.show()
+
 
 # expComplejNipo()
 # expComplejEmi()
 # GrafosMalosNipo()
-GrafosMalosEmi()
+# GrafosMalosEmi()
+# TodosvsTodosEne35Res()
+# TodosvsTodosEne35Tiempo()
+# densidadHeurEmi()
+RandomHasta378Res()
+# RandomHasta378Tiempo()
+
 
 
 

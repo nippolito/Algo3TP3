@@ -27,43 +27,6 @@ void addEdge(struct Graph* grafo, int src, int dest){
 	grafo->matrizAdy[dest][src] = 1;
 }
 
-void mostrarMatriz(std::vector<std::vector<int> >& matriz, int n){
-	for(int fila = 0; fila < n; fila++){
-		for(int column = 0; column < n; column++){
-			if(column == 0){
-				cout << "[" << matriz[fila][column];
-			}else{
-				if(column > 0 && column < n-1){
-					cout << ", " << matriz[fila][column];
-				}else{
-					cout << ", " << matriz[fila][column] << "]" << endl;
-				}
-			}
-		}
-	}
-}
-
-void mostrarVec(vector<int>& vec){
-	cout << "[";
-	for(int i = 0; i < vec.size(); i++){
-		if(i < vec.size() - 1){
-			cout << vec[i] << ", ";		
-		}else{
-			cout << vec[i] << "]" << endl;
-		}
-	}
-}
-
-void mostrarUnosVec(vector<int>& vec){
-	cout << "[";
-	for(int i = 0; i < vec.size(); i++){
-		if(vec[i] == 1){
-			cout << i << ", ";
-		}
-	}
-	cout << "]" << endl;
-}
-
 int cantUnosVec(vector<int>& vec){
 	int res = 0;
 	for(int i = 0; i < vec.size(); i++){
@@ -120,21 +83,6 @@ bool nodoFormaClique(struct Graph* grafo, vector<int>& vec, int nodo){
 	return res;
 }
 
-//ATENCION! Esta funcion es escencialmente identica a nodoFormaClique
-bool nodoFormaCliqueA(struct Graph* grafo, vector<int>& vec, int nodo){
-	bool res = true;
-	for(int i = 0; i < vec.size(); i++){
-		if (vec[i] == 1)
-		{
-			if(i != nodo && grafo->matrizAdy[nodo][i] == 0){
-				res = false;
-			}
-		}
-
-	}
-	return res;
-}
-
 
 int cantNodos(vector<int> nodos){
 	int res = 0;
@@ -148,11 +96,6 @@ int cantNodos(vector<int> nodos){
 	return res;
 }
 
-
-bool sortByGrade(int i, int j, Graph* grafo){
-		return(gradoNodo(grafo, i) > gradoNodo(grafo, j));
-
-	}
 
 bool sonAdyacentes(struct Graph* grafo, int nodo1, int nodo2){
 	if(grafo->matrizAdy[nodo1][nodo2] == 1){
@@ -209,7 +152,7 @@ void ParaHeuristica(struct Graph* grafo, int &res, vector<int>& vecAux, vector<i
 	// los que estaban antes
 	int ultNodoAux = ultNodoAg;
 	bool b = true;
-	while(b){			// en el peor caso este ciclo se recorre (n-3) veces
+	while(b){			// en el peor caso este ciclo se recorre (n-3) veces, grafo completo
 		b = false;
 		posFrontMejor = -1;
 		for(int i = 0; i < grafo->n; i++){			// O(n^3)
@@ -232,10 +175,11 @@ void ParaHeuristica(struct Graph* grafo, int &res, vector<int>& vecAux, vector<i
 		vecAux = vecPasos;
 		ultNodoAg = ultNodoAux;
 	}
-	res = mejorFront;
-
 	// siempre en vecPasos me queda la mejor frontera con X nodos. Luego, esa mejor me va a servir para la cantidad
 	// de nodos X+1 por lo que la pongo en vecAux, pero antes de pasar a la próxima iteración actualizo la mejor frontera de todas
+
+	res = mejorFront;
+
 }
 
 pair< vector<int> , int> HeuristicaMFCGM(Graph* grafo){		// total complej: O(n^4)
@@ -247,12 +191,12 @@ pair< vector<int> , int> HeuristicaMFCGM(Graph* grafo){		// total complej: O(n^4
 
 	pair< vector<int> , int> resultado (vecRes, res);
 
-
 	return resultado;
 }
 
 int main(){
 
+	cout << "Ingrese los datos como indica el enunciado:" << endl;
 
 	int n;
 	cin >> n;

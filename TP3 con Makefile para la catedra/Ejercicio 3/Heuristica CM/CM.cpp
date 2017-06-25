@@ -76,17 +76,6 @@ int calcFrontera(struct Graph* grafo, vector<int>& vec){
 	return res;
 }
 
-bool nodoFormaClique(struct Graph* grafo, vector<int>& vec, int nodo){
-	bool res = true;
-	for(int i = 0; i < grafo->n; i++){
-		if(i != nodo && vec[i] == 1 && grafo->matrizAdy[nodo][i] == 0){
-			res = false;
-		}
-	}
-	return res;
-}
-
-//ATENCION! Esta funcion es escencialmente identica a nodoFormaClique
 bool nodoFormaCliqueA(struct Graph* grafo, vector<int>& vec, int nodo){
 	bool res = true;
 	for(int i = 0; i < vec.size(); i++){
@@ -195,6 +184,7 @@ pair< vector<int> , int> HeuristicaCM(Graph* grafo){		// total complej: O(n^3)
 
 int main(){
 
+	cout << "Ingrese los datos como indica el enunciado:" << endl;
 
 	int n;
 	cin >> n;

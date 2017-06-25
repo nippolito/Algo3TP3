@@ -1,4 +1,4 @@
-cantNod,Res,Tiempo,Tipo
+cantNod,Res,Tiempo_ms,Tipo
 1,0,0.012468,GrafoRandomDMediaHeurNipo
 1,0,0.007921,Exacto
 1,0,0.011476,GrafoRandomDMediaHeurEmi

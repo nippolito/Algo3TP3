@@ -29,43 +29,6 @@ void addEdge(struct Graph* grafo, int src, int dest){
 	grafo->matrizAdy[dest][src] = 1;
 }
 
-void mostrarMatriz(std::vector<std::vector<int> >& matriz, int n){
-	for(int fila = 0; fila < n; fila++){
-		for(int column = 0; column < n; column++){
-			if(column == 0){
-				cout << "[" << matriz[fila][column];
-			}else{
-				if(column > 0 && column < n-1){
-					cout << ", " << matriz[fila][column];
-				}else{
-					cout << ", " << matriz[fila][column] << "]" << endl;
-				}
-			}
-		}
-	}
-}
-
-void mostrarVec(vector<int>& vec){
-	cout << "[";
-	for(int i = 0; i < vec.size(); i++){
-		if(i < vec.size() - 1){
-			cout << vec[i] << ", ";		
-		}else{
-			cout << vec[i] << "]" << endl;
-		}
-	}
-}
-
-void mostrarUnosVec(vector<int>& vec){
-	cout << "[";
-	for(int i = 0; i < vec.size(); i++){
-		if(vec[i] == 1){
-			cout << i << ", ";
-		}
-	}
-	cout << "]" << endl;
-}
-
 int cantUnosVec(vector<int>& vec){
 	int res = 0;
 	for(int i = 0; i < vec.size(); i++){
@@ -138,9 +101,7 @@ int calcFrontera(struct Graph* grafo, vector<int> vec){
 void cliqueMaxFrontAux(struct Graph* grafo, int n, int ite, int ultUsado, vector<int>& vecAux, int &res, vector<int>& vecRes){
 	if(ite == n){
 		if(esClique(grafo, vecAux)){		// si es cliqué, entonces me fijo si tiene frontera mayor
-			// mostrarVec(vecAux);
 			int cant = calcFrontera(grafo, vecAux); 
-			// cout << "La cant es: " << cant << endl;
 			if(cant > res){
 				res = cant;
 				vecRes = vecAux;
@@ -166,9 +127,6 @@ void cliqueMaxFrontAux(struct Graph* grafo, int n, int ite, int ultUsado, vector
 	}
 }
 
-// parece que esta podita ayudó bastante en los tiempos de cómputo.
-
-// calcula la cliqué de maxima frontera
 pair< vector<int> , int>  cliqueMaxFront(struct Graph* grafo){
 	int n = grafo->n;
 	vector<int> vecRes(n);
@@ -185,6 +143,7 @@ pair< vector<int> , int>  cliqueMaxFront(struct Graph* grafo){
 
 int main(){
 
+	cout << "Ingrese los datos como indica el enunciado:" << endl;
 
 	int n;
 	cin >> n;

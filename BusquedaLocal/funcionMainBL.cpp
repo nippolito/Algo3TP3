@@ -1,18 +1,9 @@
 #include <iostream>
 #include <set>
 #include <utility> 
-#include "BusquedaLocalLineal.h"
-#include "BusquedaLocalCuadratica.h"
+#include "busquedaLocal.h"
 
 using namespace std;
-
-void mostrarSet(set<int> & s){
-	cout << "[" ;
-	for(set<int>::iterator it = s.begin(); it != s.end(); it++){
-		cout << *it+1 <<", ";
-	}
-	cout << "]"<< endl;
-}
 
 int main(){
 	int n ; cin >> n;
@@ -46,8 +37,8 @@ int main(){
 	}
 
 
-	int resLocal = lineal::BusquedaLocalLineal(matrix, solAct1, n, m);
-	int resCuadratica = cuadratico::BusquedaLocalCuadratica(matrix, solAct2, n, m);
+	int resLocal = BusquedaLocalLineal(matrix, solAct1, n, m);
+	int resCuadratica = BusquedaLocalCuadratica(matrix, solAct2, n, m);
 
 	cout << "La respuesta de busqueda local lineal es :" << resLocal << endl;
 	mostrarSet(solAct1);

@@ -123,7 +123,7 @@ bool nodoFormaClique(struct Graph* grafo, vector<int>& vec, int nodo){
 	return res;
 }
 
-//ATENCION! ESTA FUNCION FUE MODIFICADA RESPECTO A HEUR1.H
+//ATENCION! Esta funcion es escencialmente identica a nodoFormaClique
 bool nodoFormaCliqueA(struct Graph* grafo, vector<int>& vec, int nodo){
 	bool res = true;
 	for(int i = 0; i < vec.size(); i++){
@@ -135,10 +135,9 @@ bool nodoFormaCliqueA(struct Graph* grafo, vector<int>& vec, int nodo){
 		}
 
 	}
-	//cout << "se agrego el " << nodo << endl;
 	return res;
 }
-//ATENCION! ESTA FUNCION FUE MODIFICADA RESPECTO A HEUR1.H
+
 
 int cantNodos(vector<int> nodos){
 	int res = 0;
@@ -272,13 +271,13 @@ void ParaHeuristicaEmi(struct Graph* grafo, int &res, vector<int>& vecRes){
 	
 	int cantNodosG = grafo->n;
 	
-	int NodosOrdenados[cantNodosG];
-	for (int i = 0; i < cantNodosG; i++) 
+	int NodosOrdenados[cantNodosG]; 
+	for (int i = 0; i < cantNodosG; i++) //Inicializo el arreglo
 	{
 		NodosOrdenados[i] = i;
 	}
 	
-	for (int i = 0; i < cantNodosG; i++)
+	for (int i = 0; i < cantNodosG; i++) //Ordeno por grado
 	{
 		int posMaxParcial = i;
 		for (int j = i; j < cantNodosG; j++)
@@ -291,24 +290,11 @@ void ParaHeuristicaEmi(struct Graph* grafo, int &res, vector<int>& vecRes){
 		NodosOrdenados[posMaxParcial] = aux;
 	}
 
-	/*
-	DEBUGGER
-	cout << "Nodos Ordenados por grado:" << endl;
-	for (int i = 0; i < cantNodosG; i++)
-	{
-		cout << NodosOrdenados[i] << ", con grado: " << gradoNodo(grafo, NodosOrdenados[i]) << endl;
-	}
-	*/
 
 
-	for (int i = 0; i < cantNodosG; i++)
+	for (int i = 0; i < cantNodosG; i++) //	Paso 3  -  Paso 6
 	{
-		/*
-		if (i == 0)
-		{
-			cout << "Empieza primera iteracion!" << endl;
-		}
-		*/
+	
 		vector<int> vecPasos(grafo->n, 0); //creo nueva clique
 		vecPasos[NodosOrdenados[i]] = 1;
 		for (int j = 0; j < cantNodosG; j++) //Itero en orden de grado
@@ -319,22 +305,6 @@ void ParaHeuristicaEmi(struct Graph* grafo, int &res, vector<int>& vecRes){
 			}
 		}
 
-		/*
-		if (i == 0)
-		{
-			cout << "Clique final primera iteracion: " << endl;
-			cout << "En iteracion " << i << " la clique parcial es:" << endl;
-			for (int k = 0; k < cantNodosG; k++)
-			  {
-			  	cout << k << ": " << vecPasos[k] << endl;
-			  }
-			  cout<< endl;
-			  cout<< endl;
-			  cout<< endl;
-			  cout<< endl;
-			  cout<< endl;
-		}
-		*/
 
 		if (cantNodos(vecRes) < cantNodos(vecPasos)) //Si la clique creada es mas grande que la maxima guardada la reemplazo
 		{
@@ -347,13 +317,6 @@ void ParaHeuristicaEmi(struct Graph* grafo, int &res, vector<int>& vecRes){
 			}
 		}
 
-		/*
-		cout << "En iteracion " << i << " la clique parcial es:" << endl;
-		for (int k = 0; k < cantNodosG; k++)
-		  {
-		  	cout << k << ": " << vecRes[k] << endl;
-		  }
-		*/
 		 
 	}
 

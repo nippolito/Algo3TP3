@@ -43,26 +43,6 @@ void mostrarMatriz(std::vector<std::vector<int> >& matriz, int n){
 	}
 }
 
-void mostrarVec(vector<int>& vec){
-	cout << "[";
-	for(int i = 0; i < vec.size(); i++){
-		if(i < vec.size() - 1){
-			cout << vec[i] << ", ";		
-		}else{
-			cout << vec[i] << "]" << endl;
-		}
-	}
-}
-
-void mostrarUnosVec(vector<int>& vec){
-	cout << "[";
-	for(int i = 0; i < vec.size(); i++){
-		if(vec[i] == 1){
-			cout << i << ", ";
-		}
-	}
-	cout << "]" << endl;
-}
 
 int cantUnosVec(vector<int>& vec){
 	int res = 0;
@@ -91,20 +71,6 @@ int calcFrontera(struct Graph* grafo, vector<int>& vec){
 		if(vec[i] == 1){
 			int aux = gradoNodo(grafo, i) - cantNodClique + 1;
 			res = res + aux;
-		}
-	}
-	return res;
-}
-
-int nodoGradoMaximo(struct Graph* grafo){
-	int res = 0;
-	int gradRes = gradoNodo(grafo, 0);
-	int n = grafo->n;
-	for(int i = 1; i < n; i++){
-		int aux = gradoNodo(grafo, i);
-		if(aux > gradRes){
-			res = i;
-			gradRes = aux;
 		}
 	}
 	return res;
@@ -148,27 +114,6 @@ int cantNodos(vector<int> nodos){
 	return res;
 }
 
-
-bool sortByGrade(int i, int j, Graph* grafo){
-		return(gradoNodo(grafo, i) > gradoNodo(grafo, j));
-
-	}
-
-bool sonAdyacentes(struct Graph* grafo, int nodo1, int nodo2){
-	if(grafo->matrizAdy[nodo1][nodo2] == 1){
-		return true;
-	}else{
-		return false;
-	}
-}
-
-bool noEstabaEnClique(struct Graph* grafo, vector<int>& vec, int nodo){
-	if(vec[nodo] == 0){
-		return true;
-	}else{
-		return false;
-	}
-}
 
 
 

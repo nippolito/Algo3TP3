@@ -16,8 +16,7 @@ struct Clique
 	vector<int> vecinos;
 	vector<int> miembros;
 	void MostraClique(){
-		cout << "Cantidad de vecinos: " << numeroVecinos << endl;
-		cout << "Tamaño: " << size << endl;
+		cout << numeroVecinos << " " << size << " ";
 		for (int i = 0; i < miembros.size(); ++i)
 		{
 			if (miembros[i])
@@ -265,7 +264,7 @@ Clique CalcularCliqueMaxVecinos(Graph g, float alfa, int ciclosGrasp){
 
 }
 
-/*int main(){
+int main(){
 	Graph g;
 
 	cin >> g.n; cin >> g.m;
@@ -277,15 +276,11 @@ Clique CalcularCliqueMaxVecinos(Graph g, float alfa, int ciclosGrasp){
 		g.matrizAdy[o-1][d-1] = 1;
 		g.matrizAdy[d-1][o-1] = 1;
 	}
-	cout << "Envie parametro alfa" << endl;
-	float alfa;
-	cin >> alfa;
 	
-	cout << "A calcular clique max vecinos" << endl;
-	Clique res = CalcularCliqueMaxVecinos(g, alfa, 100);
+	Clique res = CalcularCliqueMaxVecinos(g, 0.5, 20);
 
 	res.MostraClique();
 
 	return 0;
 }
-*/
+

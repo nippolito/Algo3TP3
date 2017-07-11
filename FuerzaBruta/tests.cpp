@@ -1,4 +1,4 @@
-#include "FuerzaBruta.cpp"
+#include "FuerzaBruta.h"
 #include <fstream>
 #include <random>
 #include <chrono>
@@ -139,7 +139,7 @@ void genGraphNigualM(Graph* grafo, int cantNodos){			// grafo con M aristas
 }
 
 void expGrafosNigualM(){			// testea grafos de N = M, 40 instancias de longitudes entre 2 y 20
-	fstream s ("ExpNIgualM.csv", ios::out);
+	fstream s ("ExpNIgualMNuevaPoda.csv", ios::out);
 
 	s << "cantNod,Tiempo,Tipo" << endl;
 
@@ -185,7 +185,7 @@ void genGraphComp(Graph* grafo, int cantNodos){		// genera un grafo completo de 
 }
 
 void expGrafosCompletos(){			// testea grafos completos
-	fstream s ("ExpCompleto.csv", ios::out);
+	fstream s ("ExpCompletoNuevaPoda.csv", ios::out);
 
 	s << "cantNod,Tiempo,Tipo" << endl;
 
@@ -271,7 +271,7 @@ void genGraphMitadAristas(Graph* grafo, int cantNodos){		// genera grafo con (n 
 }
 
 void expGrafosMitadAristas(){			// testea grafos con la mitad de aristas
-	fstream s ("ExpMitadAristas.csv", ios::out);
+	fstream s ("ExpMitadAristasNuevaPoda.csv", ios::out);
 
 	s << "cantNod,Tiempo,Tipo" << endl;
 

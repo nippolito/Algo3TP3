@@ -24,11 +24,11 @@ def expComplejNipo():
 	# consumo = [(math.pow(n, 3) * math.log(100, 2)) for n in enes]
 
 	HeurNipo = df1[df1['Tipo'] == 'CompletoHeurNipo']
-	HeurNipo_count = HeurNipo.groupby('cantNod').mean()
+	HeurNipo_count = HeurNipo.groupby('cantNod')
 	List1 = HeurNipo_count.Tiempo_ms.tolist()
 
 	EneCuarta = df1[df1['Tipo'] == 'FuncionEneCuarta']
-	EneCuarta_count = EneCuarta.groupby('cantNod').mean() * 15/28
+	EneCuarta_count = EneCuarta.groupby('cantNod') * 15/28
 	List4 = EneCuarta_count.Tiempo_ms.tolist()
 
 	dataf1 = pd.DataFrame({'MFCGM': List1, 'O(n^4)': List4, 'CantVertices': enes})
@@ -129,22 +129,24 @@ def TodosvsTodosEne35Res():
 	HeurEmi_count = HeurEmi.groupby('cantNod').mean()
 	List2 = HeurEmi_count.Res.tolist()
 
-	HeurNipo = df1[df1['Tipo'] == 'GrafoRandomDMediaHeurNipo']
-	HeurNipo_count = HeurNipo.groupby('cantNod').mean()
-	List3 = HeurNipo_count.Res.tolist()
+	print HeurEmi_count
 
-	ResultadosPosta = df1[df1['Tipo'] == 'Exacto']
-	Res_count = ResultadosPosta.groupby('cantNod').mean()
-	List4 = Res_count.Res.tolist()
+	# HeurNipo = df1[df1['Tipo'] == 'GrafoRandomDMediaHeurNipo']
+	# HeurNipo_count = HeurNipo.groupby('cantNod')
+	# List3 = HeurNipo_count.Res
 
-	dataf1 = pd.DataFrame({'MCMF': List2, 'MFCGM': List3, 'Exacto': List4, 'CantVertices': enes})
-	dataf1.astype(float)
-	dataf1.plot(title='', x='CantVertices', style=['--r', '--c', '.b'])
-	# dataf1.plot(title='', x='CantVertices', logy=True, kind='scatter', colorbar=True)
-	plt.ylabel('Frontera devuelta')
-	plt.xlabel('Cantidad de nodos entrada')
+	# ResultadosPosta = df1[df1['Tipo'] == 'Exacto']
+	# Res_count = ResultadosPosta.groupby('cantNod')
+	# List4 = Res_count.Res
 
-	plt.show()
+	# dataf1 = pd.DataFrame({'MCMF': List2, 'MFCGM': List3, 'Exacto': List4, 'CantVertices': enes})
+	# dataf1.astype(float)
+	# dataf1.plot(title='', x='CantVertices', style=['--r', '--c', '.b'])
+	# # dataf1.plot(title='', x='CantVertices', logy=True, kind='scatter', colorbar=True)
+	# plt.ylabel('Frontera devuelta')
+	# plt.xlabel('Cantidad de nodos entrada')
+
+	# plt.show()
 
 def TodosvsTodosEne35Tiempo():
 	df1 = pd.read_csv('ExpTodosContraTodosAzar.csv')
@@ -253,10 +255,10 @@ def densidadHeurEmi():
 # expComplejEmi()
 # GrafosMalosNipo()
 # GrafosMalosEmi()
-# TodosvsTodosEne35Res()
+TodosvsTodosEne35Res()
 # TodosvsTodosEne35Tiempo()
 # densidadHeurEmi()
-RandomHasta378Res()
+# RandomHasta378Res()
 # RandomHasta378Tiempo()
 
 

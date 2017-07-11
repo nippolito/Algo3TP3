@@ -163,6 +163,16 @@ int calcFrontera(struct Graph* grafo, vector<int> vec){
 // 	cout << endl;
 // 	return 0;
 // }
+bool NoFormaClique(struct Graph* grafo, int nodo, vector<int>& vec){
+	bool b = false;
+	for(int i; i < vec.size(); i++){
+		if(vec[i] == 1 && grafo->matrizAdy[i][nodo] == 0){
+			b = true;
+		}
+	}
+	return b;
+}
+
 
 // tiene una pequeña poda: NO va a la rama que corresponde a "usar el nodo" si no es adyacente al último usado (ya que no llevaría a una cliqué)
 void cliqueMaxFrontAux(struct Graph* grafo, int n, int ite, int ultUsado, vector<int>& vecAux, int &res, vector<int>& vecRes){
@@ -178,20 +188,12 @@ void cliqueMaxFrontAux(struct Graph* grafo, int n, int ite, int ultUsado, vector
 		}
 	}
 	if(ite < n){
-		if(ultUsado == -1){
+		if(NoFormaClique(grafo, ite, vecAux)){		// si no es adyacente al último nodo usado, entonces podá
 			cliqueMaxFrontAux(grafo, n, ite + 1, ultUsado, vecAux, res, vecRes);	// caso recursivo no usar nodo
+		}else{				cliqueMaxFrontAux(grafo, n, ite + 1, ultUsado, vecAux, res, vecRes);	// caso recursivo no usar nodo
 			vector<int> copia = vecAux;
 			copia[ite] = 1;
-			cliqueMaxFrontAux(grafo, n, ite + 1, ite, copia, res, vecRes);	// caso recursivo usar nodo			
-		}else{
-			if(grafo->matrizAdy[ite][ultUsado] == 0){		// si no es adyacente al último nodo usado, entonces podá
-				cliqueMaxFrontAux(grafo, n, ite + 1, ultUsado, vecAux, res, vecRes);	// caso recursivo no usar nodo
-			}else{
-				cliqueMaxFrontAux(grafo, n, ite + 1, ultUsado, vecAux, res, vecRes);	// caso recursivo no usar nodo
-				vector<int> copia = vecAux;
-				copia[ite] = 1;
-				cliqueMaxFrontAux(grafo, n, ite + 1, ite, copia, res, vecRes);	// caso recursivo usar nodo	
-			}
+			cliqueMaxFrontAux(grafo, n, ite + 1, ite, copia, res, vecRes);	// caso recursivo usar nodo				}
 		}
 	}
 }

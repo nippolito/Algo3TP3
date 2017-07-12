@@ -2,8 +2,35 @@
 #include <fstream>
 #include <random>
 #include <chrono>
+#include <vector>
+#include <utility>
 
 using namespace std;
+
+void imprimirResultado (pair< vector<int> , int> resultado ){
+		int n  = resultado.first.size();
+		cout << "Res : " << resultado.second<<endl;
+		cout << "Vector : [" << endl;
+		for(int i = 0 ; i < n; i ++){
+			cout << resultado.first[i] << " " ;
+		}
+		cout << "]" << endl;
+} 
+
+void Test1Emi(){	// debiera devolver res = 4 y devuelve bien
+	Graph grafo;
+	int n = 6;
+	int m = 6;
+	createGraph(&grafo, n, m);
+	addEdge(&grafo, 0, 2);
+	addEdge(&grafo, 2, 1);
+	addEdge(&grafo, 2, 3);
+	addEdge(&grafo, 3, 5);
+	addEdge(&grafo, 3, 4);
+	addEdge(&grafo, 5, 4);
+	imprimirResultado(HeuristicaEmi(&grafo));
+}
+
 
 void Test1(){	// debiera devolver res = 4 y devuelve bien
 	Graph grafo;
@@ -521,10 +548,11 @@ void expComplej(){	// testea los tiempos de nuestras heurísticas en grafos comp
 
 
 int main(){
-	// Test1();
+	Test1Emi();
+	//Test1();
 	// TestX();
 	// Test2();
-	Test5_8();
+	//Test5_8();
 
 	// Graph grafo;
 	// genGrafoMalo(&grafo, 2);

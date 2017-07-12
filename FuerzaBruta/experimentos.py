@@ -8,9 +8,9 @@ import math
 
 
 def expFuerzaBruta():
-	df1 = pd.read_csv('ExpCompleto.csv')
-	df2 = pd.read_csv('ExpNIgualM.csv')
-	df3 = pd.read_csv('ExpMitadAristas.csv')
+	df1 = pd.read_csv('ExpCompletoNuevaPoda.csv')
+	df2 = pd.read_csv('ExpNIgualMNuevaPoda.csv')
+	df3 = pd.read_csv('ExpMitadAristasNuevaPoda.csv')
 	# dfcomplej = pd.read_csv('FuncionComplej.csv')
 
 	enes = range(2, 25)
@@ -19,15 +19,15 @@ def expFuerzaBruta():
 
 	NigualM = df2[df2['Tipo'] == 'NigualM']
 	NigualM_count = NigualM.groupby('cantNod').mean()
-	List1 = NigualM_count.Tiempo_ms.tolist()
+	List1 = NigualM_count.Tiempo.tolist()
 
 	Completo = df1[df1['Tipo'] == 'Completo']
 	Completo_count = Completo.groupby('cantNod').mean()
-	List2 = Completo_count.Tiempo_ms.tolist()
+	List2 = Completo_count.Tiempo.tolist()
 
 	mitadAristas = df3[df3['Tipo'] == 'MitadAristas']
 	mitadAristas_count = mitadAristas.groupby('cantNod').mean()
-	List3 = mitadAristas_count.Tiempo_ms.tolist()
+	List3 = mitadAristas_count.Tiempo.tolist()
 
 	# complej = dfcomplej[dfcomplej['Tipo'] == 'FuncionComplej']
 	# complej_count = complej.groupby('cantNod').mean() * 18

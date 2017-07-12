@@ -305,8 +305,8 @@ int main(){
 	// Test2();
 	// TestsPracAlgunos();
 	// testsA();
-	expGrafosNigualM();
-	expGrafosMitadAristas();
-	expGrafosCompletos();
+	// expGrafosNigualM();
+	// expGrafosMitadAristas();
+	// expGrafosCompletos();
 	return 0;
 }

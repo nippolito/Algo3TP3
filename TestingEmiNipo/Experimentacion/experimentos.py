@@ -188,12 +188,20 @@ def RandomHasta378Res():
 	List2 = HeurEmi_count.Res.tolist()
 
 	HeurNipo = df1[df1['Tipo'] == 'GrafoRandomDMediaHeurNipo']
-	HeurNipo_count = HeurNipo.groupby('cantNod').mean()
-	List3 = HeurNipo_count.Res.tolist()
+	# HeurNipo_count = HeurNipo.groupby('cantNod').mean()
+	# List3 = HeurNipo_count.Res.tolist()
 
-	dataf1 = pd.DataFrame({'MCMF': List2, 'MFCGM': List3, 'CantVertices': enes})
-	dataf1.astype(float)
-	dataf1.plot(title='', x='CantVertices', style=['--y', '--m'])
+	xdata = HeurNipo['cantNod']
+	ydata = HeurNipo['Res']
+	ydataEmi = HeurEmi['Res']
+
+	plt.plot(xdata, ydata, "r.", alpha = 0.1)		# alpha = opacidad
+	plt.plot(xdata, ydataEmi, "b.", alpha=0.1)
+
+
+	# dataf1 = pd.DataFrame({'MCMF': List2, 'MFCGM': List3, 'CantVertices': enes})
+	# dataf1.astype(float)
+	# dataf1.plot(title='', x='CantVertices', style=['--y', '--m'])
 	# dataf1.plot(title='', x='CantVertices', logy=True, kind='scatter', colorbar=True)
 	plt.ylabel('Frontera devuelta')
 	plt.xlabel('Cantidad de nodos entrada')
@@ -255,10 +263,10 @@ def densidadHeurEmi():
 # expComplejEmi()
 # GrafosMalosNipo()
 # GrafosMalosEmi()
-TodosvsTodosEne35Res()
+# TodosvsTodosEne35Res()
 # TodosvsTodosEne35Tiempo()
 # densidadHeurEmi()
-# RandomHasta378Res()
+RandomHasta378Res()
 # RandomHasta378Tiempo()
 
 

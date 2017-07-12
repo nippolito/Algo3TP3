@@ -7,8 +7,8 @@
 #include <map>
 #include <utility>
 #include <stdio.h>
-#include "../FuerzaBruta/FuerzaBruta.h"
-#include "../BusquedaLocal/BusquedaLocalLineal.h"
+#include "../HeurNipoListaAdy/Heur1.h"
+#include "../BusquedaLocal/busquedaLocal.h"
 
 using namespace std;
 

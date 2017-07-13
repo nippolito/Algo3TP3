@@ -7,8 +7,7 @@
 #include <map>
 #include <utility>
 #include <stdio.h>
-#include "../HeurNipoListaAdy/Heur1.h"
-#include "../BusquedaLocal/busquedaLocal.h"
+#include "../HeurNipoListaAdy/Grafo.h"
 
 using namespace std;
 

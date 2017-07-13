@@ -4,7 +4,7 @@
 #include <iostream>
 #include <set>
 #include <utility> 
-#include "../HeurNipoListaAdy/Heur1.h"
+#include "../HeurNipoListaAdy/Grafo.h"
 
 using namespace std;
 
@@ -16,15 +16,10 @@ void mostrarSet(set<int> & s){
 	cout << "]"<< endl;
 }
 
-int cantFronterasQueAporta(int tamClique, int grado){
-	return grado - 2*(tamClique);
-}
-
 int CalcularFronteras(set<int> matrix [], set<int>& solucion){
 	int res = 0 ;
 	int tamClique = solucion.size();
 	
-	int res = 0;
 	for(set<int>::iterator itSol = solucion.begin(); itSol != solucion.end(); itSol ++ ){
 		res += cantFronterasQueAporta(tamClique, matrix[*itSol].size() );
 	}
@@ -229,7 +224,7 @@ void HeurGregoLineal (Graph* g, vector <int> solAct){
 	}
 	
 	set<int> sol;
-	n2 = solAct.size();
+	int n2 = solAct.size();
 	for(int i =0 ; i< n2; i ++){
 		sol.insert(solAct[i]);
 	}
@@ -240,13 +235,13 @@ void HeurGregoLineal (Graph* g, vector <int> solAct){
 		g->listaAdy[i].clear();
 	}
 	for(int i= 0 ; i<  n; i ++){
-		for(iterator::set<int> it = matrix[i].begin(); it != matrix[i].end(); it++){
+		for(set<int>::iterator it = matrix[i].begin(); it != matrix[i].end(); it++){
 			g->listaAdy[i].push_back(*it);
 		}
 	}
 	
 	solAct.clear();
-	for(iterator::set<int> it = sol.begin(); it != sol.end(); it++){
+	for(set<int>::iterator it = sol.begin(); it != sol.end(); it++){
 		solAct.push_back(*it);
 	}
 }
@@ -264,7 +259,7 @@ void HeurGregoCuadratica (Graph* g, vector <int> solAct){
 	}
 	
 	set<int> sol;
-	n2 = solAct.size();
+	int n2 = solAct.size();
 	for(int i =0 ; i< n2; i ++){
 		sol.insert(solAct[i]);
 	}
@@ -275,13 +270,13 @@ void HeurGregoCuadratica (Graph* g, vector <int> solAct){
 		g->listaAdy[i].clear();
 	}
 	for(int i= 0 ; i<  n; i ++){
-		for(iterator::set<int> it = matrix[i].begin(); it != matrix[i].end(); it++){
+		for(set<int>::iterator it = matrix[i].begin(); it != matrix[i].end(); it++){
 			g->listaAdy[i].push_back(*it);
 		}
 	}
 	
 	solAct.clear();
-	for(iterator::set<int> it = sol.begin(); it != sol.end(); it++){
+	for(set<int>::iterator it = sol.begin(); it != sol.end(); it++){
 		solAct.push_back(*it);
 	}
 }

@@ -1,5 +1,7 @@
 #include "../FuerzaBruta/FuerzaBruta.h"
 #include "../GeneradorGrafos/GeneradorDeGrafosConClique.h"
+#include "Heur1.h"
+#include "../BusquedaLocal/busquedaLocal.h"
 #include <fstream>
 #include <random>
 #include <chrono>

@@ -4,6 +4,7 @@
 #include <iostream>
 #include <set>
 #include <utility> 
+#include "../HeurNipoListaAdy/Heur1.h"
 
 using namespace std;
 
@@ -15,12 +16,17 @@ void mostrarSet(set<int> & s){
 	cout << "]"<< endl;
 }
 
+int cantFronterasQueAporta(int tamClique, int grado){
+	return grado - 2*(tamClique);
+}
+
 int CalcularFronteras(set<int> matrix [], set<int>& solucion){
+	int res = 0 ;
+	int tamClique = solucion.size();
+	
 	int res = 0;
 	for(set<int>::iterator itSol = solucion.begin(); itSol != solucion.end(); itSol ++ ){
-		for(set<int>::iterator it = matrix[*itSol].begin(); it != matrix[*itSol].end() ; it++){
-			if(solucion.find(*it) == solucion.end()) res ++;
-		}
+		res += cantFronterasQueAporta(tamClique, matrix[*itSol].size() );
 	}
 
 	return res;
@@ -209,6 +215,76 @@ int BusquedaLocalLineal(set<int> matrix [], set<int>& solAct, int n , int m){
 	return  CalcularFronteras(matrix, solAct);
 }
 
+
+void HeurGregoLineal (Graph* g, vector <int> solAct){
+	int n = g->listaAdy.size();
+	
+	set<int> matrix [n];
+	
+	for(int i = 0; i < n; i++ ){
+		int m = g->listaAdy[i].size();
+		for(int j = 0 ; j < m ; j++){
+			matrix[i].insert(g->listaAdy[i][j]);
+		}
+	}
+	
+	set<int> sol;
+	n2 = solAct.size();
+	for(int i =0 ; i< n2; i ++){
+		sol.insert(solAct[i]);
+	}
+	
+	BusquedaLocalLineal(matrix, sol, g->listaAdy.size(), 10 );
+	
+	for(int i = 0 ; i < n; i ++){
+		g->listaAdy[i].clear();
+	}
+	for(int i= 0 ; i<  n; i ++){
+		for(iterator::set<int> it = matrix[i].begin(); it != matrix[i].end(); it++){
+			g->listaAdy[i].push_back(*it);
+		}
+	}
+	
+	solAct.clear();
+	for(iterator::set<int> it = sol.begin(); it != sol.end(); it++){
+		solAct.push_back(*it);
+	}
+}
+
+void HeurGregoCuadratica (Graph* g, vector <int> solAct){
+	int n = g->listaAdy.size();
+	
+	set<int> matrix [n];
+	
+	for(int i = 0; i < n; i++ ){
+		int m = g->listaAdy[i].size();
+		for(int j = 0 ; j < m ; j++){
+			matrix[i].insert(g->listaAdy[i][j]);
+		}
+	}
+	
+	set<int> sol;
+	n2 = solAct.size();
+	for(int i =0 ; i< n2; i ++){
+		sol.insert(solAct[i]);
+	}
+	
+	BusquedaLocalCuadratica(matrix, sol, g->listaAdy.size(), 10 );
+	
+	for(int i = 0 ; i < n; i ++){
+		g->listaAdy[i].clear();
+	}
+	for(int i= 0 ; i<  n; i ++){
+		for(iterator::set<int> it = matrix[i].begin(); it != matrix[i].end(); it++){
+			g->listaAdy[i].push_back(*it);
+		}
+	}
+	
+	solAct.clear();
+	for(iterator::set<int> it = sol.begin(); it != sol.end(); it++){
+		solAct.push_back(*it);
+	}
+}
 
 
 

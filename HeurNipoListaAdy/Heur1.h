@@ -219,12 +219,16 @@ int cantFronterasQueAporta(int tamClique, int grado){
 int calcFrontera(struct Graph* grafo, vector<int> & solAct){
 	int rSize = solAct.size();
 	int res = 0 ;
-	int tamClique = rSize;
+	int tamClique = 0;
+	for(int i = 0 ; i < rSize; i ++){
+		if(solAct[i] == 1 ) tamClique ++;
+	}
 	for(int i =  0 ; i < rSize; i ++){
-		res += cantFronterasQueAporta(rSize, gradoNodo(grafo, solAct[i]));
+		res += cantFronterasQueAporta(tamClique, gradoNodo(grafo, solAct[i]));
 	}
 	
 }
+
 
 
 bool nodoFormaCliqueA(struct Graph* grafo, vector<int>& vec, int nodo){

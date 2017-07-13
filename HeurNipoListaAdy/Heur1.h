@@ -157,17 +157,21 @@ void ParaHeuristicaEmi(struct Graph* grafo, int &res, vector<int>& vecRes){
 	}
 
 
+	int tamClique = 0;
 
 	for (int i = 0; i < cantNodosG; i++) //	Paso 3  -  Paso 6
 	{
 	
 		vector<int> vecPasos(grafo->n, 0); //creo nueva clique
 		vecPasos[NodosOrdenados[i]] = 1;
+		tamClique++;
 		for (int j = 0; j < cantNodosG; j++) //Itero en orden de grado
 		{
-			if (i != j && nodoFormaCliqueA(grafo, vecPasos, NodosOrdenados[j]) ) // Si no es el nodo inicial y forma clique lo agrego
+
+			if (i != j && nodoFormaClique(grafo, vecPasos, NodosOrdenados[j], tamClique) ) // Si no es el nodo inicial y forma clique lo agrego
 			{
 				vecPasos[NodosOrdenados[j]] = 1;
+				tamClique++;
 			}
 		}
 
@@ -179,6 +183,7 @@ void ParaHeuristicaEmi(struct Graph* grafo, int &res, vector<int>& vecRes){
 			res = fronterasParcial;
 		
 		}		 
+		tamClique = 0;
 	}
 
 }

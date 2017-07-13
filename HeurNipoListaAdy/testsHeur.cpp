@@ -185,7 +185,7 @@ void expComplej(){	// testea los tiempos de nuestras heurísticas en grafos comp
 
 	cout << "Arranca Exp Complej" << endl;
 
-	for(int i = 1; i < 501; i++){
+	for(int i = 1; i < 401; i++){
 		cout << "Voy por n = " << i << endl;
 		Graph grafo;
 		genGraphComp(&grafo, i);

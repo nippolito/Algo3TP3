@@ -13,7 +13,14 @@ using namespace std;
 // TRADUCTORRRR
 
 void traductorListaAMatriz(Graph* grafoLista, GraphMat* grafoMatriz){
+	vector<vector<int > > listAdy = grafoLista->listaAdy;
+	vector<vector<int > > matrizAdy = grafoMatriz->matrizAdy;
 
+	for(int i = 0; i < grafoLista->n; i++){
+		for(int j = 0; j < listAdy[i].size(); j++){
+			addEdge(grafoMatriz, i, listAdy[i][j]);
+		}
+	}
 }
 
 void Test1(){	// debiera devolver res = 4 y devuelve bien
@@ -115,6 +122,13 @@ void Test5_8(){		// es el TP3_test5.n_8.sol
 	addEdge(&grafo, 4, 7);
 	addEdge(&grafo, 6, 7);
 	HeuristicaNipo(&grafo);
+
+	mostrarGrafo(&grafo);
+
+	GraphMat grafo2;
+	createGraph(&grafo2, grafo.n, grafo.m);
+	traductorListaAMatriz(&grafo, &grafo2);
+	mostrarGrafoMat(&grafo2);
 }
 
 
@@ -131,8 +145,6 @@ void genGraphComp(Graph* grafo, int cantNodos){		// genera un grafo completo de 
 			addEdge(grafo, nodo, dest);
 		}
 	}
-	
-	mostrarGrafo(grafo);
 }
 
 void funcionEneCubo(int n){
@@ -152,7 +164,7 @@ void funcionEneCubo(int n){
 }
 
 void expComplej(){	// testea los tiempos de nuestras heurísticas en grafos completos
-	fstream s ("ExpComplejHeurNipoHeurEmi.csv", ios::out);
+	fstream s ("ExpComplejHeurNipoHeurEmiNuevo.csv", ios::out);
 
 	s << "cantNod,Res,Tiempo,Tipo" << endl;
 
@@ -188,23 +200,23 @@ void expComplej(){	// testea los tiempos de nuestras heurísticas en grafos comp
 
 
 			// Ahora todo lo mismo pero con la heurística de Emi
-			// s << i;
-			// s << ",";
+			s << i;
+			s << ",";
 
-			// pair <vector<int>, int> resultado1;
+			pair <vector<int>, int> resultado1;
 
-			// start1 = std::chrono::system_clock::now();
-			// resultado1 = HeuristicaEmi(&grafo);
-			// end1 = std::chrono::system_clock::now();
+			start1 = std::chrono::system_clock::now();
+			resultado1 = HeuristicaEmi(&grafo);
+			end1 = std::chrono::system_clock::now();
 
-			// std::chrono::duration<double, std::milli> elapsed_secondsA = end1-start1;
+			std::chrono::duration<double, std::milli> elapsed_secondsA = end1-start1;
 
-			// s << resultado1.second;
-			// s << ",";
+			s << resultado1.second;
+			s << ",";
 
-			// s << elapsed_secondsA.count();
-			// s << ",";
-			// s << "CompletoHeurEmi" << endl;
+			s << elapsed_secondsA.count();
+			s << ",";
+			s << "CompletoHeurEmi" << endl;
 
 		}
 	}
@@ -217,7 +229,7 @@ void expComplej(){	// testea los tiempos de nuestras heurísticas en grafos comp
 void expGrafoTodosContraTodos(){
 	srand(60);  //SEMILLA ARBITRARIA PERO SIEMPRE QUE SEA LA MISMA SI SE QUIEREN LOS MISMO GRAFOS
 
-	fstream s ("Test3TodosvsTodos.csv", ios::out);
+	fstream s ("Test3TodosvsTodosNuevo.csv", ios::out);
 
 	s << "cantNod,Res,Tiempo,Tipo" << endl;
 
@@ -242,6 +254,8 @@ void expGrafoTodosContraTodos(){
 			// acá va el traductor de grafo a grafo1 (lista de adyacencias a matriz adyacencias, Graph a GraphMat)
 
 			GraphMat grafo1;
+			createGraph(&grafo1, grafo.n, grafo.m);
+			traductorListaAMatriz(&grafo, &grafo1);
 
 			int resultadoBLN;
 			startBLN = std::chrono::system_clock::now();
@@ -313,7 +327,7 @@ void expGrafoTodosContraTodos(){
 void expGrafoRandomDensidadMedia(){
 	srand(60);  // Es la semilla por la que arranca el generador de grafos en cada iteración. Que sea siempre la misma
 
-	fstream s ("ExpGrafosRandomFinales.csv", ios::out);
+	fstream s ("ExpGrafosRandomNuevo.csv", ios::out);
 
 	s << "cantNod,Res,Tiempo,Tipo" << endl;
 
@@ -526,14 +540,8 @@ int main(){
 	// Test1();
 	// TestX();
 	// Test2();
-	Test5_8();
+	// Test5_8();
+	expComplej();
 
-	// Graph grafo;
-	// genGrafoMalo(&grafo, 2);
-	// Graph grafo1;
-	// genGrafoMalo(&grafo1, 3);
-	// Graph grafo2;
-	// genGrafoMalo(&grafo2, 4);
-	// expGrafoMalo();
 	return 0;
 }

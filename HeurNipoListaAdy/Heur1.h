@@ -50,6 +50,12 @@ void mostrarGrafo(Graph* grafo){
 	}
 }
 
+void mostrarGrafoMat(GraphMat* grafo){
+	for(int nodo = 0; nodo < grafo->n; nodo++){
+		mostrarVector(grafo->matrizAdy[nodo]);
+	}
+}
+
 int gradoNodo(struct Graph* grafo, int nodo){
 	return grafo->listaAdy[nodo].size();
 }
@@ -191,10 +197,126 @@ pair< vector<int> , int> HeuristicaNipo(Graph* grafo){		// total complej: O(n^4)
 
 	pair< vector<int> , int> resultado (nodosMejorClique, res);
 
-	cout << res << endl;
+	// mostrarVector(nodosMejorClique);
 
-	mostrarVector(nodosMejorClique);
+	// cout << "El resultado es " << res << endl;
+	// cout << "Los nodos de la clique son: ";
+	// mostrarUnosVec(vecRes);
+	// int cantUn = cantUnosVec(vecRes);
+	// cout << "Tiene " << cantUn << " nodos" << endl;
+	// cout << endl;
+	return resultado;
+}
 
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+//HEURISTICA EMI
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+int cantFronterasQueAporta(int tamClique, int grado){
+	return grado - 2*(tamClique);
+}
+
+int calcFrontera(struct Graph* grafo, vector<int> & solAct){
+	int rSize = solAct.size();
+	int res = 0 ;
+	int tamClique = rSize;
+	for(int i =  0 ; i < rSize; i ++){
+		res += cantFronterasQueAporta(rSize, gradoNodo(grafo, solAct[i]));
+	}
+	
+}
+
+
+bool nodoFormaCliqueA(struct Graph* grafo, vector<int>& vec, int nodo){
+	bool res = true;
+	for(int i = 0; i < vec.size(); i++){
+		if (vec[i] == 1)
+		{
+			if(!esVecino(grafo, nodo, i )){
+				res = false;
+			}
+		}
+	}
+	return res;
+}
+
+
+
+void ParaHeuristicaEmi(struct Graph* grafo, int &res, vector<int>& vecRes){
+	
+	//La idea es encontrar la clique maxima y devolver su frontera
+
+	//en VecRes voy a guardar la clique mas grande guardada hasta el momento
+	//en VecPasos voy a guardar las cliques formadas por cada iteracion
+
+	//Como encontrar la clique maxima es un problema NP, vamos a implementar una heuristica para obtenerla.
+	//Vamos a ordenar los nodos por grado de manera que d(NodosOrdenados[i]) >= d(NodosOrdenados[i+1])
+	
+	int cantNodosG = grafo->n;
+	res = 0;	
+	
+	int NodosOrdenados[cantNodosG]; 
+	for (int i = 0; i < cantNodosG; i++) //Inicializo el arreglo
+	{
+		NodosOrdenados[i] = i;
+	}
+	
+	for (int i = 0; i < cantNodosG; i++) //Ordeno por grado
+	{
+		int posMaxParcial = i;
+		for (int j = i; j < cantNodosG; j++)
+		{
+			if(gradoNodo(grafo, NodosOrdenados[j]) > gradoNodo(grafo, NodosOrdenados[posMaxParcial]))
+			posMaxParcial = j;
+		}
+		int aux = NodosOrdenados[i];
+		NodosOrdenados[i] = NodosOrdenados[posMaxParcial];
+		NodosOrdenados[posMaxParcial] = aux;
+	}
+
+
+
+	for (int i = 0; i < cantNodosG; i++) //	Paso 3  -  Paso 6
+	{
+	
+		vector<int> vecPasos(grafo->n, 0); //creo nueva clique
+		vecPasos[NodosOrdenados[i]] = 1;
+		for (int j = 0; j < cantNodosG; j++) //Itero en orden de grado
+		{
+			if (i != j && nodoFormaCliqueA(grafo, vecPasos, NodosOrdenados[j]) ) // Si no es el nodo inicial y forma clique lo agrego
+			{
+				vecPasos[NodosOrdenados[j]] = 1;
+			}
+		}
+
+
+		int fronterasParcial = calcFrontera(grafo, vecPasos);
+		if (res < fronterasParcial) //Si la clique creada es mas grande que la maxima guardada la reemplazo
+		{
+			vecRes = vecPasos;
+			res = fronterasParcial;
+		
+		}		 
+	}
+
+}
+
+pair< vector<int> , int> HeuristicaEmi(Graph* grafo){		// total complej: O(n^3)
+	int res = 0;
+	vector<int> vecRes(grafo->n, 0);
+
+	ParaHeuristicaEmi(grafo, res, vecRes);
+	
+	vector <int> clique ;
+	int n = grafo-> n ;
+	
+	for(int i = 0 ; i < n; i ++){
+		if(vecRes[i] == 1){
+			clique.push_back(i);
+		}
+	}
+
+	pair< vector<int> , int> resultado (clique, res);
 	// cout << "El resultado es " << res << endl;
 	// cout << "Los nodos de la clique son: ";
 	// mostrarUnosVec(vecRes);

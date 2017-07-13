@@ -122,7 +122,7 @@ bool noEstabaEnClique(struct Graph* grafo, vector<int> vec, int nodo){
 }
 
 int cantFronterasQueAporta(int tamClique, int grado){
-	return grado - 2*(tamClique - 1);
+	return grado - (tamClique - 1);
 }
 
 int calcFrontera(struct Graph* grafo, vector<int> & solAct){

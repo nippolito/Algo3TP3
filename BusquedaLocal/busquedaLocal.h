@@ -211,7 +211,7 @@ int BusquedaLocalLineal(set<int> matrix [], set<int>& solAct, int n , int m){
 }
 
 
-void HeurGregoLineal (Graph* g, vector <int> solAct){
+pair<vector<int> , int> HeurGregoLineal (Graph* g, vector <int> solAct){
 	int n = g->listaAdy.size();
 	
 	set<int> matrix [n];
@@ -229,24 +229,21 @@ void HeurGregoLineal (Graph* g, vector <int> solAct){
 		sol.insert(solAct[i]);
 	}
 	
-	BusquedaLocalLineal(matrix, sol, g->listaAdy.size(), 10 );
+	int res = BusquedaLocalLineal(matrix, sol, g->listaAdy.size(), 10 );
 	
-	for(int i = 0 ; i < n; i ++){
-		g->listaAdy[i].clear();
-	}
-	for(int i= 0 ; i<  n; i ++){
-		for(set<int>::iterator it = matrix[i].begin(); it != matrix[i].end(); it++){
-			g->listaAdy[i].push_back(*it);
-		}
-	}
 	
 	solAct.clear();
 	for(set<int>::iterator it = sol.begin(); it != sol.end(); it++){
 		solAct.push_back(*it);
 	}
+	
+	return pair<vector<int> , int> (solAct, res);
 }
 
-void HeurGregoCuadratica (Graph* g, vector <int> solAct){
+
+
+
+pair<vector<int> , int> HeurGregoCuadratica (Graph* g, vector <int> solAct){
 	int n = g->listaAdy.size();
 	
 	set<int> matrix [n];
@@ -264,21 +261,15 @@ void HeurGregoCuadratica (Graph* g, vector <int> solAct){
 		sol.insert(solAct[i]);
 	}
 	
-	BusquedaLocalCuadratica(matrix, sol, g->listaAdy.size(), 10 );
+	int res = BusquedaLocalCuadratica(matrix, sol, g->listaAdy.size(), 10 );
 	
-	for(int i = 0 ; i < n; i ++){
-		g->listaAdy[i].clear();
-	}
-	for(int i= 0 ; i<  n; i ++){
-		for(set<int>::iterator it = matrix[i].begin(); it != matrix[i].end(); it++){
-			g->listaAdy[i].push_back(*it);
-		}
-	}
-	
+		
 	solAct.clear();
 	for(set<int>::iterator it = sol.begin(); it != sol.end(); it++){
 		solAct.push_back(*it);
 	}
+	
+	return pair<vector<int> , int>(solAct, res);
 }
 
 

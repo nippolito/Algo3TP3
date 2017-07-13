@@ -438,7 +438,81 @@ void expGrafoRandomDensidadMedia(){
 	}
 }
 
+void expGolosaNipoVsBLL(){
+	srand(60);
 
+	fstream s ("HeurNipoConBL.csv", ios::out);
+
+	s << "cantNod,Res,Tiempo,Tipo" << endl;
+
+	cout << "Heur Nipo con BL" << endl;
+
+	std::chrono::time_point<std::chrono::system_clock> start, end;
+	std::chrono::time_point<std::chrono::system_clock> start1, end1;
+	std::chrono::time_point<std::chrono::system_clock> startBLN, endBLN;
+	std::chrono::time_point<std::chrono::system_clock> startBLE, endBLE;
+
+	for(int i = 5; i < 401; i++){
+		cout << "Voy por n = " << i << endl;
+		Graph grafo;
+		generadorGrafoRandom(&grafo, i, DENSIDAD_MEDIA, rand(), 0);
+			
+		for(int j = 0; j < 30; j++){ //decia 40
+			s << i;
+			s << ",";
+
+			pair<vector<int>, int> resultado;
+			pair<vector<int>, int> resultadoBLN;
+
+			start = std::chrono::system_clock::now();
+			resultado = HeuristicaNipo(&grafo);
+			end = std::chrono::system_clock::now();
+
+			std::chrono::duration<double, std::milli> elapsed_seconds = end-start;
+
+			s << resultado.second;
+			s << ",";
+
+			s << elapsed_seconds.count();
+			s << ",";
+			s << "HeurNipoRandom" << endl;
+
+
+			//Busqueda Local con resultado de la Heuristica Nipo
+			s << i;
+			s << ",";
+			
+			 startBLN = std::chrono::system_clock::now();
+			 resultadoBLN = HeurGregoLineal(&grafo, resultado.first);
+			 endBLN = std::chrono::system_clock::now();
+
+			std::chrono::duration<double, std::milli> elapsed_secondsBLN = endBLN-startBLN;
+
+			s << resultadoBLN.second;
+			s << ",";
+
+			s << elapsed_secondsBLN.count();
+			s << ",";
+			s << "BLLinealHeurNipo" << endl;
+			
+			
+			s << i;
+			s << ",";
+			
+			s << resultadoBLN.second - resultado.second;
+			s << ",";
+
+			s << 0;
+			s << ",";
+			s << "DiferenciaGolosaNipoConBL" << endl;
+
+
+			
+		}
+	}
+}
+
+void comentarios(){
 
 
 // void genGrafoMalo(Graph* grafo, int cantNodos){		// n >= 5, sino tira segmentation fault
@@ -544,17 +618,18 @@ void expGrafoRandomDensidadMedia(){
 
 
 
-
+}
 
 int main(){
 	// Test1();
 	// TestX();
 	// Test2();
 	// Test5_8();
-	expComplej();
-	expGrafoTodosContraTodos();
-	expGrafoRandomDensidadMedia();
+	//expComplej();
+	//expGrafoTodosContraTodos();
+	//expGrafoRandomDensidadMedia();
 	// quepasaa();
+	expGolosaNipoVsBLL();
 
 	return 0;
 }

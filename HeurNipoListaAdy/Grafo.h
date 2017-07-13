@@ -108,7 +108,7 @@ bool noEstabaEnClique(struct Graph* grafo, vector<int> vec, int nodo){
 }
 
 int cantFronterasQueAporta(int tamClique, int grado){
-	return grado - 2*(tamClique);
+	return grado - 2*(tamClique - 1);
 }
 
 int calcFrontera(struct Graph* grafo, vector<int> & solAct){
@@ -119,8 +119,9 @@ int calcFrontera(struct Graph* grafo, vector<int> & solAct){
 		if(solAct[i] == 1 ) tamClique ++;
 	}
 	for(int i =  0 ; i < rSize; i ++){
-		res += cantFronterasQueAporta(tamClique, gradoNodo(grafo, solAct[i]));
+		res += cantFronterasQueAporta(tamClique, gradoNodo(grafo, i));
 	}
+	return res;
 	
 }
 

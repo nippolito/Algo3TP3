@@ -14,6 +14,14 @@ using namespace std;
 // PULLEAR PARA HEURÍSTICA EMI
 // TRADUCTORRRR
 
+void quepasaa(){
+	Graph grafo;
+	createGraph(&grafo, 1, 0);
+	vector<int> vec(1, 0);
+	vec[0] = 1;
+	cout << calcFrontera(&grafo, vec) << endl;
+}
+
 void traductorListaAMatriz(Graph* grafoLista, GraphMat* grafoMatriz){
 	vector<vector<int > > listAdy = grafoLista->listaAdy;
 	vector<vector<int > > matrizAdy = grafoMatriz->matrizAdy;
@@ -166,7 +174,7 @@ void funcionEneCubo(int n){
 }
 
 void expComplej(){	// testea los tiempos de nuestras heurísticas en grafos completos
-	fstream s ("ExpComplejHeurNipoHeurEmiNuevo.csv", ios::out);
+	fstream s ("ExpComplejHeurEmiNuevo.csv", ios::out);
 
 	s << "cantNod,Res,Tiempo,Tipo" << endl;
 
@@ -177,28 +185,28 @@ void expComplej(){	// testea los tiempos de nuestras heurísticas en grafos comp
 
 	cout << "Arranca Exp Complej" << endl;
 
-	for(int i = 1; i < 351; i++){
+	for(int i = 1; i < 501; i++){
 		cout << "Voy por n = " << i << endl;
 		Graph grafo;
 		genGraphComp(&grafo, i);
-		for(int j = 0; j < 40; j++){ //decia 40
-			s << i;
-			s << ",";
+		for(int j = 0; j < 30; j++){ //decia 40
+			// s << i;
+			// s << ",";
 
-			pair<vector<int>, int> resultado;
+			// pair<vector<int>, int> resultado;
 
-			start = std::chrono::system_clock::now();
-			resultado = HeuristicaNipo(&grafo);
-			end = std::chrono::system_clock::now();
+			// start = std::chrono::system_clock::now();
+			// resultado = HeuristicaNipo(&grafo);
+			// end = std::chrono::system_clock::now();
 
-			std::chrono::duration<double, std::milli> elapsed_seconds = end-start;
+			// std::chrono::duration<double, std::milli> elapsed_seconds = end-start;
 
-			s << resultado.second;
-			s << ",";
+			// s << resultado.second;
+			// s << ",";
 
-			s << elapsed_seconds.count();
-			s << ",";
-			s << "CompletoHeurNipo" << endl;
+			// s << elapsed_seconds.count();
+			// s << ",";
+			// s << "CompletoHeurNipo" << endl;
 
 
 			// Ahora todo lo mismo pero con la heurística de Emi
@@ -231,7 +239,7 @@ void expComplej(){	// testea los tiempos de nuestras heurísticas en grafos comp
 void expGrafoTodosContraTodos(){
 	srand(60);  //SEMILLA ARBITRARIA PERO SIEMPRE QUE SEA LA MISMA SI SE QUIEREN LOS MISMO GRAFOS
 
-	fstream s ("Test3TodosvsTodosNuevo.csv", ios::out);
+	fstream s ("Test3TodosvsTodosHeurEmiNuevo.csv", ios::out);
 
 	s << "cantNod,Res,Tiempo,Tipo" << endl;
 
@@ -276,25 +284,25 @@ void expGrafoTodosContraTodos(){
 
 			// Ahora heurística Nipo, recordemos que el resultado va a ser la diferencia
 
-			s << i;
-			s << ",";
+			// s << i;
+			// s << ",";
 			
-			pair<vector<int>, int> resultado;
+			// pair<vector<int>, int> resultado;
 
-			start = std::chrono::system_clock::now();
-			resultado = HeuristicaNipo(&grafo);
-			end = std::chrono::system_clock::now();
+			// start = std::chrono::system_clock::now();
+			// resultado = HeuristicaNipo(&grafo);
+			// end = std::chrono::system_clock::now();
 
-			std::chrono::duration<double, std::milli> elapsed_seconds = end-start;
+			// std::chrono::duration<double, std::milli> elapsed_seconds = end-start;
 
-			resultado.second = resultadoBLN - resultado.second;
+			// resultado.second = resultadoBLN - resultado.second;
 
-			s << resultado.second;
-			s << ",";
+			// s << resultado.second;
+			// s << ",";
 
-			s << elapsed_seconds.count();
-			s << ",";
-			s << "GrafoRandomDMediaHeurNipo" << endl;
+			// s << elapsed_seconds.count();
+			// s << ",";
+			// s << "GrafoRandomDMediaHeurNipo" << endl;
 
 
 			// Ahora heurística Emi, recordemos que el resultado va a ser la diferencia
@@ -329,7 +337,7 @@ void expGrafoTodosContraTodos(){
 void expGrafoRandomDensidadMedia(){
 	srand(60);  // Es la semilla por la que arranca el generador de grafos en cada iteración. Que sea siempre la misma
 
-	fstream s ("ExpGrafosRandomNuevo.csv", ios::out);
+	fstream s ("ExpGrafosRandomEmiNuevo.csv", ios::out);
 
 	s << "cantNod,Res,Tiempo,Tipo" << endl;
 
@@ -340,29 +348,29 @@ void expGrafoRandomDensidadMedia(){
 	// std::chrono::time_point<std::chrono::system_clock> startBLN, endBLN;
 	// std::chrono::time_point<std::chrono::system_clock> startBLE, endBLE;
 
-	for(int i = 1; i < 401; i = i + 10){
+	for(int i = 1; i < 401; i++){
 		cout << "Voy por n = " << i << endl;
-		for(int j = 0; j < 40; j++){ 
-			s << i;
-			s << ",";
+		for(int j = 0; j < 30; j++){ 
+			// s << i;
+			// s << ",";
 
 			Graph grafo;
 			generadorGrafoRandom(&grafo, i, DENSIDAD_MEDIA, rand(), 0);
 			
-			pair<vector<int>, int> resultado;
+			// pair<vector<int>, int> resultado;
 
-			start = std::chrono::system_clock::now();
-			resultado = HeuristicaNipo(&grafo);
-			end = std::chrono::system_clock::now();
+			// start = std::chrono::system_clock::now();
+			// resultado = HeuristicaNipo(&grafo);
+			// end = std::chrono::system_clock::now();
 
-			std::chrono::duration<double, std::milli> elapsed_seconds = end-start;
+			// std::chrono::duration<double, std::milli> elapsed_seconds = end-start;
 
-			s << resultado.second;
-			s << ",";
+			// s << resultado.second;
+			// s << ",";
 
-			s << elapsed_seconds.count();
-			s << ",";
-			s << "GrafoRandomDMediaHeurNipo" << endl;
+			// s << elapsed_seconds.count();
+			// s << ",";
+			// s << "GrafoRandomDMediaHeurNipo" << endl;
 
 
 			//Busqueda Local con resultado de la Heuristica Nipo
@@ -544,6 +552,9 @@ int main(){
 	// Test2();
 	// Test5_8();
 	expComplej();
+	expGrafoTodosContraTodos();
+	expGrafoRandomDensidadMedia();
+	// quepasaa();
 
 	return 0;
 }

@@ -79,9 +79,23 @@ int nodoGradoMaximo(struct Graph* grafo){
 }
 
 bool esVecino(struct Graph* grafo, int nodo1, int nodo2){
+	int z1,z2, n;
+	
+	if(grafo->listaAdy[nodo1].size() > grafo->listaAdy[nodo2].size()){
+		z1 = nodo2; 
+		z2 = nodo1;
+		n = grafo->listaAdy[nodo2].size();
+	}
+	else{
+		z1 = nodo1;
+		z2 = nodo2;
+		n = grafo->listaAdy[nodo1].size();
+	}
+	
+	
 	bool res = false;
-	for(int i = 0; i < grafo->listaAdy[nodo1].size(); i++){
-		if(grafo->listaAdy[nodo1][i] == nodo2){
+	for(int i = 0; i < n; i++){
+		if(grafo->listaAdy[z1][i] == z2){
 			res = true;
 		}
 	}
@@ -119,6 +133,7 @@ int calcFrontera(struct Graph* grafo, vector<int> & solAct){
 		if(solAct[i] == 1 ) tamClique ++;
 	}
 	for(int i =  0 ; i < rSize; i ++){
+		if(solAct[i] == 1)
 		res += cantFronterasQueAporta(tamClique, gradoNodo(grafo, i));
 	}
 	return res;

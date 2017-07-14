@@ -10,6 +10,8 @@
 #define DENSIDAD_MEDIA 0.5
 #define DENSIDAD_ALTA 0.8
 
+#define W 100
+
 using namespace std;
 
 // Recordar que el Test1 de Golosos también se modifica pues ahora por lo menos la función Nipo es O(n * m)
@@ -502,7 +504,7 @@ void expGolosaNipoVsBLL(){
 			s << ",";
 			
 			 startBLN = std::chrono::system_clock::now();
-			 resultadoBLN = HeurGregoLineal(&grafo, resultado.first);
+			// resultadoBLN = HeurGregoLineal(&grafo, resultado.first);
 			 endBLN = std::chrono::system_clock::now();
 
 			std::chrono::duration<double, std::milli> elapsed_secondsBLN = endBLN-startBLN;
@@ -576,7 +578,7 @@ void expGolosaNipoVsBLC(){
 			s << ",";
 			
 			 startBLN = std::chrono::system_clock::now();
-			 resultadoBLN = HeurGregoCuadratica(&grafo, resultado.first);
+			// resultadoBLN = HeurGregoCuadratica(&grafo, resultado.first);
 			 endBLN = std::chrono::system_clock::now();
 
 			std::chrono::duration<double, std::milli> elapsed_secondsBLN = endBLN-startBLN;
@@ -610,7 +612,7 @@ void expGolosaEmiVsBLDensidadBaja(){
 
 	fstream s ("HeurEmioConLinealDBaja.csv", ios::out);
 
-	s << "cantNod,Res,Tiempo,Tipo" << endl;
+	s << "cantNod,Res,Tiempo,Tipo, Iteraciones" << endl;
 
 	cout << "Heur Emi con BL" << endl;
 
@@ -621,12 +623,18 @@ void expGolosaEmiVsBLDensidadBaja(){
 	std::chrono::time_point<std::chrono::system_clock> startBLN2, endBLN2;
 	std::chrono::time_point<std::chrono::system_clock> startBLE, endBLE;
 
-	for(int i = 5; i < 401; i++){
+	for(int i = 5; i < W; i++){
 		cout << "Voy por n = " << i << endl;
-		Graph grafo;
-		generadorGrafoRandom(&grafo, i, DENSIDAD_BAJA, rand(), 0);
+		
 			
 		for(int j = 0; j < 30; j++){ //decia 40
+			
+			Graph grafo;
+			generadorGrafoRandom(&grafo, i, DENSIDAD_BAJA, rand(), 0);
+			
+			long int iteracionesL = 0 ;
+			long int iteracionesC = 0;
+			
 			s << i;
 			s << ",";
 
@@ -653,7 +661,7 @@ void expGolosaEmiVsBLDensidadBaja(){
 			s << ",";
 			
 			 startBLN = std::chrono::system_clock::now();
-			 resultadoBLN = HeurGregoLineal(&grafo, resultado.first);
+			 resultadoBLN = HeurGregoLineal(&grafo, resultado.first, iteracionesL);
 			 endBLN = std::chrono::system_clock::now();
 
 			std::chrono::duration<double, std::milli> elapsed_secondsBLN = endBLN-startBLN;
@@ -663,7 +671,9 @@ void expGolosaEmiVsBLDensidadBaja(){
 
 			s << elapsed_secondsBLN.count();
 			s << ",";
-			s << "BLinealHeurEmi" << endl;
+			s << "BLinealHeurEmi" ;
+			s<< ", ";
+			s << iteracionesL <<endl;
 				
 			//////////////////////
 			
@@ -675,14 +685,16 @@ void expGolosaEmiVsBLDensidadBaja(){
 
 			s << 0;
 			s << ",";
-			s << "DiferenciaHeurEmiConLineal" << endl;
+			s << "DiferenciaHeurEmiConLineal"<<endl;
+			
+			
 
 			/////////////////////
 			s << i;
 			s << ",";
 			
 			 startBLN2 = std::chrono::system_clock::now();
-			 resultadoBLN2 = HeurGregoCuadratica(&grafo, resultado.first);
+			 resultadoBLN2 = HeurGregoCuadratica(&grafo, resultado.first, iteracionesC);
 			 endBLN2 = std::chrono::system_clock::now();
 
 			std::chrono::duration<double, std::milli> elapsed_secondsBLN2 = endBLN2-startBLN2;
@@ -692,7 +704,9 @@ void expGolosaEmiVsBLDensidadBaja(){
 
 			s << elapsed_secondsBLN2.count();
 			s << ",";
-			s << "BCuadraticaHeurEmi" << endl;
+			s << "BCuadraticaHeurEmi" ;
+			s<< ", ";
+			s << iteracionesC <<endl;
 			
 			
 			s << i;
@@ -704,6 +718,17 @@ void expGolosaEmiVsBLDensidadBaja(){
 			s << 0;
 			s << ",";
 			s << "DiferenciaHeurEmiConCuadratica" << endl;
+
+
+			s << i;
+			s << ",";
+			
+			s << resultadoBLN2.second - resultadoBLN.second;
+			s << ",";
+
+			s << 0;
+			s << ",";
+			s << "DiferenciasLocales" << endl;
 
 
 
@@ -717,7 +742,7 @@ void expGolosaEmiVsBLDensidadMedia(){
 
 	fstream s ("HeurEmioConLinealDMedia.csv", ios::out);
 
-	s << "cantNod,Res,Tiempo,Tipo" << endl;
+	s << "cantNod,Res,Tiempo,Tipo, Iteraciones" << endl;
 
 	cout << "Heur Emi con BL" << endl;
 
@@ -728,12 +753,17 @@ void expGolosaEmiVsBLDensidadMedia(){
 	std::chrono::time_point<std::chrono::system_clock> startBLN2, endBLN2;
 	std::chrono::time_point<std::chrono::system_clock> startBLE, endBLE;
 
-	for(int i = 5; i < 401; i++){
+	for(int i = 5; i < W; i++){
 		cout << "Voy por n = " << i << endl;
-		Graph grafo;
-		generadorGrafoRandom(&grafo, i, DENSIDAD_MEDIA, rand(), 0);
+		
 			
 		for(int j = 0; j < 30; j++){ //decia 40
+			Graph grafo;
+			generadorGrafoRandom(&grafo, i, DENSIDAD_MEDIA, rand(), 0);
+			
+			long int iteracionesL = 0 ;
+			long int iteracionesC = 0;
+			
 			s << i;
 			s << ",";
 
@@ -760,7 +790,7 @@ void expGolosaEmiVsBLDensidadMedia(){
 			s << ",";
 			
 			 startBLN = std::chrono::system_clock::now();
-			 resultadoBLN = HeurGregoLineal(&grafo, resultado.first);
+			 resultadoBLN = HeurGregoLineal(&grafo, resultado.first, iteracionesL);
 			 endBLN = std::chrono::system_clock::now();
 
 			std::chrono::duration<double, std::milli> elapsed_secondsBLN = endBLN-startBLN;
@@ -770,7 +800,9 @@ void expGolosaEmiVsBLDensidadMedia(){
 
 			s << elapsed_secondsBLN.count();
 			s << ",";
-			s << "BLinealHeurEmi" << endl;
+			s << "BLinealHeurEmi";
+			s<< ", ";
+			s << iteracionesL <<endl;
 				
 			//////////////////////
 			
@@ -789,7 +821,7 @@ void expGolosaEmiVsBLDensidadMedia(){
 			s << ",";
 			
 			 startBLN2 = std::chrono::system_clock::now();
-			 resultadoBLN2 = HeurGregoCuadratica(&grafo, resultado.first);
+			 resultadoBLN2 = HeurGregoCuadratica(&grafo, resultado.first, iteracionesC);
 			 endBLN2 = std::chrono::system_clock::now();
 
 			std::chrono::duration<double, std::milli> elapsed_secondsBLN2 = endBLN2-startBLN2;
@@ -799,7 +831,9 @@ void expGolosaEmiVsBLDensidadMedia(){
 
 			s << elapsed_secondsBLN2.count();
 			s << ",";
-			s << "BCuadraticaHeurEmi" << endl;
+			s << "BCuadraticaHeurEmi";
+			s<< ", ";
+			s << iteracionesC <<endl;
 			
 			
 			s << i;
@@ -811,6 +845,19 @@ void expGolosaEmiVsBLDensidadMedia(){
 			s << 0;
 			s << ",";
 			s << "DiferenciaHeurEmiConCuadratica" << endl;
+
+
+
+			s << i;
+			s << ",";
+			
+			s << resultadoBLN2.second - resultadoBLN.second;
+			s << ",";
+
+			s << 0;
+			s << ",";
+			s << "DiferenciasLocales" << endl;
+
 
 
 		}
@@ -822,7 +869,7 @@ void expGolosaEmiVsBLDensidadAlta(){
 
 	fstream s ("HeurEmioConLinealDAlta.csv", ios::out);
 
-	s << "cantNod,Res,Tiempo,Tipo" << endl;
+	s << "cantNod,Res,Tiempo,Tipo, Iteraciones" << endl;
 
 	cout << "Heur Emi con BL" << endl;
 
@@ -833,12 +880,17 @@ void expGolosaEmiVsBLDensidadAlta(){
 	std::chrono::time_point<std::chrono::system_clock> startBLN2, endBLN2;
 	std::chrono::time_point<std::chrono::system_clock> startBLE, endBLE;
 
-	for(int i = 5; i < 401; i++){
+	for(int i = 5; i < W; i++){
 		cout << "Voy por n = " << i << endl;
-		Graph grafo;
-		generadorGrafoRandom(&grafo, i, DENSIDAD_ALTA, rand(), 0);
+		
 			
 		for(int j = 0; j < 30; j++){ //decia 40
+			Graph grafo;
+			generadorGrafoRandom(&grafo, i, DENSIDAD_ALTA, rand(), 0);
+			
+			long int iteracionesL = 0 ;
+			long int iteracionesC = 0;
+			
 			s << i;
 			s << ",";
 
@@ -865,7 +917,7 @@ void expGolosaEmiVsBLDensidadAlta(){
 			s << ",";
 			
 			 startBLN = std::chrono::system_clock::now();
-			 resultadoBLN = HeurGregoLineal(&grafo, resultado.first);
+			 resultadoBLN = HeurGregoLineal(&grafo, resultado.first, iteracionesL);
 			 endBLN = std::chrono::system_clock::now();
 
 			std::chrono::duration<double, std::milli> elapsed_secondsBLN = endBLN-startBLN;
@@ -875,7 +927,9 @@ void expGolosaEmiVsBLDensidadAlta(){
 
 			s << elapsed_secondsBLN.count();
 			s << ",";
-			s << "BLinealHeurEmi" << endl;
+			s << "BLinealHeurEmi";
+			s<< ", ";
+			s << iteracionesL <<endl;
 				
 			//////////////////////
 			
@@ -894,7 +948,7 @@ void expGolosaEmiVsBLDensidadAlta(){
 			s << ",";
 			
 			 startBLN2 = std::chrono::system_clock::now();
-			 resultadoBLN2 = HeurGregoCuadratica(&grafo, resultado.first);
+			 resultadoBLN2 = HeurGregoCuadratica(&grafo, resultado.first, iteracionesC);
 			 endBLN2 = std::chrono::system_clock::now();
 
 			std::chrono::duration<double, std::milli> elapsed_secondsBLN2 = endBLN2-startBLN2;
@@ -904,7 +958,9 @@ void expGolosaEmiVsBLDensidadAlta(){
 
 			s << elapsed_secondsBLN2.count();
 			s << ",";
-			s << "BCuadraticaHeurEmi" << endl;
+			s << "BCuadraticaHeurEmi";
+			s<< ", ";
+			s << iteracionesC <<endl;
 			
 			
 			s << i;
@@ -917,6 +973,15 @@ void expGolosaEmiVsBLDensidadAlta(){
 			s << ",";
 			s << "DiferenciaHeurEmiConCuadratica" << endl;
 
+			s << i;
+			s << ",";
+			
+			s << resultadoBLN2.second - resultadoBLN.second;
+			s << ",";
+
+			s << 0;
+			s << ",";
+			s << "DiferenciasLocales" << endl;
 
 
 			
@@ -1037,12 +1102,16 @@ int main(){
 	// TestX();
 	// Test2();
 	// Test5_8();
-	expComplej();
+	//expComplej();
 	//expGrafoTodosContraTodos();
 	//expGrafoRandomDensidadMedia();
 	// quepasaa();
 	//expGolosaNipoVsBLL();
 	//expGolosaNipoVsBLC();
+	
+	expGolosaEmiVsBLDensidadBaja();
+	expGolosaEmiVsBLDensidadMedia();
+	expGolosaEmiVsBLDensidadAlta();
 
 	return 0;
 }

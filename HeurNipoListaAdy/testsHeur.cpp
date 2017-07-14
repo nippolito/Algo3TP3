@@ -176,21 +176,21 @@ void funcionEneCubo(int n){
 }
 
 void expComplej(){	// testea los tiempos de nuestras heurísticas en grafos completos
-	fstream s ("ExpComplejHeurEmiNuevo.csv", ios::out);
+	fstream s ("FuncionEneCubo.csv", ios::out);
 
 	s << "cantNod,Res,Tiempo,Tipo" << endl;
 
 	std::chrono::time_point<std::chrono::system_clock> start, end;
 	std::chrono::time_point<std::chrono::system_clock> start1, end1;
-	std::chrono::time_point<std::chrono::system_clock> startEneCubo, endEneCubo;
+	std::chrono::time_point<std::chrono::system_clock> startCubo, endCubo;
 	std::chrono::time_point<std::chrono::system_clock> startEneCuarta, endEneCuarta;
 
 	cout << "Arranca Exp Complej" << endl;
 
-	for(int i = 1; i < 401; i++){
+	for(int i = 1; i < 351; i++){
 		cout << "Voy por n = " << i << endl;
-		Graph grafo;
-		genGraphComp(&grafo, i);
+		// Graph grafo;
+		// genGraphComp(&grafo, i);
 		for(int j = 0; j < 30; j++){ //decia 40
 			// s << i;
 			// s << ",";
@@ -212,23 +212,40 @@ void expComplej(){	// testea los tiempos de nuestras heurísticas en grafos comp
 
 
 			// Ahora todo lo mismo pero con la heurística de Emi
+			// s << i;
+			// s << ",";
+
+			// pair <vector<int>, int> resultado1;
+
+			// start1 = std::chrono::system_clock::now();
+			// resultado1 = HeuristicaEmi(&grafo);
+			// end1 = std::chrono::system_clock::now();
+
+			// std::chrono::duration<double, std::milli> elapsed_secondsA = end1-start1;
+
+			// s << resultado1.second;
+			// s << ",";
+
+			// s << elapsed_secondsA.count();
+			// s << ",";
+			// s << "CompletoHeurEmi" << endl;
+
+			// Ahora funcion Complej
+
 			s << i;
 			s << ",";
-
-			pair <vector<int>, int> resultado1;
-
-			start1 = std::chrono::system_clock::now();
-			resultado1 = HeuristicaEmi(&grafo);
-			end1 = std::chrono::system_clock::now();
-
-			std::chrono::duration<double, std::milli> elapsed_secondsA = end1-start1;
-
-			s << resultado1.second;
+			s << 0;
 			s << ",";
 
-			s << elapsed_secondsA.count();
+			startCubo = std::chrono::system_clock::now();
+			funcionEneCubo(i);
+			endCubo = std::chrono::system_clock::now();
+
+			std::chrono::duration<double, std::milli> elapsed_secondsCubo = endCubo-startCubo;
+
+			s << elapsed_secondsCubo.count();
 			s << ",";
-			s << "CompletoHeurEmi" << endl;
+			s << "FuncionEneCubo" << endl;
 
 		}
 	}
@@ -1020,7 +1037,7 @@ int main(){
 	// TestX();
 	// Test2();
 	// Test5_8();
-	//expComplej();
+	expComplej();
 	//expGrafoTodosContraTodos();
 	//expGrafoRandomDensidadMedia();
 	// quepasaa();

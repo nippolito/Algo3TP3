@@ -23,7 +23,7 @@ def expComplejNipo():
 
 	# consumo = [(math.pow(n, 3) * math.log(100, 2)) for n in enes]
 
-	HeurNipo = df1[df1['Tipo'] == 'CompletoHeurNipo']
+	HeurNipo = df1[df1['Tipo'] == 'CompletoHeurNipo' and df1['cantNod'] < 351]
 	HeurNipo_count = HeurNipo.groupby('cantNod')
 	List1 = HeurNipo_count.Tiempo_ms.tolist()
 
@@ -47,7 +47,7 @@ def expComplejEmi():
 
 	# consumo = [(math.pow(n, 3) * math.log(100, 2)) for n in enes]
 
-	HeurEmi = df1[df1['Tipo'] == 'CompletoHeurEmi']
+	HeurEmi = df1[df1['Tipo'] == 'CompletoHeurEmi' and df1['cantNod'] < 351]
 	HeurEmi_count = HeurEmi.groupby('cantNod').mean()
 	List2 = HeurEmi_count.Tiempo_ms.tolist()
 

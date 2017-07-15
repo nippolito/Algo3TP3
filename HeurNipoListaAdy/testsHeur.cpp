@@ -977,6 +977,128 @@ void expGolosaEmiVsBLDensidadAlta(){
 	}
 }
 
+
+void TESTEAESTONIPO(){
+	srand(60);
+
+	fstream s ("testeaEstoNipooo.csv", ios::out);
+
+	s << "cantNod,Res,Tiempo,Tipo, Iteraciones" << endl;
+
+	cout << "Heur Emi con BL" << endl;
+
+	std::chrono::time_point<std::chrono::system_clock> start, end;
+	std::chrono::time_point<std::chrono::system_clock> start1, end1;
+	std::chrono::time_point<std::chrono::system_clock> startBLN, endBLN;
+	
+	std::chrono::time_point<std::chrono::system_clock> startBLN2, endBLN2;
+	std::chrono::time_point<std::chrono::system_clock> startBLE, endBLE;
+
+	for(int i = 5; i < 200; i++){
+		cout << "Voy por n = " << i << endl;
+		
+			
+		for(int j = 0; j < 30; j++){ //decia 40
+			Graph grafo;
+			generadorGrafoRandom(&grafo, i, 0.8, rand(), 0);
+			
+			long int iteracionesL = 0 ;
+			long int iteracionesC = 0;
+			
+			s << i;
+			s << ",";
+
+			pair<vector<int>, int> resultado;
+			pair<vector<int>, int> resultadoBLN;
+			pair<vector<int>, int> resultadoBLN2;
+
+			start = std::chrono::system_clock::now();
+			resultado = HeuristicaEmi(&grafo);
+			end = std::chrono::system_clock::now();
+
+			std::chrono::duration<double, std::milli> elapsed_seconds = end-start;
+
+			s << resultado.second;
+			s << ",";
+
+			s << elapsed_seconds.count();
+			s << ",";
+			s << "HeurEmi" << endl;
+
+
+			//Busqueda Local con resultado de la Heuristica Nipo
+			s << i;
+			s << ",";
+			
+			 startBLN = std::chrono::system_clock::now();
+			 resultadoBLN = HeurGregoLineal(&grafo, resultado.first);
+			 endBLN = std::chrono::system_clock::now();
+
+			std::chrono::duration<double, std::milli> elapsed_secondsBLN = endBLN-startBLN;
+
+			s << resultadoBLN.second;
+			s << ",";
+
+			s << elapsed_secondsBLN.count();
+			s << ",";
+			s << "BLinealHeurEmi"<<endl;
+				
+			//////////////////////
+			
+			s << i;
+			s << ",";
+			
+			s << (double)(resultadoBLN.second - resultado.second)/(double)i;
+			s << ",";
+
+			s << 0;
+			s << ",";
+			s << "DiferenciaHeurEmiConLineal" << endl;
+
+			/////////////////////
+			s << i;
+			s << ",";
+			
+			 startBLN2 = std::chrono::system_clock::now();
+			 resultadoBLN2 = HeurGregoCuadratica(&grafo, resultado.first);
+			 endBLN2 = std::chrono::system_clock::now();
+
+			std::chrono::duration<double, std::milli> elapsed_secondsBLN2 = endBLN2-startBLN2;
+
+			s << resultadoBLN2.second;
+			s << ",";
+
+			s << elapsed_secondsBLN2.count();
+			s << ",";
+			s << "BCuadraticaHeurEmi"<<endl;
+			
+			
+			s << i;
+			s << ",";
+			
+			s << (double)(resultadoBLN2.second - resultado.second)/(double)i;
+			s << ",";
+
+			s << 0;
+			s << ",";
+			s << "DiferenciaHeurEmiConCuadratica" << endl;
+
+			s << i;
+			s << ",";
+			
+			s << (double)(resultadoBLN2.second - resultadoBLN.second)/(double)i;
+			s << ",";
+
+			s << 0;
+			s << ",";
+			s << "DiferenciasLocales" << endl;
+
+
+			
+		}
+	}
+}
+
 void comentarios(){
 
 

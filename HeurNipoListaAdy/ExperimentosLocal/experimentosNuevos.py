@@ -209,9 +209,76 @@ def HeurEmiDifCuadLinealDAlta():
 	plt.legend()
 	plt.show()
 
-def TiemposLC():
+def IteracionesBaja():
 	df1 = pd.read_csv('HeurEmioConLinealDBaja.csv')
 
+	Lineal = df1[df1['Tipo'] == 'BLinealHeurEmi']
+	Cuadr = df1[df1['Tipo'] == 'BCuadraticaHeurEmi']
+
+
+	xdata = Lineal['cantNod']
+	ydataLineal = Lineal['Iteraciones']
+	ydataCuadr = Cuadr ['Iteraciones']
+
+	plt.plot(xdata, ydataLineal, "r*", alpha=0.5, label = 'IteracionesLineal')
+
+	plt.plot(xdata, ydataCuadr, "g.", alpha=0.5, label = 'IteracionesCuadratica')
+
+	plt.ylabel('Diferencia obtenida')
+	plt.xlabel('Cantidad de nodos entrada')
+	# plt.yscale('log')
+
+	plt.legend()
+	plt.show()
+
+def IteracionesMedia():
+	df1 = pd.read_csv('HeurEmioConLinealDMedia.csv')
+
+	Lineal = df1[df1['Tipo'] == 'BLinealHeurEmi']
+	Cuadr = df1[df1['Tipo'] == 'BCuadraticaHeurEmi']
+
+
+	xdata = Lineal['cantNod']
+	ydataLineal = Lineal['Iteraciones']
+	ydataCuadr = Cuadr ['Iteraciones']
+
+	plt.plot(xdata, ydataLineal, "r*", alpha=0.5, label = 'IteracionesLineal')
+
+	plt.plot(xdata, ydataCuadr, "g.", alpha=0.5, label = 'IteracionesCuadratica')
+
+	plt.ylabel('Diferencia obtenida')
+	plt.xlabel('Cantidad de nodos entrada')
+	# plt.yscale('log')
+
+	plt.legend()
+	plt.show()
+
+def IteracionesAlta():
+	df1 = pd.read_csv('HeurEmioConLinealDAlta.csv')
+
+	Lineal = df1[df1['Tipo'] == 'BLinealHeurEmi']
+	Cuadr = df1[df1['Tipo'] == 'BCuadraticaHeurEmi']
+
+
+	xdata = Lineal['cantNod']
+	ydataLineal = Lineal['Iteraciones']
+	ydataCuadr = Cuadr ['Iteraciones']
+
+	plt.plot(xdata, ydataLineal, "r*", alpha=0.5, label = 'IteracionesLineal')
+
+	plt.plot(xdata, ydataCuadr, "g.", alpha=0.5, label = 'IteracionesCuadratica')
+
+	plt.ylabel('Diferencia obtenida')
+	plt.xlabel('Cantidad de nodos entrada')
+	# plt.yscale('log')
+
+	plt.legend()
+	plt.show()
+
+def TiemposBaja():
+	df1 = pd.read_csv('HeurEmioConLinealDBaja.csv')
+
+	enes = [5,10,15,20,25,0,5,40,45,50,55,60,65,70,75,80,85,90,95,100,105,110,115,120,125,130,135,140,145,150,155,160,165,170,175]
 
 	Lineal = df1[df1['Tipo'] == 'BLinealHeurEmi']
 	Lineal_count = Lineal.groupby('cantNod').mean()
@@ -221,12 +288,65 @@ def TiemposLC():
 	Cuadr_count = Cuadr.groupby('cantNod').mean()
 	List2 = Cuadr_count.Tiempo.tolist()
 
-	xrow = len(List1)
+	print List1
 
 
-	dataf1 = pd.DataFrame({'Busqueda Lineal': List1, 'Busqueda Cuadratica': List2})
+
+	dataf1 = pd.DataFrame({'Busqueda Lineal': List1, 'Busqueda Cuadratica': List2, 'CantVertices':enes})
 	dataf1.astype(float)
-	dataf1.plot(title='', x=xrow , style=['--b', '--r', '--g'])
+	dataf1.plot(title='', x='CantVertices' , style=['--b', '--r', '--g'], logy = True)
+	# dataf1.plot(title='', x='CantVertices', logy=True, kind='scatter', colorbar=True)
+	plt.ylabel('Tiempo en ms')
+	plt.xlabel('Cantidad de nodos entrada')
+
+	plt.show()
+
+def TiemposMedia():
+	df1 = pd.read_csv('HeurEmioConLinealDMedia.csv')
+
+	enes = [5,10,15,20,25,0,5,40,45,50,55,60,65,70,75,80,85,90,95,100,105,110,115,120,125,130,135,140,145,150,155,160,165,170,175]
+
+	Lineal = df1[df1['Tipo'] == 'BLinealHeurEmi']
+	Lineal_count = Lineal.groupby('cantNod').mean()
+	List1 = Lineal_count.Tiempo.tolist()
+
+	Cuadr = df1[df1['Tipo'] == 'BCuadraticaHeurEmi']
+	Cuadr_count = Cuadr.groupby('cantNod').mean()
+	List2 = Cuadr_count.Tiempo.tolist()
+
+	print List1
+
+
+
+	dataf1 = pd.DataFrame({'Busqueda Lineal': List1, 'Busqueda Cuadratica': List2, 'CantVertices':enes})
+	dataf1.astype(float)
+	dataf1.plot(title='', x='CantVertices' , style=['--b', '--r', '--g'], logy= True)
+	# dataf1.plot(title='', x='CantVertices', logy=True, kind='scatter', colorbar=True)
+	plt.ylabel('Tiempo en ms')
+	plt.xlabel('Cantidad de nodos entrada')
+
+	plt.show()
+
+def TiemposAlta():
+	df1 = pd.read_csv('HeurEmioConLinealDAlta.csv')
+
+	enes = [5,10,15,20,25,0,5,40,45,50,55,60,65,70,75,80,85,90,95,100,105,110,115,120,125,130,135,140,145,150,155,160,165,170,175]
+
+	Lineal = df1[df1['Tipo'] == 'BLinealHeurEmi']
+	Lineal_count = Lineal.groupby('cantNod').mean()
+	List1 = Lineal_count.Tiempo.tolist()
+
+	Cuadr = df1[df1['Tipo'] == 'BCuadraticaHeurEmi']
+	Cuadr_count = Cuadr.groupby('cantNod').mean()
+	List2 = Cuadr_count.Tiempo.tolist()
+
+	print List1
+
+
+
+	dataf1 = pd.DataFrame({'Busqueda Lineal': List1, 'Busqueda Cuadratica': List2, 'CantVertices':enes})
+	dataf1.astype(float)
+	dataf1.plot(title='', x='CantVertices' , style=['--b', '--r', '--g'], logy= True)
 	# dataf1.plot(title='', x='CantVertices', logy=True, kind='scatter', colorbar=True)
 	plt.ylabel('Tiempo en ms')
 	plt.xlabel('Cantidad de nodos entrada')
@@ -234,6 +354,27 @@ def TiemposLC():
 	plt.show()
 
 
+
+
+
+def prueba():
+	df1 = pd.read_csv('HeurEmioConLinealDAlta.csv')
+
+	DLineal = df1[df1['Tipo'] == 'DiferenciaHeurEmiConLineal']
+	
+	xdata = DLineal['cantNod']
+
+	ydataLineal = DLineal['Res']
+	prueba = pd.Series()
+	
+	l = len(xdata)
+	c= 2
+	
+	prueba = toA
+
+	for  i in xrange(0,l):
+		print prueba
+		c+=6
 
 
 # expComplejNipoYEmi()
@@ -251,4 +392,10 @@ def TiemposLC():
 #HeurEmiDifCuadLinealDBaja()
 #HeurEmiDifCuadLinealDMedia()
 #HeurEmiDifCuadLinealDAlta()
-TiemposLC()
+#prueba()
+#IteracionesBaja()
+#IteracionesMedia()
+#IteracionesAlta()
+#TiemposBaja()
+TiemposMedia()
+#TiemposAlta()

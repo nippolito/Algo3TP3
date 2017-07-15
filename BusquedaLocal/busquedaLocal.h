@@ -27,7 +27,7 @@ int CalcularFronteras(set<int> matrix [], set<int>& solucion){
 	return res;
 }
 
-int BusquedaLocalCuadratica(set<int> matrix [], set<int>& solAct, int n , int m, long int & iteraciones){
+int BusquedaLocalCuadratica(set<int> matrix [], set<int>& solAct, int n , int m){
 
 	bool noEncontrePozo = true;
 	set<int> NodosRestantes;
@@ -35,7 +35,6 @@ int BusquedaLocalCuadratica(set<int> matrix [], set<int>& solAct, int n , int m,
 		if(solAct.find(n) == solAct.end()) NodosRestantes.insert(i);
 	}
 	while(noEncontrePozo){
-		iteraciones ++;
 		//mostrarSet(solAct);
 		set<int> solucionesSumandoNodo;
 		set<int> solucionesRestandoNodo; 
@@ -139,13 +138,12 @@ int BusquedaLocalCuadratica(set<int> matrix [], set<int>& solAct, int n , int m,
 }
 
 
-int BusquedaLocalLineal(set<int> matrix [], set<int>& solAct, int n , int m, long int & iteraciones){
+int BusquedaLocalLineal(set<int> matrix [], set<int>& solAct, int n , int m){
 
 	bool noEncontrePozo = true;
 	int cantidadDeIteraciones = 0;
 
 	while(noEncontrePozo){
-		iteraciones ++;
 		cantidadDeIteraciones++;
 		set<int> solucionesSumandoNodo;
 		set<int> solucionesRestandoNodo; 						
@@ -213,7 +211,7 @@ int BusquedaLocalLineal(set<int> matrix [], set<int>& solAct, int n , int m, lon
 }
 
 
-pair<vector<int> , int> HeurGregoLineal (Graph* g, vector <int> solAct, long int& iteraciones){
+pair<vector<int> , int> HeurGregoLineal (Graph* g, vector <int> solAct){
 	int n = g->listaAdy.size();
 	
 	set<int> matrix [n];
@@ -231,7 +229,7 @@ pair<vector<int> , int> HeurGregoLineal (Graph* g, vector <int> solAct, long int
 		sol.insert(solAct[i]);
 	}
 	
-	int res = BusquedaLocalLineal(matrix, sol, g->listaAdy.size(), 10, iteraciones );
+	int res = BusquedaLocalLineal(matrix, sol, g->listaAdy.size(), 10 );
 	
 	
 	solAct.clear();
@@ -245,7 +243,7 @@ pair<vector<int> , int> HeurGregoLineal (Graph* g, vector <int> solAct, long int
 
 
 
-pair<vector<int> , int> HeurGregoCuadratica (Graph* g, vector <int> solAct, long int& iteraciones){
+pair<vector<int> , int> HeurGregoCuadratica (Graph* g, vector <int> solAct){
 	int n = g->listaAdy.size();
 	
 	set<int> matrix [n];
@@ -263,7 +261,7 @@ pair<vector<int> , int> HeurGregoCuadratica (Graph* g, vector <int> solAct, long
 		sol.insert(solAct[i]);
 	}
 	
-	int res = BusquedaLocalCuadratica(matrix, sol, g->listaAdy.size(), 10, iteraciones );
+	int res = BusquedaLocalCuadratica(matrix, sol, g->listaAdy.size(), 10 );
 	
 		
 	solAct.clear();

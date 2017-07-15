@@ -240,7 +240,7 @@ void expGrafoRandomDensidadMedia(){
 	std::chrono::time_point<std::chrono::system_clock> startBLN, endBLN;
 	std::chrono::time_point<std::chrono::system_clock> startBLE, endBLE;
 
-	for(int i = 1; i < 401; i++){
+	for(int i = 1; i < 251; i++){
 		cout << "Voy por n = " << i << endl;
 		for(int j = 0; j < 30; j++){ 
 			// s << i;
@@ -265,7 +265,7 @@ void expGrafoRandomDensidadMedia(){
 
 			s << elapsed_secondsA.count();
 			s << ",";
-			s << "GrafoRandomDMediaHeurEmi" << endl;
+			s << "Grasp" << endl;
 
 
 			
@@ -284,14 +284,14 @@ void expGrafoRandom50(){
 	sm << "cantNod,Res,Tiempo,Tipo" << endl;
 	sa << "cantNod,Res,Tiempo,Tipo" << endl;
 
-	cout << "Arranca grafo Random Densidad Media" << endl;
+	cout << "Arranca grafo Random Densidades variadas" << endl;
 
 	std::chrono::time_point<std::chrono::system_clock> start, end;
 	std::chrono::time_point<std::chrono::system_clock> start1, end1;
 	std::chrono::time_point<std::chrono::system_clock> startBLN, endBLN;
 	std::chrono::time_point<std::chrono::system_clock> startBLE, endBLE;
 
-	for(int i = 1; i < 251; ){
+	for(int i = 1; i < 251; i = i + 5){
 		cout << "Voy por n = " << i << endl;
 		for(int j = 0; j < 30; j++){ 
 			// s << i;
@@ -358,13 +358,11 @@ void expGrafoRandom50(){
 
 			sa << elapsed_secondsA.count();
 			sa << ",";
-			sa << "GrafoRandomDBajaGRASP" << endl;
+			sa << "GrafoRandomDAltaGRASP" << endl;
 
 
 			
 		}
-
-		i += 5;
 	}
 }
 

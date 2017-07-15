@@ -141,37 +141,31 @@ void MedicionesAlfa(int sampleoGrafos)
 }
 
 
-void MedicionesIteraciones(int sampleoGrafos)
+void MedicionesIteraciones(int sampleoGrafos, int sizeGrafos)
 {
 	srand(time(NULL));
 
-	fstream s("HeatMapGraspIter.csv", ios::out);
+	fstream s("HeatMapGraspIter250.csv", ios::out);
 	s << "IteracionesFijas,IteracionesReales,Tipo" << endl;
-	for (int i = 500; i < 501; )
+	vector<Graph> grafos;
+	for (int j = 0; j < sampleoGrafos; ++j)
 	{
-		vector<Graph> grafos;
-		for (int j = 0; j < sampleoGrafos; ++j)
+		Graph g;
+		grafos.push_back(GenerarGrafoRandom(g, sizeGrafos));
+	}
+	for (int j = 10; j < 201; )
+	{
+		for (int k = 0; k < sampleoGrafos; ++k)
 		{
-			Graph g;
-			grafos.push_back(GenerarGrafoRandom(g, i));
+			Clique res = CalcularCliqueMaxVecinos(grafos[k], 0.25, j);
+			s << j << ", " << res.cantIteraciones << ", " << "Iteraciones Reales" << endl;
 		}
-
-		for (int j = 10; j < 201; )
-		{
-			for (int k = 0; k < sampleoGrafos; ++k)
-			{
-				Clique res = CalcularCliqueMaxVecinos(grafos[k], 0.25, j);
-				s << j << ", " << res.cantIteraciones << ", " << "Iteraciones Reales" << endl;
-			}
-			cout << "Calcule para " << i << " nodos y " << j << " iteraciones " << endl;
-			
-			j += 10;
-		}
+		cout << "Calcule para " << sizeGrafos << " nodos y " << j << " iteraciones " << endl;
+		
+		j += 10;
+	}
 		
 
-		i += 20;
-
-	}
 	
 
 }
@@ -181,8 +175,9 @@ int main(){
 	
 	cout << "Arrancando Mediciones" << endl;
 	//Mediciones(10);
-	MedicionesAlfa(10);
-	//MedicionesIteraciones(30);
+	//MedicionesAlfa(10);
+	//MedicionesIteraciones(30, 500);
+	MedicionesIteraciones(30, 250);
 
 	return 0;
 }

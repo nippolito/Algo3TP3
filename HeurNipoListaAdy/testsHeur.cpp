@@ -1112,7 +1112,7 @@ void expFinalDensidadAlta(){
 	std::chrono::time_point<std::chrono::system_clock> startBLLE, endBLLE;
 	std::chrono::time_point<std::chrono::system_clock> startBLCE, endBLCE;
 
-	for(int i = 1; i < 301; i = i + 5){
+	for(int i = 1; i < 251; i = i + 5){
 		cout << "Voy por n = " << i << endl;
 		for(int j = 0; j < 30; j++){ 
 
@@ -1219,7 +1219,7 @@ void expFinalDensidadMedia(){
 	std::chrono::time_point<std::chrono::system_clock> startBLLE, endBLLE;
 	std::chrono::time_point<std::chrono::system_clock> startBLCE, endBLCE;
 
-	for(int i = 1; i < 301; i = i + 5){
+	for(int i = 1; i < 251; i = i + 5){
 		cout << "Voy por n = " << i << endl;
 		for(int j = 0; j < 30; j++){ 
 
@@ -1326,7 +1326,7 @@ void expFinalDensidadBaja(){
 	std::chrono::time_point<std::chrono::system_clock> startBLLE, endBLLE;
 	std::chrono::time_point<std::chrono::system_clock> startBLCE, endBLCE;
 
-	for(int i = 1; i < 301; i = i + 5){
+	for(int i = 1; i < 251; i = i + 5){
 		cout << "Voy por n = " << i << endl;
 		for(int j = 0; j < 30; j++){ 
 
@@ -1436,9 +1436,9 @@ int main(){
 	// expGolosaEmiVsBLDensidadMedia();
 	// expGolosaEmiVsBLDensidadAlta();
 
-	// expFinalDensidadBaja();
-	// expFinalDensidadMedia();
-	// expFinalDensidadAlta();
+	expFinalDensidadBaja();
+	expFinalDensidadMedia();
+	expFinalDensidadAlta();
 
 
 	return 0;

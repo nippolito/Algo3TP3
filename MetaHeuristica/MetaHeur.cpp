@@ -45,6 +45,12 @@ struct Graph
 		}
 	};
 
+	void addEdge(int src, int dest){
+		matrizAdy[src][dest] = 1;
+		matrizAdy[dest][src] = 1;
+		m++;
+	}
+
 	void AgregarSiHaceClique(Clique cq, vector<int>& v)
 	{
 		if (cq.size == 0){

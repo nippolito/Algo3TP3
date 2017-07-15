@@ -1,6 +1,5 @@
 #include <chrono>
 #include "GeneradorDeGrafosConClique.h"
-
 #include <iostream>
 #include <fstream>
 #include "MetaHeur.cpp"
@@ -196,7 +195,8 @@ void MedicionesTiempo(int sampleoGrafos)
 		for (int k = 0; k < sampleoGrafos; ++k)
 		{
 			start = std::chrono::high_resolution_clock::now();
-   			CalcularCliqueMaxVecinos(grafos[k], 0.25, 20);
+   			CalcularCliqueMaxVecinos(grafos[k], 0.25, 1);
+
 			finish = std::chrono::high_resolution_clock::now();
 	   		Duracion tiempoEjec = finish - start;
 		   	
@@ -378,6 +378,6 @@ int main(){
 	//MedicionesTiempo(30);
 	expGrafoRandomDensidadMedia();
 	expGrafoRandom50();
-
+	
 	return 0;
 }

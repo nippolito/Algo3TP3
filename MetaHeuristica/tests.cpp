@@ -265,7 +265,7 @@ void expGrafoRandomDensidadMedia(){
 
 			s << elapsed_secondsA.count();
 			s << ",";
-			s << "GrafoRandomDMediaHeurEmi" << endl;
+			s << "Grasp" << endl;
 
 
 			
@@ -284,7 +284,7 @@ void expGrafoRandom50(){
 	sm << "cantNod,Res,Tiempo,Tipo" << endl;
 	sa << "cantNod,Res,Tiempo,Tipo" << endl;
 
-	cout << "Arranca grafo Random Densidad Media" << endl;
+	cout << "Arranca grafo Random Densidades variadas" << endl;
 
 	std::chrono::time_point<std::chrono::system_clock> start, end;
 	std::chrono::time_point<std::chrono::system_clock> start1, end1;
@@ -358,13 +358,11 @@ void expGrafoRandom50(){
 
 			sa << elapsed_secondsA.count();
 			sa << ",";
-			sa << "GrafoRandomDBajaGRASP" << endl;
+			sa << "GrafoRandomDAltaGRASP" << endl;
 
 
 			
 		}
-
-		i += 5;
 	}
 }
 

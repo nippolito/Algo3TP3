@@ -11,6 +11,7 @@ using namespace std;
 
 struct Clique
 {	
+	int cantIteraciones;
 	int size;
 	int numeroVecinos;
 	vector<int> vecinos;
@@ -182,6 +183,7 @@ Clique CalcularCliqueMaxVecinos(Graph g, float alfa, int ciclosGrasp){
 	solucionActual.size = 0;
 	solucionActual.numeroVecinos = 0;
 	solucionActual.miembros= vector<int>(g.n, 0);
+	solucionActual.cantIteraciones = 0;
 
 	for (int ciclo = 0; ciclo < ciclosGrasp; ++ciclo)
 	{
@@ -240,7 +242,7 @@ Clique CalcularCliqueMaxVecinos(Graph g, float alfa, int ciclosGrasp){
 		}
 
 		int numeroFrontera = lineal::BusquedaLocalLineal(matrix, solAct, g.n, 0);
-
+		solucionActual.cantIteraciones++;
 		//Comparacion con solucion actual
 		//if (solucionActual.numeroVecinos < clique.numeroVecinos) solucionActual = clique;
 		if (numeroFrontera > solucionActual.numeroVecinos){

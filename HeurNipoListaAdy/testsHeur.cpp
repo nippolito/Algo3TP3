@@ -977,7 +977,6 @@ void expGolosaEmiVsBLDensidadAlta(){
 	}
 }
 
-
 void TESTEAESTONIPO(){
 	srand(60);
 
@@ -1099,113 +1098,327 @@ void TESTEAESTONIPO(){
 	}
 }
 
-void comentarios(){
+void expFinalDensidadAlta(){
+	srand(50);
 
+	fstream s ("ExpFinalSinGraspDensidadAlta.csv", ios::out);
 
-// void genGrafoMalo(Graph* grafo, int cantNodos){		// n >= 5, sino tira segmentation fault
-// 	int n = cantNodos;
-// 	int m = cantNodos - 2;
+	s << "cantNod,Res,Tiempo,Tipo" << endl;
 
-// 	createGraph(grafo, n, m);
+	cout << "Arranca Experimentación final densidad Alta" << endl;
 
-// 	int r, v;
+	std::chrono::time_point<std::chrono::system_clock> startN, endN;
+	std::chrono::time_point<std::chrono::system_clock> startE, endE;
+	std::chrono::time_point<std::chrono::system_clock> startBLLE, endBLLE;
+	std::chrono::time_point<std::chrono::system_clock> startBLCE, endBLCE;
 
-// 	if(n % 3 == 2){
-// 		r = (n + 1) / 3;
-// 		v = r - 2;
-// 		int i = 1;
-// 		for(int j = 0; j < r; j++){
-// 			addEdge(grafo, 0, i);
-// 			i++;
-// 		}
-// 		addEdge(grafo, i, i + 1);
-// 		for(int j = i + 2; j < (i + 2) + v; j++){
-// 			addEdge(grafo, i, j);
-// 		}
-// 		i++;
-// 		for(int j = i + 1 + v; j < (i + 1 + v*2); j++){
-// 			addEdge(grafo, i, j);
-// 		}
-// 	}else{
-// 		if(n % 3 == 0){
-// 			r = n / 3;
-// 			v = r - 2;
-// 			int i = 1;
-// 			for(int j = 0; j < r; j++){
-// 				addEdge(grafo, 0, i);
-// 				i++;
-// 			}
-// 			addEdge(grafo, i, i + 1);
-// 			for(int j = i + 2; j < (i + 2) + v; j++){
-// 				addEdge(grafo, i, j);
-// 			}
-// 			i++;
-// 			for(int j = i + 1 + v; j < (i + 1 + v*2); j++){
-// 				addEdge(grafo, i, j);
-// 			}
-// 			addEdge(grafo, n - 1, n - 2);
-// 		}else{
-// 			r = (n - 1) / 3;
-// 			v = r - 2;
-// 			int i = 1;
-// 			for(int j = 0; j < r; j++){
-// 				addEdge(grafo, 0, i);
-// 				i++;
-// 			}
-// 			addEdge(grafo, i, i + 1);
-// 			for(int j = i + 2; j < (i + 2) + v; j++){
-// 				addEdge(grafo, i, j);
-// 			}
-// 			i++;
-// 			for(int j = i + 1 + v; j < (i + 1 + v*2); j++){
-// 				addEdge(grafo, i, j);
-// 			}
-// 			addEdge(grafo, n - 2, n - 3);
-// 			addEdge(grafo, n - 1, 1);
-// 		}
-// 	}
-// 	// mostrarMatriz(grafo->matrizAdy, n);
-// }
+	for(int i = 1; i < 301; i = i + 5){
+		cout << "Voy por n = " << i << endl;
+		for(int j = 0; j < 30; j++){ 
 
-// void expGrafoMalo(){
-// 	fstream s ("ExpGrafoMaloHeurNipo.csv", ios::out);
+			// Genero grafo random densidad media
 
-// 	s << "cantNod,Res,Tiempo,Tipo" << endl;
+			Graph grafo;
+			generadorGrafoRandom(&grafo, i, DENSIDAD_ALTA, rand(), 0);
 
-// 	cout << "Arranca grafo malo Nipo" << endl;
+			// Primero heurística Nipo
 
-// 	std::chrono::time_point<std::chrono::system_clock> start, end;
+			s << i;
+			s << ",";
+			
+			pair<vector<int>, int> resultadoN;
 
-// 	for(int i = 5; i < 601; i++){
-// 		cout << "Voy por n = " << i << endl;
-// 		for(int j = 0; j < 40; j++){
-// 			s << i;
-// 			s << ",";
+			startN = std::chrono::system_clock::now();
+			resultadoN = HeuristicaNipo(&grafo);
+			endN = std::chrono::system_clock::now();
 
-// 			Graph grafo;
-// 			genGrafoMalo(&grafo, i);
+			std::chrono::duration<double, std::milli> elapsed_secondsN = endN-startN;
 
-// 			pair<vector<int>, int> resultado;
+			s << resultadoN.second;
+			s << ",";
 
-// 			start = std::chrono::system_clock::now();
-// 			resultado = HeuristicaNipo(&grafo);
-// 			end = std::chrono::system_clock::now();
+			s << elapsed_secondsN.count();
+			s << ",";
+			s << "HeurNipo" << endl;
 
-// 			std::chrono::duration<double, std::milli> elapsed_seconds = end-start;
+			// Ahora heurística Emi
 
-// 			s << resultado.second;
-// 			s << ",";
+			s << i;
+			s << ",";
 
-// 			s << elapsed_seconds.count();
-// 			s << ",";
-// 			s << "GrafoMaloNipo" << endl;
-// 		}
-// 	}
-// }
+			pair <vector<int>, int> resultadoE;
 
+			startE = std::chrono::system_clock::now();
+			resultadoE = HeuristicaEmi(&grafo);
+			endE = std::chrono::system_clock::now();
 
+			std::chrono::duration<double, std::milli> elapsed_secondsE = endE-startE;
 
+			s << resultadoE.second;
+			s << ",";
+
+			s << elapsed_secondsE.count();
+			s << ",";
+			s << "HeurEmi" << endl;
+
+			// Ahora búsqueda local lineal con heurística Emi
+
+			s << i;
+			s << ",";
+
+			pair <vector<int>, int> resultadoBLLE;
+
+			startBLLE = std::chrono::system_clock::now();
+			resultadoBLLE = HeurGregoCuadratica(&grafo, resultadoE.first);
+			endBLLE = std::chrono::system_clock::now();
+
+			std::chrono::duration<double, std::milli> elapsed_secondsBLLE = endBLLE-startBLLE;
+
+			s << resultadoBLLE.second;
+			s << ",";
+
+			s << elapsed_secondsBLLE.count();
+			s << ",";
+			s << "BusquedaLocalLinealEmi" << endl;
+
+			// Ahora búsqueda local cuadrática con heurística Emi
+		
+			s << i;
+			s << ",";
+
+			pair <vector<int>, int> resultadoBLCE;
+
+			startBLCE = std::chrono::system_clock::now();
+			resultadoBLCE = HeurGregoCuadratica(&grafo, resultadoE.first);
+			endBLCE = std::chrono::system_clock::now();
+
+			std::chrono::duration<double, std::milli> elapsed_secondsBLCE = endBLCE-startBLCE;
+
+			s << resultadoBLCE.second;
+			s << ",";
+
+			s << elapsed_secondsBLCE.count();
+			s << ",";
+			s << "BusquedaLocalCuadraticaEmi" << endl;
+
+		}
+	}
 }
+
+void expFinalDensidadMedia(){
+	srand(50);
+
+	fstream s ("ExpFinalSinGraspDensidadMedia.csv", ios::out);
+
+	s << "cantNod,Res,Tiempo,Tipo" << endl;
+
+	cout << "Arranca Experimentación final densidad Media" << endl;
+
+	std::chrono::time_point<std::chrono::system_clock> startN, endN;
+	std::chrono::time_point<std::chrono::system_clock> startE, endE;
+	std::chrono::time_point<std::chrono::system_clock> startBLLE, endBLLE;
+	std::chrono::time_point<std::chrono::system_clock> startBLCE, endBLCE;
+
+	for(int i = 1; i < 301; i = i + 5){
+		cout << "Voy por n = " << i << endl;
+		for(int j = 0; j < 30; j++){ 
+
+			// Genero grafo random densidad media
+
+			Graph grafo;
+			generadorGrafoRandom(&grafo, i, DENSIDAD_MEDIA, rand(), 0);
+
+			// Primero heurística Nipo
+
+			s << i;
+			s << ",";
+			
+			pair<vector<int>, int> resultadoN;
+
+			startN = std::chrono::system_clock::now();
+			resultadoN = HeuristicaNipo(&grafo);
+			endN = std::chrono::system_clock::now();
+
+			std::chrono::duration<double, std::milli> elapsed_secondsN = endN-startN;
+
+			s << resultadoN.second;
+			s << ",";
+
+			s << elapsed_secondsN.count();
+			s << ",";
+			s << "HeurNipo" << endl;
+
+			// Ahora heurística Emi
+
+			s << i;
+			s << ",";
+
+			pair <vector<int>, int> resultadoE;
+
+			startE = std::chrono::system_clock::now();
+			resultadoE = HeuristicaEmi(&grafo);
+			endE = std::chrono::system_clock::now();
+
+			std::chrono::duration<double, std::milli> elapsed_secondsE = endE-startE;
+
+			s << resultadoE.second;
+			s << ",";
+
+			s << elapsed_secondsE.count();
+			s << ",";
+			s << "HeurEmi" << endl;
+
+			// Ahora búsqueda local lineal con heurística Emi
+
+			s << i;
+			s << ",";
+
+			pair <vector<int>, int> resultadoBLLE;
+
+			startBLLE = std::chrono::system_clock::now();
+			resultadoBLLE = HeurGregoCuadratica(&grafo, resultadoE.first);
+			endBLLE = std::chrono::system_clock::now();
+
+			std::chrono::duration<double, std::milli> elapsed_secondsBLLE = endBLLE-startBLLE;
+
+			s << resultadoBLLE.second;
+			s << ",";
+
+			s << elapsed_secondsBLLE.count();
+			s << ",";
+			s << "BusquedaLocalLinealEmi" << endl;
+
+			// Ahora búsqueda local cuadrática con heurística Emi
+		
+			s << i;
+			s << ",";
+
+			pair <vector<int>, int> resultadoBLCE;
+
+			startBLCE = std::chrono::system_clock::now();
+			resultadoBLCE = HeurGregoCuadratica(&grafo, resultadoE.first);
+			endBLCE = std::chrono::system_clock::now();
+
+			std::chrono::duration<double, std::milli> elapsed_secondsBLCE = endBLCE-startBLCE;
+
+			s << resultadoBLCE.second;
+			s << ",";
+
+			s << elapsed_secondsBLCE.count();
+			s << ",";
+			s << "BusquedaLocalCuadraticaEmi" << endl;
+
+		}
+	}
+}
+
+void expFinalDensidadBaja(){
+	srand(50);
+
+	fstream s ("ExpFinalSinGraspDensidadBaja.csv", ios::out);
+
+	s << "cantNod,Res,Tiempo,Tipo" << endl;
+
+	cout << "Arranca Experimentación final densidad Baja" << endl;
+
+	std::chrono::time_point<std::chrono::system_clock> startN, endN;
+	std::chrono::time_point<std::chrono::system_clock> startE, endE;
+	std::chrono::time_point<std::chrono::system_clock> startBLLE, endBLLE;
+	std::chrono::time_point<std::chrono::system_clock> startBLCE, endBLCE;
+
+	for(int i = 1; i < 301; i = i + 5){
+		cout << "Voy por n = " << i << endl;
+		for(int j = 0; j < 30; j++){ 
+
+			// Genero grafo random densidad media
+
+			Graph grafo;
+			generadorGrafoRandom(&grafo, i, DENSIDAD_BAJA, rand(), 0);
+
+			// Primero heurística Nipo
+
+			s << i;
+			s << ",";
+			
+			pair<vector<int>, int> resultadoN;
+
+			startN = std::chrono::system_clock::now();
+			resultadoN = HeuristicaNipo(&grafo);
+			endN = std::chrono::system_clock::now();
+
+			std::chrono::duration<double, std::milli> elapsed_secondsN = endN-startN;
+
+			s << resultadoN.second;
+			s << ",";
+
+			s << elapsed_secondsN.count();
+			s << ",";
+			s << "HeurNipo" << endl;
+
+			// Ahora heurística Emi
+
+			s << i;
+			s << ",";
+
+			pair <vector<int>, int> resultadoE;
+
+			startE = std::chrono::system_clock::now();
+			resultadoE = HeuristicaEmi(&grafo);
+			endE = std::chrono::system_clock::now();
+
+			std::chrono::duration<double, std::milli> elapsed_secondsE = endE-startE;
+
+			s << resultadoE.second;
+			s << ",";
+
+			s << elapsed_secondsE.count();
+			s << ",";
+			s << "HeurEmi" << endl;
+
+			// Ahora búsqueda local lineal con heurística Emi
+
+			s << i;
+			s << ",";
+
+			pair <vector<int>, int> resultadoBLLE;
+
+			startBLLE = std::chrono::system_clock::now();
+			resultadoBLLE = HeurGregoCuadratica(&grafo, resultadoE.first);
+			endBLLE = std::chrono::system_clock::now();
+
+			std::chrono::duration<double, std::milli> elapsed_secondsBLLE = endBLLE-startBLLE;
+
+			s << resultadoBLLE.second;
+			s << ",";
+
+			s << elapsed_secondsBLLE.count();
+			s << ",";
+			s << "BusquedaLocalLinealEmi" << endl;
+
+			// Ahora búsqueda local cuadrática con heurística Emi
+		
+			s << i;
+			s << ",";
+
+			pair <vector<int>, int> resultadoBLCE;
+
+			startBLCE = std::chrono::system_clock::now();
+			resultadoBLCE = HeurGregoCuadratica(&grafo, resultadoE.first);
+			endBLCE = std::chrono::system_clock::now();
+
+			std::chrono::duration<double, std::milli> elapsed_secondsBLCE = endBLCE-startBLCE;
+
+			s << resultadoBLCE.second;
+			s << ",";
+
+			s << elapsed_secondsBLCE.count();
+			s << ",";
+			s << "BusquedaLocalCuadraticaEmi" << endl;
+
+		}
+	}
+}
+
 
 int main(){
 	// Test1();
@@ -1219,9 +1432,14 @@ int main(){
 	//expGolosaNipoVsBLL();
 	//expGolosaNipoVsBLC();
 	
-	expGolosaEmiVsBLDensidadBaja();
-	expGolosaEmiVsBLDensidadMedia();
-	expGolosaEmiVsBLDensidadAlta();
+	// expGolosaEmiVsBLDensidadBaja();
+	// expGolosaEmiVsBLDensidadMedia();
+	// expGolosaEmiVsBLDensidadAlta();
+
+	// expFinalDensidadBaja();
+	// expFinalDensidadMedia();
+	// expFinalDensidadAlta();
+
 
 	return 0;
 }

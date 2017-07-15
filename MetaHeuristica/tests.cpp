@@ -1,3 +1,4 @@
+#include <chrono>
 
 #include <iostream>
 #include <fstream>
@@ -141,34 +142,71 @@ void MedicionesAlfa(int sampleoGrafos)
 }
 
 
-void MedicionesIteraciones(int sampleoGrafos)
+void MedicionesIteraciones(int sampleoGrafos, int sizeGrafos)
 {
 	srand(time(NULL));
 
-	fstream s("HeatMapGraspIter.csv", ios::out);
+	fstream s("HeatMapGraspIter250.csv", ios::out);
 	s << "IteracionesFijas,IteracionesReales,Tipo" << endl;
-	for (int i = 500; i < 501; )
+	vector<Graph> grafos;
+	for (int j = 0; j < sampleoGrafos; ++j)
 	{
+		Graph g;
+		grafos.push_back(GenerarGrafoRandom(g, sizeGrafos));
+	}
+	for (int j = 10; j < 201; )
+	{
+		for (int k = 0; k < sampleoGrafos; ++k)
+		{
+			Clique res = CalcularCliqueMaxVecinos(grafos[k], 0.25, j);
+			s << j << ", " << res.cantIteraciones << ", " << "Iteraciones Reales" << endl;
+		}
+		cout << "Calcule para " << sizeGrafos << " nodos y " << j << " iteraciones " << endl;
+		
+		j += 10;
+	}
+		
+
+	
+
+}
+
+
+void MedicionesTiempo(int sampleoGrafos)
+{
+	srand(time(NULL));
+
+	fstream s("RectaTiempo.csv", ios::out);
+	s << "cantNod,Tiempo,Tipo" << endl;
+	auto start = std::chrono::high_resolution_clock::now();
+    auto finish = std::chrono::high_resolution_clock::now();
+    typedef std::chrono::duration<double, std::milli> Duracion;
+	
+	for (int i = 20; i < 501; )
+	{
+		double resultados;
 		vector<Graph> grafos;
 		for (int j = 0; j < sampleoGrafos; ++j)
 		{
 			Graph g;
 			grafos.push_back(GenerarGrafoRandom(g, i));
 		}
-
-		for (int j = 10; j < 201; )
-		{
-			for (int k = 0; k < sampleoGrafos; ++k)
-			{
-				Clique res = CalcularCliqueMaxVecinos(grafos[k], 0.25, j);
-				s << j << ", " << res.cantIteraciones << ", " << "Iteraciones Reales" << endl;
-			}
-			cout << "Calcule para " << i << " nodos y " << j << " iteraciones " << endl;
-			
-			j += 10;
-		}
 		
+		for (int k = 0; k < sampleoGrafos; ++k)
+		{
+			start = std::chrono::high_resolution_clock::now();
+   			CalcularCliqueMaxVecinos(grafos[k], 0.25, 1);
+			finish = std::chrono::high_resolution_clock::now();
+	   		Duracion tiempoEjec = finish - start;
+		   	
+		   	resultados += tiempoEjec.count(); 
+		}
+		cout << "Calcule para " << i << " nodos " << endl;
+		
+		resultados = resultados/sampleoGrafos;
 
+		s << i << ", " << resultados << ", " << "GRASP" << endl;
+		
 		i += 20;
 
 	}
@@ -176,13 +214,14 @@ void MedicionesIteraciones(int sampleoGrafos)
 
 }
 
-
 int main(){
 	
 	cout << "Arrancando Mediciones" << endl;
 	//Mediciones(10);
-	MedicionesAlfa(10);
-	//MedicionesIteraciones(30);
+	//MedicionesAlfa(10);
+	//MedicionesIteraciones(30, 500);
+	//MedicionesIteraciones(30, 250);
+	MedicionesTiempo(100);
 
 	return 0;
 }

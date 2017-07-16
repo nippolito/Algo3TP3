@@ -15,7 +15,7 @@ x = []
 y = []
 z = []
 
-with open('HeatMapGrasp.csv', 'rb') as csvfile:
+with open('HeatMapGraspAlfa.csv', 'rb') as csvfile:
     textreader = csv.reader(csvfile, delimiter=',', quotechar='|')
     rowNo = 0
     for row in textreader:
@@ -48,9 +48,9 @@ data = [
 
 layout = go.Layout(
     title= '',
-    xaxis = dict(title = 'Cantidad Iteraciones',ticks='', nticks=36),
+    xaxis = dict(title = 'Alfa',ticks='', nticks=36),
     yaxis = dict(title = 'Nodos',ticks='' )
 )
 
 fig = go.Figure(data=data, layout=layout)
-py.plot(fig, filename='HeatMapGraspIteraciones')
+py.plot(fig, filename='HeatMapGraspAlfa')

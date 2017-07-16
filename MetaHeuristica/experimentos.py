@@ -9,7 +9,7 @@ import math
 
 
 def expFuerzaBruta():
-	Completo = pd.read_csv('HeatMapGraspIter.csv')
+	Completo = pd.read_csv('HeatMapGraspIter250.csv')
 	
 	
 	
@@ -27,6 +27,31 @@ def expFuerzaBruta():
 	tendencia = "y =%.6fx+(%.6f)"%(z[0],z[1])
 	plt.plot(xdata, p(xdata), "r-", alpha = 0.5, label= tendencia)
 
+	plt.legend()
+	plt.show()
+
+def rectaTiempos():
+	Completo = pd.read_csv('RectaTiempo.csv')
+	
+	
+	
+	xdata = Completo['cantNod']
+	ydataNipo = Completo['Tiempo']
+
+	curvaX = range(1,500)
+	curvaY = []
+
+	for x in curvaX:
+		curvaY.append(x*x*1/1000)
+
+
+	plt.plot(xdata, ydataNipo, "b-", alpha = 0.5, label="Ciclo Grasp")		# alpha = opacidad
+	plt.plot(curvaX, curvaY, "g-", alpha = 0.5, label= "O(n³)")
+
+	plt.ylabel('Cantidad de Nodos')
+	plt.xlabel('Tiempo en ms')
+
+	
 	plt.legend()
 	plt.show()
 

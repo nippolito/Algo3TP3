@@ -1099,6 +1099,178 @@ void TESTEAESTONIPO(){
 	}
 }
 
+
+void BlConEmiVsNipo(){
+	srand(60);
+
+	fstream s ("HeurEmioConLinealDMedia.csv", ios::out);
+
+	s << "cantNod,Res,Tiempo,Tipo, Iteraciones" << endl;
+
+	cout << "Heur Emi con BL" << endl;
+
+	std::chrono::time_point<std::chrono::system_clock> start, end;
+	std::chrono::time_point<std::chrono::system_clock> startN, endN;
+	std::chrono::time_point<std::chrono::system_clock> start1, end1;
+	std::chrono::time_point<std::chrono::system_clock> startBLN, endBLN;
+	
+	std::chrono::time_point<std::chrono::system_clock> startBLN2, endBLN2;
+	std::chrono::time_point<std::chrono::system_clock> startBLE, endBLE;
+
+	for(int i = 5; i < W; i+=5){
+		cout << "Voy por n = " << i << endl;
+		
+			
+		for(int j = 0; j < 30; j++){ //decia 40
+			Graph grafo;
+			generadorGrafoRandom(&grafo, i, DENSIDAD_MEDIA, rand(), 0);
+			
+			long int iteracionesL = 0 ;
+			long int iteracionesC = 0;
+			
+			pair<vector<int>, int> resultadoN;
+			startN = std::chrono::system_clock::now();
+			resultadoN = HeuristicaNipo(&grafo);
+			endN = std::chrono::system_clock::now();
+
+			std::chrono::duration<double, std::milli> elapsed_seconds = endN-startN;
+			
+			s << i;
+			s << ",";
+
+
+
+			s << resultadoN.second;
+			s << ",";
+
+			s << elapsed_seconds.count();
+			s << ",";
+			s << "HeurNipoRandom" << endl;
+			
+			
+			
+			s << i;
+			s << ",";
+
+			pair<vector<int>, int> resultado;
+			pair<vector<int>, int> resultadoBLN;
+			pair<vector<int>, int> resultadoBLN2;
+
+			start = std::chrono::system_clock::now();
+			resultado = HeuristicaEmi(&grafo);
+			end = std::chrono::system_clock::now();
+			
+			elapsed_seconds = end-start;
+
+			s << resultado.second;
+			s << ",";
+
+			s << elapsed_seconds.count();
+			s << ",";
+			s << "HeurEmi" << endl;
+
+
+			//Busqueda Local con resultado de la Heuristica Nipo
+			s << i;
+			s << ",";
+			
+			 startBLN = std::chrono::system_clock::now();
+			 resultadoBLN = HeurGregoLineal(&grafo, resultado.first);
+			 endBLN = std::chrono::system_clock::now();
+
+			std::chrono::duration<double, std::milli> elapsed_secondsBLN = endBLN-startBLN;
+
+			s << resultadoBLN.second;
+			s << ",";
+
+			s << elapsed_secondsBLN.count();
+			s << ",";
+			s << "BLinealHeurEmi"<<endl;
+				
+			//////////////////////
+			
+			s << i;
+			s << ",";
+			
+			s << (double)(resultadoBLN.second - resultado.second)/(double)i;
+			s << ",";
+
+			s << 0;
+			s << ",";
+			s << "DiferenciaHeurEmiConLineal" << endl;
+
+			/////////////////////
+			s << i;
+			s << ",";
+			
+			 startBLN2 = std::chrono::system_clock::now();
+			 resultadoBLN2 = HeurGregoCuadratica(&grafo, resultado.first);
+			 endBLN2 = std::chrono::system_clock::now();
+
+			std::chrono::duration<double, std::milli> elapsed_secondsBLN2 = endBLN2-startBLN2;
+
+			s << resultadoBLN2.second;
+			s << ",";
+
+			s << elapsed_secondsBLN2.count();
+			s << ",";
+			s << "BCuadraticaHeurEmi"<<endl;
+			
+			
+			s << i;
+			s << ",";
+			
+			s << (double)(resultadoBLN2.second - resultado.second)/(double)i;
+			s << ",";
+
+			s << 0;
+			s << ",";
+			s << "DiferenciaHeurEmiConCuadratica" << endl;
+
+
+
+			s << i;
+			s << ",";
+			
+			s << (double)(resultadoBLN2.second - resultadoBLN.second)/(double)i;
+			s << ",";
+
+			s << 0;
+			s << ",";
+			s << "DiferenciasLocales" << endl;
+			
+			s << i;
+			s << ",";
+			
+			s << resultadoN.second - resultadoBLN.second;
+			s << ",";
+
+			s << 0;
+			s << ",";
+			s << "DifNipoLineal" << endl;
+			
+			s << i;
+			s << ",";
+			
+			s << resultadoN.second - resultadoBLN2.second;
+			s << ",";
+
+			s << 0;
+			s << ",";
+			s << "DifNipoCuadratica" << endl;
+			
+			
+			
+			
+
+
+
+		}
+	}
+}
+
+
+
 void comentarios(){
 
 
@@ -1219,9 +1391,11 @@ int main(){
 	//expGolosaNipoVsBLL();
 	//expGolosaNipoVsBLC();
 	
-	expGolosaEmiVsBLDensidadBaja();
-	expGolosaEmiVsBLDensidadMedia();
-	expGolosaEmiVsBLDensidadAlta();
+	//expGolosaEmiVsBLDensidadBaja();
+	//expGolosaEmiVsBLDensidadMedia();
+	//expGolosaEmiVsBLDensidadAlta();
+	
+	BlConEmiVsNipo();
 
 	return 0;
 }

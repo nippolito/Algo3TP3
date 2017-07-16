@@ -14,9 +14,8 @@
 
 using namespace std;
 
-// Recordar que el Test1 de Golosos también se modifica pues ahora por lo menos la función Nipo es O(n * m)
-// PULLEAR PARA HEURÍSTICA EMI
-// TRADUCTORRRR
+// Realizar test dif exacto vs otros en las 3 densidades (alta hasta 24, media hasta 30, baja hasta 35).
+// Armar graficadores de la exp final y la de semilla 60
 
 void quepasaa(){
 	Graph grafo;
@@ -993,7 +992,7 @@ void TESTEAESTONIPO(){
 	std::chrono::time_point<std::chrono::system_clock> startBLN2, endBLN2;
 	std::chrono::time_point<std::chrono::system_clock> startBLE, endBLE;
 
-	for(int i = 5; i < 200; i++){
+	for(int i = 1; i < 131; i++){
 		cout << "Voy por n = " << i << endl;
 		
 			
@@ -1436,9 +1435,9 @@ int main(){
 	// expGolosaEmiVsBLDensidadMedia();
 	// expGolosaEmiVsBLDensidadAlta();
 
-	expFinalDensidadBaja();
-	expFinalDensidadMedia();
-	expFinalDensidadAlta();
+	// expFinalDensidadBaja();
+	// expFinalDensidadMedia();
+	// expFinalDensidadAlta();
 
 
 	return 0;

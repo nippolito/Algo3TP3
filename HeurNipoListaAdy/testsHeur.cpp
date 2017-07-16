@@ -1480,7 +1480,7 @@ void TestTodosvsTodosDifer(){
 
 				sa << elapsed_seconds.count();
 				sa << ",";
-				sa << "GrafoRandomDMediaHeurNipo" << endl;
+				sa << "GrafoRandomDAltaHeurNipo" << endl;
 
 
 				// Ahora heurística Emi, recordemos que el resultado va a ser la diferencia
@@ -1503,7 +1503,7 @@ void TestTodosvsTodosDifer(){
 
 				sa << elapsed_secondsA.count();
 				sa << ",";
-				sa << "GrafoRandomDMediaHeurEmi" << endl;
+				sa << "GrafoRandomDAltaHeurEmi" << endl;
 
 				sa << i;
 				sa << ",";
@@ -1551,7 +1551,7 @@ void TestTodosvsTodosDifer(){
 			//Media
 			if (i <= 30){
 				Graph grafo;
-				generadorGrafoRandom(&grafo, i, DENSIDAD_BAJA, rand(), 0);
+				generadorGrafoRandom(&grafo, i, DENSIDAD_MEDIA, rand(), 0);
 
 				// acá va el traductor de grafo a grafo1 (lista de adyacencias a matriz adyacencias, Graph a GraphMat)
 
@@ -1656,7 +1656,7 @@ void TestTodosvsTodosDifer(){
 			//Baja
 			if (i <= 35) {
 				Graph grafo;
-				generadorGrafoRandom(&grafo, i, DENSIDAD_MEDIA, rand(), 0);
+				generadorGrafoRandom(&grafo, i, DENSIDAD_BAJA, rand(), 0);
 
 				// acá va el traductor de grafo a grafo1 (lista de adyacencias a matriz adyacencias, Graph a GraphMat)
 
@@ -1691,7 +1691,7 @@ void TestTodosvsTodosDifer(){
 
 				sb << elapsed_seconds.count();
 				sb << ",";
-				sb << "GrafoRandomDMediaHeurNipo" << endl;
+				sb << "GrafoRandomDBajaHeurNipo" << endl;
 
 
 				// Ahora heurística Emi, recordemos que el resultado va a ser la diferencia
@@ -1714,7 +1714,7 @@ void TestTodosvsTodosDifer(){
 
 				sb << elapsed_secondsA.count();
 				sb << ",";
-				sb << "GrafoRandomDMediaHeurEmi" << endl;
+				sb << "GrafoRandomDBajaHeurEmi" << endl;
 
 				sb << i;
 				sb << ",";

@@ -1,4 +1,5 @@
 #include <chrono>
+#include "../FuerzaBruta/FuerzaBruta.h"
 #include "GeneradorDeGrafosConClique.h"
 #include <iostream>
 #include <fstream>
@@ -366,6 +367,171 @@ void expGrafoRandom50(){
 	}
 }
 
+void traductorListaAMatrizTest(GraphTest* grafoLista, GraphMat* grafoMatriz){
+	vector<vector<int > > listAdy = grafoLista->listaAdy;
+	vector<vector<int > > matrizAdy = grafoMatriz->matrizAdy;
+
+	for(int i = 0; i < grafoLista->n; i++){
+		for(int j = 0; j < listAdy[i].size(); j++){
+			addEdge(grafoMatriz, i, listAdy[i][j]);
+		}
+	}
+}
+
+
+void TestTodosvsTodosDifer(){
+	srand(50);  //SEMILLA ARBITRARIA PERO SIEMPRE QUE SEA LA MISMA SI SE QUIEREN LOS MISMO GRAFOS
+
+	fstream sb ("ExactovsGRASPDiferenciaBaja.csv", ios::out);
+	fstream sm ("ExactovsGRASPDiferenciaMedi.csv", ios::out);
+	fstream sa ("ExactovsGRASPDiferenciaAlta.csv", ios::out);
+
+	sb << "cantNod,Res,Tiempo,Tipo" << endl;
+	sm << "cantNod,Res,Tiempo,Tipo" << endl;
+	sa << "cantNod,Res,Tiempo,Tipo" << endl;
+
+	cout << "Arranca Todos contra todos" << endl;
+
+	std::chrono::time_point<std::chrono::system_clock> start, end;
+	std::chrono::time_point<std::chrono::system_clock> start1, end1;
+	std::chrono::time_point<std::chrono::system_clock> startBLN, endBLN;
+
+	for(int i = 1; i < 36; i++){
+		cout << "Voy por n = " << i << endl;
+		for(int j = 0; j < 30; j++){ 
+
+			// Algoritmo exacto
+			//Alta
+			if (i <= 24){
+				
+				GraphTest grafo;
+				generadorGrafoRandom(&grafo, i, 0.8, rand(), 0);
+				// acá va el traductor de grafo a grafo1 (lista de adyacencias a matriz adyacencias, Graph a GraphMat)
+
+				GraphMat grafo1;
+				Graph grafo2;
+				createGraph(&grafo1, grafo.n, grafo.m);
+				traductorListaAMatrizTest(&grafo, &grafo1);
+				traductorListaAMatriz(&grafo, &grafo2);
+
+				int resultadoBLN;
+				startBLN = std::chrono::system_clock::now();
+				resultadoBLN = cliqueMaxFront(&grafo1);
+				endBLN = std::chrono::system_clock::now();
+
+				std::chrono::duration<double, std::milli> elapsed_secondsBLN = endBLN-startBLN;
+
+				// Ahora heurística Nipo, recordemos que el resultado va a ser la diferencia
+
+				sa << i;
+				sa << ",";
+				
+				pair<vector<int>, int> resultado;
+
+				start = std::chrono::system_clock::now();
+				Clique res = CalcularCliqueMaxVecinos(grafo2, 0.25, 200);
+				end = std::chrono::system_clock::now();
+
+				std::chrono::duration<double, std::milli> elapsed_seconds = end-start;
+
+				res.numeroVecinos = resultadoBLN - res.numeroVecinos;
+
+				sa << res.numeroVecinos;
+				sa << ",";
+
+				sa << elapsed_seconds.count();
+				sa << ",";
+				sa << "GrafoRandomDAltaGRASP" << endl;
+
+			}
+			//Media
+			if (i <= 30){
+				GraphTest grafo;
+				generadorGrafoRandom(&grafo, i, 0.5, rand(), 0);
+				// acá va el traductor de grafo a grafo1 (lista de adyacencias a matriz adyacencias, Graph a GraphMat)
+
+				
+				GraphMat grafo1;
+				Graph grafo2;
+				createGraph(&grafo1, grafo.n, grafo.m);
+				traductorListaAMatrizTest(&grafo, &grafo1);
+				traductorListaAMatriz(&grafo, &grafo2);
+
+				int resultadoBLN;
+				startBLN = std::chrono::system_clock::now();
+				resultadoBLN = cliqueMaxFront(&grafo1);
+				endBLN = std::chrono::system_clock::now();
+
+				std::chrono::duration<double, std::milli> elapsed_secondsBLN = endBLN-startBLN;
+
+				// Ahora heurística Nipo, recordemos que el resultado va a ser la diferencia
+
+				sm << i;
+				sm << ",";
+				
+				pair<vector<int>, int> resultado;
+
+				start = std::chrono::system_clock::now();
+				Clique res = CalcularCliqueMaxVecinos(grafo2, 0.25, 200);
+				end = std::chrono::system_clock::now();
+
+				std::chrono::duration<double, std::milli> elapsed_seconds = end-start;
+
+				res.numeroVecinos = resultadoBLN - res.numeroVecinos;
+
+				sm << res.numeroVecinos;
+				sm << ",";
+
+				sm << elapsed_seconds.count();
+				sm << ",";
+				sm << "GrafoRandomDMediaGRASP" << endl;
+			}
+			//Baja
+			if (i <= 35) {
+				GraphTest grafo;
+				generadorGrafoRandom(&grafo, i, 0.1, rand(), 0);
+				// acá va el traductor de grafo a grafo1 (lista de adyacencias a matriz adyacencias, Graph a GraphMat)
+
+				GraphMat grafo1;
+				Graph grafo2;
+				createGraph(&grafo1, grafo.n, grafo.m);
+				traductorListaAMatrizTest(&grafo, &grafo1);
+				traductorListaAMatriz(&grafo, &grafo2);
+
+				int resultadoBLN;
+				startBLN = std::chrono::system_clock::now();
+				resultadoBLN = cliqueMaxFront(&grafo1);
+				endBLN = std::chrono::system_clock::now();
+
+				std::chrono::duration<double, std::milli> elapsed_secondsBLN = endBLN-startBLN;
+
+				// Ahora heurística Nipo, recordemos que el resultado va a ser la diferencia
+
+				sb << i;
+				sb << ",";
+				
+				pair<vector<int>, int> resultado;
+
+				start = std::chrono::system_clock::now();
+				Clique res = CalcularCliqueMaxVecinos(grafo2, 0.25, 200);
+				end = std::chrono::system_clock::now();
+
+				std::chrono::duration<double, std::milli> elapsed_seconds = end-start;
+
+				res.numeroVecinos = resultadoBLN - res.numeroVecinos;
+
+				sb << res.numeroVecinos;
+				sb << ",";
+
+				sb << elapsed_seconds.count();
+				sb << ",";
+				sb << "GrafoRandomDBajaGRASP" << endl;
+			}
+		}
+	}
+}
+
+
 int main(){
 	
 	cout << "Arrancando Mediciones" << endl;
@@ -374,8 +540,9 @@ int main(){
 	//MedicionesIteraciones(30, 500);
 	//MedicionesIteraciones(30, 250);
 	//MedicionesTiempo(30);
-	expGrafoRandomDensidadMedia();
-	expGrafoRandom50();
+	//expGrafoRandomDensidadMedia();
+	//expGrafoRandom50();
 	
+	TestTodosvsTodosDifer();
 	return 0;
 }

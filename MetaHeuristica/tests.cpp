@@ -240,7 +240,7 @@ void expGrafoRandomDensidadMedia(){
 	std::chrono::time_point<std::chrono::system_clock> startBLN, endBLN;
 	std::chrono::time_point<std::chrono::system_clock> startBLE, endBLE;
 
-	for(int i = 1; i < 251; i++){
+	for(int i = 1; i < 130; i++){
 		cout << "Voy por n = " << i << endl;
 		for(int j = 0; j < 30; j++){ 
 			// s << i;
@@ -291,7 +291,7 @@ void expGrafoRandom50(){
 	std::chrono::time_point<std::chrono::system_clock> startBLN, endBLN;
 	std::chrono::time_point<std::chrono::system_clock> startBLE, endBLE;
 
-	for(int i = 1; i < 251; i = i + 5){
+	for(int i = 1; i < 130; i = i + 5){
 		cout << "Voy por n = " << i << endl;
 		for(int j = 0; j < 30; j++){ 
 			// s << i;

@@ -353,6 +353,113 @@ def TiemposAlta():
 
 	plt.show()
 
+def TiemposTodos():
+
+	df1 = pd.read_csv('HeurEmioConLinealDAlta.csv')
+	df2 = pd.read_csv('HeurEmioConLinealDMedia.csv')
+	df3 = pd.read_csv('HeurEmioConLinealDBaja.csv')
+
+	enes = [5,10,15,20,25,0,5,40,45,50,55,60,65,70,75,80,85,90,95,100,105,110,115,120,125,130,135,140,145,150,155,160,165,170,175]
+
+	LinealA = df1[df1['Tipo'] == 'BLinealHeurEmi']
+	LinealA_count = LinealA.groupby('cantNod').mean()
+	List1 = LinealA_count.Tiempo.tolist()
+
+	CuadrA = df1[df1['Tipo'] == 'BCuadraticaHeurEmi']
+	CuadrA_count = CuadrA.groupby('cantNod').mean()
+	List2 = CuadrA_count.Tiempo.tolist()
+
+	LinealM = df2[df2['Tipo'] == 'BLinealHeurEmi']
+	LinealM_count = LinealM.groupby('cantNod').mean()
+	List3 = LinealM_count.Tiempo.tolist()
+
+	CuadrM = df2[df2['Tipo'] == 'BCuadraticaHeurEmi']
+	CuadrM_count = CuadrM.groupby('cantNod').mean()
+	List4 = CuadrM_count.Tiempo.tolist()
+
+	LinealB = df3[df3['Tipo'] == 'BLinealHeurEmi']
+	LinealB_count = LinealB.groupby('cantNod').mean()
+	List5 = LinealB_count.Tiempo.tolist()
+
+	CuadrB = df3[df3['Tipo'] == 'BCuadraticaHeurEmi']
+	CuadrB_count = CuadrB.groupby('cantNod').mean()
+	List6 = CuadrB_count.Tiempo.tolist()
+
+
+
+
+
+
+	dataf1 = pd.DataFrame({'BL Alta': List1, 'BC Alta': List2, 'BL Media': List3, 'BC Media': List4, 'BL Baja': List5, 'BC Baja': List6,  'CantVertices':enes})
+	dataf1.astype(float)
+	dataf1.plot(title='', x='CantVertices' , style=['--b', '--r', '--g', '--c', '--m', '--k'], logy= True)
+	# dataf1.plot(title='', x='CantVertices', logy=True, kind='scatter', colorbar=True)
+	plt.ylabel('Tiempo en ms')
+	plt.xlabel('Cantidad de nodos entrada')
+
+	plt.show()
+
+def IteracionesTodos():
+	df1 = pd.read_csv('HeurEmioConLinealDAlta.csv')
+	df2 = pd.read_csv('HeurEmioConLinealDMedia.csv')
+	df3 = pd.read_csv('HeurEmioConLinealDBaja.csv')
+
+	LinealA = df1[df1['Tipo'] == 'BLinealHeurEmi']
+	CuadrA = df1[df1['Tipo'] == 'BCuadraticaHeurEmi']
+	LinealM = df2[df2['Tipo'] == 'BLinealHeurEmi']
+	CuadrM = df2[df2['Tipo'] == 'BCuadraticaHeurEmi']
+	LinealB = df3[df3['Tipo'] == 'BLinealHeurEmi']
+	CuadrB = df3[df3['Tipo'] == 'BCuadraticaHeurEmi']
+
+
+	xdata = LinealA['cantNod']
+	ydataLinealA = LinealA['Iteraciones']
+	ydataCuadrA = CuadrA ['Iteraciones']
+	ydataLinealM = LinealM['Iteraciones']
+	ydataCuadrM = CuadrM ['Iteraciones']
+	ydataLinealB = LinealB['Iteraciones']
+	ydataCuadrB = CuadrB ['Iteraciones']
+
+	plt.plot(xdata, ydataLinealA, "r*", alpha=0.5, label = 'IteracionesLinealA')
+	plt.plot(xdata, ydataLinealM, "g*", alpha=0.5, label = 'IteracionesLinealM')
+	plt.plot(xdata, ydataLinealB, "b*", alpha=0.5, label = 'IteracionesLinealB')
+
+	plt.plot(xdata, ydataCuadrA, "m.", alpha=0.5, label = 'IteracionesCuadraticaA')
+	plt.plot(xdata, ydataCuadrM, "k.", alpha=0.5, label = 'IteracionesCuadraticaM')
+	plt.plot(xdata, ydataCuadrB, "c.", alpha=0.5, label = 'IteracionesCuadraticaB')
+
+	plt.ylabel('Diferencia obtenida')
+	plt.xlabel('Cantidad de nodos entrada')
+	# plt.yscale('log')
+
+	plt.legend()
+	plt.show()
+
+def NipoVsEmiBL():
+	df1 = pd.read_csv('DiferenciasNipo.csv')
+
+
+	DLineal = df1[df1['Tipo'] == 'DifNipoLineal']
+	DCuad = df1[df1['Tipo'] == 'DifNipoCuadratica']
+	
+	xdata = DLineal['cantNod']
+
+	ydataDLineal = DLineal['Res']
+	ydataDCuad = DCuad['Res']
+	
+
+	
+	#plt.plot(xdata, ydataLineal, "r-", alpha = 0.5, label= 'Busqueda Lineal')
+	#plt.plot(xdata, ydataDCuad, "b.", alpha = 0.5, label= 'MFCGM - Busqueda Cuadratica')
+	plt.plot(xdata, ydataDLineal, "m.", alpha = 0.5, label= 'MFCGM - Busqueda Lineal')
+	
+
+	plt.ylabel('Resultado obtenido')
+	plt.xlabel('Cantidad de nodos entrada')
+	# plt.yscale('log')
+
+	plt.legend()
+	plt.show()
 
 
 
@@ -397,5 +504,8 @@ def prueba():
 #IteracionesMedia()
 #IteracionesAlta()
 #TiemposBaja()
-TiemposMedia()
+#TiemposMedia()
 #TiemposAlta()
+#TiemposTodos()
+#IteracionesTodos()
+NipoVsEmiBL()

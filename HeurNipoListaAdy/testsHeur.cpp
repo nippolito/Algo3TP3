@@ -1418,12 +1418,11 @@ void expFinalDensidadBaja(){
 	}
 }
 
-
 void TestTodosvsTodosDifer(){
 	srand(50);  //SEMILLA ARBITRARIA PERO SIEMPRE QUE SEA LA MISMA SI SE QUIEREN LOS MISMO GRAFOS
 
 	fstream sb ("TodosvsTodosDiferenciaBaja.csv", ios::out);
-	fstream sm ("TodosvsTodosDiferenciaMedi.csv", ios::out);
+	fstream sm ("TodosvsTodosDiferenciaMedia.csv", ios::out);
 	fstream sa ("TodosvsTodosDiferenciaAlta.csv", ios::out);
 
 	sb << "cantNod,Res,Tiempo,Tipo" << endl;

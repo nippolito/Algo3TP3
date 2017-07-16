@@ -16,7 +16,7 @@ import numpy as np
 # pd.set_option('display.width', 5000)
 # pd.set_option('display.max_columns', 60)
 
-def expNoFinal():
+def expNoFinalRes():
 	df1 = pd.read_csv('ExpGrafosRandomNipoNuevo.csv')
 	df2 = pd.read_csv('ExpGrafosRandomEmiNuevo.csv')
 	df3 = pd.read_csv('ExpGrafosRandomGRASP60.csv')
@@ -40,6 +40,9 @@ def expNoFinal():
 
 	plt.legend()
 	plt.show()
+
+def expNoFinalTiempo():
+
 	
 def expComplejNipoYEmi():
 	df1 = pd.read_csv('ExpComplejHeurNipoNuevo.csv')
@@ -212,7 +215,7 @@ def RandomHasta400Tiempo():
 # RandomHasta400Tiempo()
 # expComplejEmi()
 # expComplejNipo()
-expNoFinal()
+# expNoFinalRes()
 
 
 

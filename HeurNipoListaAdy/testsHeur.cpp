@@ -1418,12 +1418,11 @@ void expFinalDensidadBaja(){
 	}
 }
 
-
 void TestTodosvsTodosDifer(){
 	srand(50);  //SEMILLA ARBITRARIA PERO SIEMPRE QUE SEA LA MISMA SI SE QUIEREN LOS MISMO GRAFOS
 
 	fstream sb ("TodosvsTodosDiferenciaBaja.csv", ios::out);
-	fstream sm ("TodosvsTodosDiferenciaMedi.csv", ios::out);
+	fstream sm ("TodosvsTodosDiferenciaMedia.csv", ios::out);
 	fstream sa ("TodosvsTodosDiferenciaAlta.csv", ios::out);
 
 	sb << "cantNod,Res,Tiempo,Tipo" << endl;
@@ -1551,7 +1550,7 @@ void TestTodosvsTodosDifer(){
 			//Media
 			if (i <= 30){
 				Graph grafo;
-				generadorGrafoRandom(&grafo, i, DENSIDAD_BAJA, rand(), 0);
+				generadorGrafoRandom(&grafo, i, DENSIDAD_MEDIA, rand(), 0);
 
 				// acá va el traductor de grafo a grafo1 (lista de adyacencias a matriz adyacencias, Graph a GraphMat)
 
@@ -1656,7 +1655,7 @@ void TestTodosvsTodosDifer(){
 			//Baja
 			if (i <= 35) {
 				Graph grafo;
-				generadorGrafoRandom(&grafo, i, DENSIDAD_MEDIA, rand(), 0);
+				generadorGrafoRandom(&grafo, i, DENSIDAD_BAJA, rand(), 0);
 
 				// acá va el traductor de grafo a grafo1 (lista de adyacencias a matriz adyacencias, Graph a GraphMat)
 

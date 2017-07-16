@@ -1436,9 +1436,9 @@ int main(){
 	// expGolosaEmiVsBLDensidadMedia();
 	// expGolosaEmiVsBLDensidadAlta();
 
-	expFinalDensidadBaja();
-	expFinalDensidadMedia();
-	expFinalDensidadAlta();
+	// expFinalDensidadBaja();
+	// expFinalDensidadMedia();
+	// expFinalDensidadAlta();
 
 
 	return 0;

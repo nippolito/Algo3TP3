@@ -1,5 +1,5 @@
 #include <chrono>
-
+#include "GeneradorDeGrafosConClique.h"
 #include <iostream>
 #include <fstream>
 #include "MetaHeur.cpp"
@@ -196,6 +196,7 @@ void MedicionesTiempo(int sampleoGrafos)
 		{
 			start = std::chrono::high_resolution_clock::now();
    			CalcularCliqueMaxVecinos(grafos[k], 0.25, 1);
+
 			finish = std::chrono::high_resolution_clock::now();
 	   		Duracion tiempoEjec = finish - start;
 		   	
@@ -214,6 +215,157 @@ void MedicionesTiempo(int sampleoGrafos)
 
 }
 
+void traductorListaAMatriz(GraphTest* grafoLista, Graph* grafoMatriz){
+	vector<vector<int > > listAdy = grafoLista->listaAdy;
+	grafoMatriz->n = grafoLista->n;
+	grafoMatriz->InicializarMatriz();
+	for(int i = 0; i < grafoLista->n; i++){
+		for(int j = 0; j < listAdy[i].size(); j++){
+			grafoMatriz->addEdge( i, listAdy[i][j]);
+		}
+	}
+}
+
+void expGrafoRandomDensidadMedia(){
+	srand(60);  // Es la semilla por la que arranca el generador de grafos en cada iteración. Que sea siempre la misma
+
+	fstream s ("ExpGrafosRandomGRASP60.csv", ios::out);
+
+	s << "cantNod,Res,Tiempo,Tipo" << endl;
+
+	cout << "Arranca grafo Random Densidad Media" << endl;
+
+	std::chrono::time_point<std::chrono::system_clock> start, end;
+	std::chrono::time_point<std::chrono::system_clock> start1, end1;
+	std::chrono::time_point<std::chrono::system_clock> startBLN, endBLN;
+	std::chrono::time_point<std::chrono::system_clock> startBLE, endBLE;
+
+	for(int i = 1; i < 251; i++){
+		cout << "Voy por n = " << i << endl;
+		for(int j = 0; j < 30; j++){ 
+			// s << i;
+			// s << ",";
+
+			GraphTest grafo;
+			generadorGrafoRandom(&grafo, i, 0.5, rand(), 0);
+			Graph grafoMat;
+			traductorListaAMatriz(&grafo, &grafoMat);
+			
+			s << i;
+			s << ",";
+
+			start1 = std::chrono::system_clock::now();
+			Clique res = CalcularCliqueMaxVecinos(grafoMat, 0.25,200);
+			end1 = std::chrono::system_clock::now();
+
+			std::chrono::duration<double, std::milli> elapsed_secondsA = end1-start1;
+
+			s << res.numeroVecinos;
+			s << ",";
+
+			s << elapsed_secondsA.count();
+			s << ",";
+			s << "Grasp" << endl;
+
+
+			
+		}
+	}
+}
+
+void expGrafoRandom50(){
+	srand(50);  // Es la semilla por la que arranca el generador de grafos en cada iteración. Que sea siempre la misma
+
+	fstream sb ("ExpGrafosRandomGRASP50Baja.csv", ios::out);
+	fstream sm ("ExpGrafosRandomGRASP50Media.csv", ios::out);
+	fstream sa ("ExpGrafosRandomGRASP50Alta.csv", ios::out);
+
+	sb << "cantNod,Res,Tiempo,Tipo" << endl;
+	sm << "cantNod,Res,Tiempo,Tipo" << endl;
+	sa << "cantNod,Res,Tiempo,Tipo" << endl;
+
+	cout << "Arranca grafo Random Densidades variadas" << endl;
+
+	std::chrono::time_point<std::chrono::system_clock> start, end;
+	std::chrono::time_point<std::chrono::system_clock> start1, end1;
+	std::chrono::time_point<std::chrono::system_clock> startBLN, endBLN;
+	std::chrono::time_point<std::chrono::system_clock> startBLE, endBLE;
+
+	for(int i = 1; i < 251; i = i + 5){
+		cout << "Voy por n = " << i << endl;
+		for(int j = 0; j < 30; j++){ 
+			// s << i;
+			// s << ",";
+
+			GraphTest grafo1;
+			generadorGrafoRandom(&grafo1, i, 0.1, rand(), 0);
+			Graph grafoMat1;
+			traductorListaAMatriz(&grafo1, &grafoMat1);
+			
+			sb << i;
+			sb << ",";
+
+			start1 = std::chrono::system_clock::now();
+			Clique res = CalcularCliqueMaxVecinos(grafoMat1, 0.25,200);
+			end1 = std::chrono::system_clock::now();
+
+			std::chrono::duration<double, std::milli> elapsed_secondsA = end1-start1;
+
+			sb << res.numeroVecinos;
+			sb << ",";
+
+			sb << elapsed_secondsA.count();
+			sb << ",";
+			sb << "GrafoRandomDBajaGRASP" << endl;
+
+			GraphTest grafo2;
+			generadorGrafoRandom(&grafo2, i, 0.5, rand(), 0);
+			Graph grafoMat2;
+			traductorListaAMatriz(&grafo2, &grafoMat2);
+			
+			sm << i;
+			sm << ",";
+
+			start1 = std::chrono::system_clock::now();
+			res = CalcularCliqueMaxVecinos(grafoMat2, 0.25,200);
+			end1 = std::chrono::system_clock::now();
+
+			elapsed_secondsA = end1-start1;
+
+			sm << res.numeroVecinos;
+			sm << ",";
+
+			sm << elapsed_secondsA.count();
+			sm << ",";
+			sm << "GrafoRandomDMediaGRASP" << endl;
+
+			GraphTest grafo3;
+			generadorGrafoRandom(&grafo3, i, 0.8, rand(), 0);
+			Graph grafoMat3;
+			traductorListaAMatriz(&grafo3, &grafoMat3);
+			
+			sa << i;
+			sa << ",";
+
+			start1 = std::chrono::system_clock::now();
+			res = CalcularCliqueMaxVecinos(grafoMat3, 0.25,200);
+			end1 = std::chrono::system_clock::now();
+
+			elapsed_secondsA = end1-start1;
+
+			sa << res.numeroVecinos;
+			sa << ",";
+
+			sa << elapsed_secondsA.count();
+			sa << ",";
+			sa << "GrafoRandomDAltaGRASP" << endl;
+
+
+			
+		}
+	}
+}
+
 int main(){
 	
 	cout << "Arrancando Mediciones" << endl;
@@ -221,7 +373,9 @@ int main(){
 	//MedicionesAlfa(10);
 	//MedicionesIteraciones(30, 500);
 	//MedicionesIteraciones(30, 250);
-	MedicionesTiempo(100);
-
+	//MedicionesTiempo(30);
+	expGrafoRandomDensidadMedia();
+	expGrafoRandom50();
+	
 	return 0;
 }

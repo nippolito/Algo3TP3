@@ -20,9 +20,12 @@ def expNoFinalRes():
 	df1 = pd.read_csv('ExpGrafosRandomNipoNuevo.csv')
 	df2 = pd.read_csv('ExpGrafosRandomEmiNuevo.csv')
 	df3 = pd.read_csv('ExpGrafosRandomGRASP60.csv')
+	df4 = pd.read_csv('ExpGrafosRandomBL.csv')
 
 	HeurNipo = df1[df1['Tipo'] == 'GrafoRandomDMediaHeurNipo']
-	HeurEmi = df2[df2['Tipo'] == 'GrafoRandomDMediaHeurEmi'] 
+	HeurEmi = df2[df2['Tipo'] == 'GrafoRandomDMediaHeurEmi']
+	BLLinealEmi = df4[df4['Tipo'] == 'BLinealHeurEmi']
+	BLCuadraticaEmi = df4[df4['Tipo'] == 'BCuadraticaHeurEmi'] 
 	Grasp = df3[df3['Tipo'] == 'Grasp']
 
 	xdata  = HeurNipo['cantNod']
@@ -30,10 +33,14 @@ def expNoFinalRes():
 	ydataNipo = HeurNipo['Res']
 	ydataEmi = HeurEmi['Res']
 	ydataGrasp = Grasp['Res']
+	ydataBLLineal = BLLinealEmi['Res']
+	ydataBLCuadratica = BLCuadraticaEmi['Res']
 
 	plt.plot(xdata, ydataNipo, "r.", alpha = 0.5, label='Heuristica MFCGM')
-	plt.plot(xdata, ydataEmi, "b.", alpha = 0.5, label='Heuristica MCMF')
-	plt.plot(xdata, ydataGrasp, "g.", alpha = 0.5, label='Grasp')
+	# plt.plot(xdata, ydataEmi, "g.", alpha = 0.5, label='Heuristica MCMF')
+	plt.plot(xdata, ydataGrasp, "b.", alpha = 0.5, label='Grasp')
+	# plt.plot(xdata, ydataBLLineal, "k.", alpha = 0.5, label='BL Lineal sobre MCMF')
+	plt.plot(xdata, ydataBLCuadratica, "y.", alpha = 0.5, label='BL Cuadr sobre MCMF')
 
 	plt.xlabel('Cantidad de nodos entrada')
 	plt.ylabel('Frontera devuelta')
@@ -42,170 +49,37 @@ def expNoFinalRes():
 	plt.show()
 
 def expNoFinalTiempo():
-
-	
-def expComplejNipoYEmi():
-	df1 = pd.read_csv('ExpComplejHeurNipoNuevo.csv')
-	df2 = pd.read_csv('ExpComplejHeurEmiNuevo.csv')
-	df3 = pd.read_csv('FuncionEneCubo.csv')
-
-	enes = range(1, 351)
-
-	HeurNipo = df1[df1['Tipo'] == 'CompletoHeurNipo']
-	HeurNipo_count = HeurNipo.groupby('cantNod').mean()
-	List1 = HeurNipo_count.Tiempo.tolist()
-
-	HeurEmi = df2[df2['Tipo'] == 'CompletoHeurEmi']
-	HeurEmi_count = HeurEmi.groupby('cantNod').mean()
-	List2 = HeurEmi_count.Tiempo.tolist()
-
-	EneCubo = df3[df3['Tipo'] == 'FuncionEneCubo']
-	EneCubo_count = EneCubo.groupby('cantNod').mean()
-	List3 = EneCubo_count.Tiempo.tolist()
-
-	dataf1 = pd.DataFrame({'MFCGM': List1, 'MCMF': List2, 'O(n^3)': List3, 'CantVertices': enes})
-	dataf1.astype(float)
-	dataf1.plot(title='', x='CantVertices', style=['--b', '--r', '--g'])
-	# dataf1.plot(title='', x='CantVertices', logy=True, kind='scatter', colorbar=True)
-	plt.ylabel('Tiempo en ms')
-	plt.xlabel('Cantidad de nodos entrada')
-
-	plt.show()
-
-def expComplejEmi():
-	df2 = pd.read_csv('ExpComplejHeurEmiNuevo.csv')
-	df3 = pd.read_csv('FuncionEneCubo.csv')
-
-	enes = range(1, 351)
-
-	HeurEmi = df2[df2['Tipo'] == 'CompletoHeurEmi']
-	HeurEmi_count = HeurEmi.groupby('cantNod').mean()
-	List2 = HeurEmi_count.Tiempo.tolist()
-
-	EneCubo = df3[df3['Tipo'] == 'FuncionEneCubo']
-	EneCubo_count = EneCubo.groupby('cantNod').mean() * 7
-	List3 = EneCubo_count.Tiempo.tolist()
-
-	dataf1 = pd.DataFrame({'MCMF': List2, 'O(n^3)': List3, 'CantVertices': enes})
-	dataf1.astype(float)
-	dataf1.plot(title='', x='CantVertices', style=['--r', '--g'])
-	# dataf1.plot(title='', x='CantVertices', logy=True, kind='scatter', colorbar=True)
-	plt.ylabel('Tiempo en ms')
-	plt.xlabel('Cantidad de nodos entrada')
-
-	plt.show()
-
-def expComplejNipo():
-	df1 = pd.read_csv('ExpComplejHeurNipoNuevo.csv')
-	df3 = pd.read_csv('FuncionEneCubo.csv')
-
-	enes = range(1, 351)
-
-	HeurNipo = df1[df1['Tipo'] == 'CompletoHeurNipo']
-	HeurNipo_count = HeurNipo.groupby('cantNod').mean()
-	List1 = HeurNipo_count.Tiempo.tolist()
-
-	EneCubo = df3[df3['Tipo'] == 'FuncionEneCubo']
-	EneCubo_count = EneCubo.groupby('cantNod').mean() * 4
-	List3 = EneCubo_count.Tiempo.tolist()
-
-	dataf1 = pd.DataFrame({'MFCGM': List1, 'O(n^3)': List3, 'CantVertices': enes})
-	dataf1.astype(float)
-	dataf1.plot(title='', x='CantVertices', style=['--b', '--g'])
-	# dataf1.plot(title='', x='CantVertices', logy=True, kind='scatter', colorbar=True)
-	plt.ylabel('Tiempo en ms')
-	plt.xlabel('Cantidad de nodos entrada')
-
-	plt.show()
-
-def TodosvsTodosEne35Res():
-	df1 = pd.read_csv('Test3TodosvsTodosHeurNipoNuevo.csv')
-	df2 = pd.read_csv('Test3TodosvsTodosHeurEmiNuevo.csv')
+	df1 = pd.read_csv('ExpGrafosRandomNipoNuevo.csv')
+	df2 = pd.read_csv('ExpGrafosRandomEmiNuevo.csv')
+	df3 = pd.read_csv('ExpGrafosRandomGRASP60.csv')
+	df4 = pd.read_csv('ExpGrafosRandomBL.csv')
 
 	HeurNipo = df1[df1['Tipo'] == 'GrafoRandomDMediaHeurNipo']
 	HeurEmi = df2[df2['Tipo'] == 'GrafoRandomDMediaHeurEmi']
+	BLLinealEmi = df4[df4['Tipo'] == 'BLinealHeurEmi']
+	BLCuadraticaEmi = df4[df4['Tipo'] == 'BCuadraticaHeurEmi'] 
+	Grasp = df3[df3['Tipo'] == 'Grasp']
 
-	xdata = HeurNipo['cantNod']
-
-	ydataNipo = HeurNipo['Res']
-	ydataEmi = HeurEmi['Res']
-
-	plt.plot(xdata, ydataNipo, "r.", alpha = 0.5, label="Heurística MFCGM")		# alpha = opacidad
-	plt.plot(xdata, ydataEmi, "g.", alpha=0.5, label="Heurística MCMF")
-
-	plt.ylabel('Diferencia entre exacto y heurísticas')
-	plt.xlabel('Cantidad de nodos entrada')
-
-	plt.legend()
-	plt.show()
-
-def TodosvsTodosEne35Tiempo():
-	df1 = pd.read_csv('Test3TodosvsTodosHeurNipoNuevo.csv')
-	df2 = pd.read_csv('Test3TodosvsTodosHeurEmiNuevo.csv')
-
-	HeurNipo = df1[df1['Tipo'] == 'GrafoRandomDMediaHeurNipo']
-	HeurEmi = df2[df2['Tipo'] == 'GrafoRandomDMediaHeurEmi']
-	Exacto = df1[df1['Tipo'] == 'Exacto']
-
-	xdata = HeurNipo['cantNod']
+	xdata  = HeurNipo['cantNod']
 
 	ydataNipo = HeurNipo['Tiempo']
 	ydataEmi = HeurEmi['Tiempo']
-	ydataExacto = Exacto['Tiempo']
+	ydataGrasp = Grasp['Tiempo']
+	ydataBLLineal = BLLinealEmi['Tiempo']
+	ydataBLCuadratica = BLCuadraticaEmi['Tiempo']
 
-	plt.plot(xdata, ydataNipo, "r.", alpha = 0.5, label="Heurística MFCGM")		# alpha = opacidad
-	plt.plot(xdata, ydataEmi, "g.", alpha=0.5, label="Heurística MCMF")
-	plt.plot(xdata, ydataExacto, "b.", alpha=0.5, label="Exacto")
+	plt.plot(xdata, ydataNipo, "r.", alpha = 0.5, label='Heuristica MFCGM')
+	plt.plot(xdata, ydataEmi, "g.", alpha = 0.5, label='Heuristica MCMF')
+	plt.plot(xdata, ydataGrasp, "b.", alpha = 0.5, label='Grasp')
+	plt.plot(xdata, ydataBLLineal, "k.", alpha = 0.5, label='BL Lineal sobre MCMF')
+	plt.plot(xdata, ydataBLCuadratica, "y.", alpha = 0.5, label='BL Cuadr sobre MCMF')
 
-	plt.ylabel('Tiempo en ms')
 	plt.xlabel('Cantidad de nodos entrada')
+	plt.ylabel('Frontera devuelta')
 	plt.yscale('log')
 
 	plt.legend()
-	plt.show()
-
-def RandomHasta400Res():
-	df1 = pd.read_csv('ExpGrafosRandomNipoNuevo.csv')
-	df2 = pd.read_csv('ExpGrafosRandomEmiNuevo.csv')
-
-	HeurNipo = df1[df1['Tipo'] == 'GrafoRandomDMediaHeurNipo']
-	HeurEmi = df2[df2['Tipo'] == 'GrafoRandomDMediaHeurEmi']
-
-	xdata = HeurNipo['cantNod']
-
-	ydataNipo = HeurNipo['Res']
-	ydataEmi = HeurEmi['Res']
-
-	plt.plot(xdata, ydataNipo, "r.", alpha = 0.5, label="Heurística MFCGM")		# alpha = opacidad
-	plt.plot(xdata, ydataEmi, "g.", alpha=0.5, label="Heurística MCMF")
-
-	plt.ylabel('Frontera devuelta')
-	plt.xlabel('Cantidad de nodos entrada')
-
-	plt.legend()
-	plt.show()
-
-def RandomHasta400Tiempo():
-	df1 = pd.read_csv('ExpGrafosRandomNipoNuevo.csv')
-	df2 = pd.read_csv('ExpGrafosRandomEmiNuevo.csv')
-
-	HeurNipo = df1[df1['Tipo'] == 'GrafoRandomDMediaHeurNipo']
-	HeurEmi = df2[df2['Tipo'] == 'GrafoRandomDMediaHeurEmi']
-
-	xdata = HeurNipo['cantNod']
-
-	ydataNipo = HeurNipo['Tiempo']
-	ydataEmi = HeurEmi['Tiempo']
-
-	plt.plot(xdata, ydataNipo, "r.", alpha = 0.5, label="Heurística MFCGM")		# alpha = opacidad
-	plt.plot(xdata, ydataEmi, "g.", alpha=0.5, label="Heurística MCMF")
-
-	plt.ylabel('Tiempo en ms')
-	plt.xlabel('Cantidad de nodos entrada')
-	# plt.yscale('log')
-
-	plt.legend()
-	plt.show()
+	plt.show()	
 
 
 # expComplejNipoYEmi()
@@ -215,7 +89,8 @@ def RandomHasta400Tiempo():
 # RandomHasta400Tiempo()
 # expComplejEmi()
 # expComplejNipo()
-# expNoFinalRes()
+expNoFinalRes()
+expNoFinalTiempo()
 
 
 

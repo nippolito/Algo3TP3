@@ -49,10 +49,11 @@ def expFinalDensAltaRes():
 def expFinalDensAltaTiempo():
 	df1 = pd.read_csv('ExpFinalSinGraspDensidadAlta.csv')
 	df2 = pd.read_csv('ExpGrafosRandomGRASP50Alta.csv')
+	df3 = pd.read_csv('LinealFinalAlta.csv')
 
 	HeurNipo = df1[df1['Tipo'] == 'HeurNipo']
 	HeurEmi = df1[df1['Tipo'] == 'HeurEmi']
-	BLLEmi = df1[df1['Tipo'] == 'BusquedaLocalLinealEmi']
+	BLLEmi = df3[df3['Tipo'] == 'BusquedaLocalLinealEmi']
 	BLCEmi = df1[df1['Tipo'] == 'BusquedaLocalCuadraticaEmi']
 	Grasp = df2[df2['Tipo'] == 'GrafoRandomDAltaGRASP']
 
@@ -64,10 +65,10 @@ def expFinalDensAltaTiempo():
 	ydataBLCEmi = BLCEmi['Tiempo']
 	ydataGrasp = Grasp['Tiempo']
 
-	plt.plot(xdata, ydataEmi, "b.", alpha = 0.8, label='Heuristica MCMF')
-	plt.plot(xdata, ydataBLLEmi, "g.", alpha = 0.8, label='BL Lineal sobre MCMF')
-	plt.plot(xdata, ydataBLCEmi, "y.", alpha = 0.8, label='BL Cuadratica sobre MCMF')
-	plt.plot(xdata, ydataNipo, "r.", alpha = 0.8, label='Heuristica MFCGM')
+	plt.plot(xdata, ydataEmi, "b.", alpha = 0.5, label='Heuristica MCMF')
+	plt.plot(xdata, ydataBLLEmi, "g.", alpha = 0.5, label='BL Lineal sobre MCMF')
+	plt.plot(xdata, ydataBLCEmi, "y.", alpha = 0.5, label='BL Cuadratica sobre MCMF')
+	plt.plot(xdata, ydataNipo, "r.", alpha = 0.5, label='Heuristica MFCGM')
 	plt.plot(xdata, ydataGrasp, "k." , alpha=0.5, label='Grasp')
 
 	plt.xlabel('Cantidad de nodos entrada')
@@ -110,10 +111,11 @@ def expFinalDensMediaRes():
 def expFinalDensMediaTiempo():
 	df1 = pd.read_csv('ExpFinalSinGraspDensidadMedia.csv')
 	df2 = pd.read_csv('ExpGrafosRandomGRASP50Media.csv')
+	df3 = pd.read_csv('LinealFinalMedia.csv')
 
 	HeurNipo = df1[df1['Tipo'] == 'HeurNipo']
 	HeurEmi = df1[df1['Tipo'] == 'HeurEmi']
-	BLLEmi = df1[df1['Tipo'] == 'BusquedaLocalLinealEmi']
+	BLLEmi = df3[df3['Tipo'] == 'BusquedaLocalLinealEmi']
 	BLCEmi = df1[df1['Tipo'] == 'BusquedaLocalCuadraticaEmi']
 	Grasp = df2[df2['Tipo'] == 'GrafoRandomDMediaGRASP']
 
@@ -171,10 +173,11 @@ def expFinalDensBajaRes():
 def expFinalDensBajaTiempo():
 	df1 = pd.read_csv('ExpFinalSinGraspDensidadBaja.csv')
 	df2 = pd.read_csv('ExpGrafosRandomGRASP50Baja.csv')
+	df3 = pd.read_csv('LinealFinalBaja.csv')
 
 	HeurNipo = df1[df1['Tipo'] == 'HeurNipo']
 	HeurEmi = df1[df1['Tipo'] == 'HeurEmi']
-	BLLEmi = df1[df1['Tipo'] == 'BusquedaLocalLinealEmi']
+	BLLEmi = df3[df3['Tipo'] == 'BusquedaLocalLinealEmi']
 	BLCEmi = df1[df1['Tipo'] == 'BusquedaLocalCuadraticaEmi']
 	Grasp = df2[df2['Tipo'] == 'GrafoRandomDBajaGRASP']
 
@@ -186,10 +189,10 @@ def expFinalDensBajaTiempo():
 	ydataBLCEmi = BLCEmi['Tiempo']
 	ydataGrasp = Grasp['Res']
 
-	plt.plot(xdata, ydataEmi, "b.", alpha = 0.8, label='Heuristica MCMF')
-	plt.plot(xdata, ydataBLLEmi, "g.", alpha = 0.8, label='BL Lineal sobre MCMF')
-	plt.plot(xdata, ydataBLCEmi, "y.", alpha = 0.8, label='BL Cuadratica sobre MCMF')
-	plt.plot(xdata, ydataNipo, "r.", alpha = 0.8, label='Heuristica MFCGM')
+	plt.plot(xdata, ydataEmi, "b.", alpha = 0.5, label='Heuristica MCMF')
+	plt.plot(xdata, ydataBLLEmi, "g.", alpha = 0.5, label='BL Lineal sobre MCMF')
+	plt.plot(xdata, ydataBLCEmi, "y.", alpha = 0.5, label='BL Cuadratica sobre MCMF')
+	plt.plot(xdata, ydataNipo, "r.", alpha = 0.5, label='Heuristica MFCGM')
 	plt.plot(xdata, ydataGrasp, "k." , alpha=0.5, label='Grasp')
 
 	plt.xlabel('Cantidad de nodos entrada')
@@ -199,21 +202,203 @@ def expFinalDensBajaTiempo():
 	plt.legend()
 	plt.show()	
 
+def DifExactoDensAltaRes():
+	df1 = pd.read_csv('TodosvsTodosDiferenciaAlta15.csv')
+	df2 = pd.read_csv('ExactovsGRASPDiferenciaAlta15.csv')
+
+	HeurNipo = df1[df1['Tipo'] == 'GrafoRandomDAltaHeurNipo']
+	HeurEmi = df1[df1['Tipo'] == 'GrafoRandomDAltaHeurEmi']
+	BLLEmi = df1[df1['Tipo'] == 'BusquedaLocalLinealEmi']
+	BLCEmi = df1[df1['Tipo'] == 'BusquedaLocalCuadraticaEmi']
+	Grasp = df2[df2['Tipo'] == 'GrafoRandomDAltaGRASP']
+
+	xdata  = HeurNipo['cantNod']
+
+	ydataNipo = HeurNipo['Res']
+	ydataEmi = HeurEmi['Res']
+	ydataBLLEmi = BLLEmi['Res']
+	ydataBLCEmi = BLCEmi['Res']
+	ydataGrasp = Grasp['Res']
+
+	plt.plot(xdata, ydataGrasp, "k." , alpha=1, label='Grasp')
+	# plt.plot(xdata, ydataEmi, "m.", alpha = 0.5, label='Heuristica MCMF')
+	plt.plot(xdata, ydataNipo, "r.", alpha = 0.5, label='Heuristica MFCGM')
+	# plt.plot(xdata, ydataBLLEmi, "g.", alpha = 0.5, label='BL Lineal sobre MCMF')
+	plt.plot(xdata, ydataBLCEmi, "y.", alpha = 0.5, label='BL Cuadratica sobre MCMF')
+	
+
+	plt.xlabel('Cantidad de nodos entrada')
+	plt.ylabel('Diferencia exacto y heuristicas')
+
+	plt.legend()
+	plt.show()
+
+def DifExactoDensMediaRes():
+	df1 = pd.read_csv('TodosvsTodosDiferenciaMedia15.csv')
+	df2 = pd.read_csv('ExactovsGRASPDiferenciaMedia15.csv')
+
+	HeurNipo = df1[df1['Tipo'] == 'GrafoRandomDMediaHeurNipo']
+	HeurEmi = df1[df1['Tipo'] == 'GrafoRandomDMediaHeurEmi']
+	BLLEmi = df1[df1['Tipo'] == 'BusquedaLocalLinealEmi']
+	BLCEmi = df1[df1['Tipo'] == 'BusquedaLocalCuadraticaEmi']
+	Grasp = df2[df2['Tipo'] == 'GrafoRandomDMediaGRASP']
+
+	xdata  = HeurNipo['cantNod']
+
+	ydataNipo = HeurNipo['Res']
+	ydataEmi = HeurEmi['Res']
+	ydataBLLEmi = BLLEmi['Res']
+	ydataBLCEmi = BLCEmi['Res']
+	ydataGrasp = Grasp['Res']
+
+	plt.plot(xdata, ydataGrasp, "k." , alpha=1, label='Grasp')
+	# plt.plot(xdata, ydataEmi, "m.", alpha = 0.5, label='Heuristica MCMF')
+	# plt.plot(xdata, ydataNipo, "r.", alpha = 0.5, label='Heuristica MFCGM')
+	# plt.plot(xdata, ydataBLLEmi, "g.", alpha = 0.5, label='BL Lineal sobre MCMF')
+	# plt.plot(xdata, ydataBLCEmi, "y.", alpha = 0.5, label='BL Cuadratica sobre MCMF')
 
 
-# expComplejNipoYEmi()
-# TodosvsTodosEne35Res()
-# TodosvsTodosEne35Tiempo()
-# RandomHasta400Res()
-# RandomHasta400Tiempo()
-# expComplejEmi()
-# expComplejNipo()
-expFinalDensAltaRes()
-expFinalDensAltaTiempo()
-expFinalDensMediaRes()
-expFinalDensMediaTiempo()
-expFinalDensBajaRes()
-expFinalDensBajaTiempo()
+	plt.xlabel('Cantidad de nodos entrada')
+	plt.ylabel('Diferencia exacto y heuristicas')
+
+	plt.legend()
+	plt.show()
+
+def DifExactoDensBajaRes():
+	df1 = pd.read_csv('TodosvsTodosDiferenciaBaja15.csv')
+	df2 = pd.read_csv('ExactovsGRASPDiferenciaBaja15.csv')
+
+	HeurNipo = df1[df1['Tipo'] == 'GrafoRandomDBajaHeurNipo']
+	HeurEmi = df1[df1['Tipo'] == 'GrafoRandomDBajaHeurEmi']
+	BLLEmi = df1[df1['Tipo'] == 'BusquedaLocalLinealEmi']
+	BLCEmi = df1[df1['Tipo'] == 'BusquedaLocalCuadraticaEmi']
+	Grasp = df2[df2['Tipo'] == 'GrafoRandomDBajaGRASP']
+
+	xdata  = HeurNipo['cantNod']
+
+	ydataNipo = HeurNipo['Res']
+	ydataEmi = HeurEmi['Res']
+	ydataBLLEmi = BLLEmi['Res']
+	ydataBLCEmi = BLCEmi['Res']
+	ydataGrasp = Grasp['Res']
+
+	plt.plot(xdata, ydataGrasp, "k." , alpha=1, label='Grasp')
+	# plt.plot(xdata, ydataEmi, "m.", alpha = 0.5, label='Heuristica MCMF')
+	# plt.plot(xdata, ydataNipo, "r.", alpha = 0.5, label='Heuristica MFCGM')
+	# plt.plot(xdata, ydataBLLEmi, "g.", alpha = 0.8, label='BL Lineal sobre MCMF')
+	# plt.plot(xdata, ydataBLCEmi, "y.", alpha = 0.5, label='BL Cuadratica sobre MCMF')
+
+
+	plt.xlabel('Cantidad de nodos entrada')
+	plt.ylabel('Diferencia exacto y heuristicas')
+
+	plt.legend()
+	plt.show()	
+
+def DifExactoDensAltaTiempo():
+	df1 = pd.read_csv('ExactoSGraspDiferenciaAlta.csv')
+	# df2 = pd.read_csv('ExpGrafosRandomGRASP50Baja.csv')
+
+	HeurNipo = df1[df1['Tipo'] == 'GrafoRandomDMediaHeurNipo']
+	HeurEmi = df1[df1['Tipo'] == 'GrafoRandomDMediaHeurEmi']
+	BLLEmi = df1[df1['Tipo'] == 'BusquedaLocalLinealEmi']
+	BLCEmi = df1[df1['Tipo'] == 'BusquedaLocalCuadraticaEmi']
+	# Grasp = df2[df2['Tipo'] == 'GrafoRandomDBajaGRASP']
+
+	xdata  = HeurNipo['cantNod']
+
+	ydataNipo = HeurNipo['Tiempo']
+	ydataEmi = HeurEmi['Tiempo']
+	ydataBLLEmi = BLLEmi['Tiempo']
+	ydataBLCEmi = BLCEmi['Tiempo']
+	# ydataGrasp = Grasp['Tiempo']
+
+	plt.plot(xdata, ydataEmi, "b.", alpha = 0.5, label='Heuristica MCMF')
+	plt.plot(xdata, ydataNipo, "r.", alpha = 0.5, label='Heuristica MFCGM')
+	plt.plot(xdata, ydataBLLEmi, "g.", alpha = 0.8, label='BL Lineal sobre MCMF')
+	plt.plot(xdata, ydataBLCEmi, "y.", alpha = 0.5, label='BL Cuadratica sobre MCMF')
+	# plt.plot(xdata, ydataGrasp, "k." , alpha=0.5, label='Grasp')
+
+	plt.xlabel('Cantidad de nodos entrada')
+	plt.ylabel('Tiempo en ms')
+
+	plt.legend()
+	plt.show()	
+
+def DifExactoDensMediaTiempo():
+	df1 = pd.read_csv('ExactoSGraspDiferenciaMedia.csv')
+	# df2 = pd.read_csv('ExpGrafosRandomGRASP50Baja.csv')
+
+	HeurNipo = df1[df1['Tipo'] == 'GrafoRandomDMediaHeurNipo']
+	HeurEmi = df1[df1['Tipo'] == 'GrafoRandomDMediaHeurEmi']
+	BLLEmi = df1[df1['Tipo'] == 'BusquedaLocalLinealEmi']
+	BLCEmi = df1[df1['Tipo'] == 'BusquedaLocalCuadraticaEmi']
+	# Grasp = df2[df2['Tipo'] == 'GrafoRandomDBajaGRASP']
+
+	xdata  = HeurNipo['cantNod']
+
+	ydataNipo = HeurNipo['Tiempo']
+	ydataEmi = HeurEmi['Tiempo']
+	ydataBLLEmi = BLLEmi['Tiempo']
+	ydataBLCEmi = BLCEmi['Tiempo']
+	# ydataGrasp = Grasp['Tiempo']
+
+	plt.plot(xdata, ydataEmi, "b.", alpha = 0.5, label='Heuristica MCMF')
+	plt.plot(xdata, ydataNipo, "r.", alpha = 0.5, label='Heuristica MFCGM')
+	plt.plot(xdata, ydataBLLEmi, "g.", alpha = 0.8, label='BL Lineal sobre MCMF')
+	plt.plot(xdata, ydataBLCEmi, "y.", alpha = 0.5, label='BL Cuadratica sobre MCMF')
+	# plt.plot(xdata, ydataGrasp, "k." , alpha=0.5, label='Grasp')
+
+	plt.xlabel('Cantidad de nodos entrada')
+	plt.ylabel('Tiempo en ms')
+
+	plt.legend()
+	plt.show()		
+
+def DifExactoDensBajaTiempo():
+	df1 = pd.read_csv('ExactoSGraspDiferenciaBaja.csv')
+	# df2 = pd.read_csv('ExpGrafosRandomGRASP50Baja.csv')
+
+	HeurNipo = df1[df1['Tipo'] == 'GrafoRandomDMediaHeurNipo']
+	HeurEmi = df1[df1['Tipo'] == 'GrafoRandomDMediaHeurEmi']
+	BLLEmi = df1[df1['Tipo'] == 'BusquedaLocalLinealEmi']
+	BLCEmi = df1[df1['Tipo'] == 'BusquedaLocalCuadraticaEmi']
+	# Grasp = df2[df2['Tipo'] == 'GrafoRandomDBajaGRASP']
+
+	xdata  = HeurNipo['cantNod']
+
+	ydataNipo = HeurNipo['Tiempo']
+	ydataEmi = HeurEmi['Tiempo']
+	ydataBLLEmi = BLLEmi['Tiempo']
+	ydataBLCEmi = BLCEmi['Tiempo']
+	# ydataGrasp = Grasp['Tiempo']
+
+	plt.plot(xdata, ydataEmi, "b.", alpha = 0.5, label='Heuristica MCMF')
+	plt.plot(xdata, ydataNipo, "r.", alpha = 0.5, label='Heuristica MFCGM')
+	plt.plot(xdata, ydataBLLEmi, "g.", alpha = 0.8, label='BL Lineal sobre MCMF')
+	plt.plot(xdata, ydataBLCEmi, "y.", alpha = 0.5, label='BL Cuadratica sobre MCMF')
+	# plt.plot(xdata, ydataGrasp, "k." , alpha=0.5, label='Grasp')
+
+	plt.xlabel('Cantidad de nodos entrada')
+	plt.ylabel('Tiempo en ms')
+
+	plt.legend()
+	plt.show()	
+
+
+
+# expFinalDensAltaRes()
+# expFinalDensAltaTiempo()
+# expFinalDensMediaRes()
+# expFinalDensMediaTiempo()
+# expFinalDensBajaRes()
+# expFinalDensBajaTiempo()
+DifExactoDensAltaRes()
+# DifExactoDensAltaTiempo()
+DifExactoDensMediaRes()
+# DifExactoDensMediaTiempo()
+DifExactoDensBajaRes()
+# DifExactoDensBajaTiempo()
 
 
 

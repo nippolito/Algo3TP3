@@ -379,15 +379,11 @@ void traductorListaAMatrizTest(GraphTest* grafoLista, GraphMat* grafoMatriz){
 }
 
 
-void TestTodosvsTodosDifer(){
+void TestTodosvsTodosDiferAlta(){
 	srand(50);  //SEMILLA ARBITRARIA PERO SIEMPRE QUE SEA LA MISMA SI SE QUIEREN LOS MISMO GRAFOS
 
-	fstream sb ("ExactovsGRASPDiferenciaBaja.csv", ios::out);
-	fstream sm ("ExactovsGRASPDiferenciaMedi.csv", ios::out);
-	fstream sa ("ExactovsGRASPDiferenciaAlta.csv", ios::out);
+	fstream sa ("ExactovsGRASPDiferenciaAlta15.csv", ios::out);
 
-	sb << "cantNod,Res,Tiempo,Tipo" << endl;
-	sm << "cantNod,Res,Tiempo,Tipo" << endl;
 	sa << "cantNod,Res,Tiempo,Tipo" << endl;
 
 	cout << "Arranca Todos contra todos" << endl;
@@ -396,13 +392,12 @@ void TestTodosvsTodosDifer(){
 	std::chrono::time_point<std::chrono::system_clock> start1, end1;
 	std::chrono::time_point<std::chrono::system_clock> startBLN, endBLN;
 
-	for(int i = 1; i < 36; i++){
+	for(int i = 1; i < 24; i++){
 		cout << "Voy por n = " << i << endl;
-		for(int j = 0; j < 30; j++){ 
+		for(int j = 0; j < 15; j++){ 
 
 			// Algoritmo exacto
 			//Alta
-			if (i <= 24){
 				
 				GraphTest grafo;
 				generadorGrafoRandom(&grafo, i, 0.8, rand(), 0);
@@ -442,10 +437,29 @@ void TestTodosvsTodosDifer(){
 				sa << elapsed_seconds.count();
 				sa << ",";
 				sa << "GrafoRandomDAltaGRASP" << endl;
+		}
+	}
+}
 
-			}
+void TestTodosvsTodosDiferMedia(){
+	srand(50);  //SEMILLA ARBITRARIA PERO SIEMPRE QUE SEA LA MISMA SI SE QUIEREN LOS MISMO GRAFOS
+
+	fstream sm ("ExactovsGRASPDiferenciaMedia15.csv", ios::out);
+
+	sm << "cantNod,Res,Tiempo,Tipo" << endl;
+
+	cout << "Arranca Todos contra todos" << endl;
+
+	std::chrono::time_point<std::chrono::system_clock> start, end;
+	std::chrono::time_point<std::chrono::system_clock> start1, end1;
+	std::chrono::time_point<std::chrono::system_clock> startBLN, endBLN;
+
+	for(int i = 1; i < 31; i++){
+		cout << "Voy por n = " << i << endl;
+		for(int j = 0; j < 15; j++){ 
+
+			// Algoritmo exacto
 			//Media
-			if (i <= 30){
 				GraphTest grafo;
 				generadorGrafoRandom(&grafo, i, 0.5, rand(), 0);
 				// acá va el traductor de grafo a grafo1 (lista de adyacencias a matriz adyacencias, Graph a GraphMat)
@@ -485,9 +499,29 @@ void TestTodosvsTodosDifer(){
 				sm << elapsed_seconds.count();
 				sm << ",";
 				sm << "GrafoRandomDMediaGRASP" << endl;
-			}
+		}
+	}
+}
+
+void TestTodosvsTodosDiferBaja(){
+	srand(50);  //SEMILLA ARBITRARIA PERO SIEMPRE QUE SEA LA MISMA SI SE QUIEREN LOS MISMO GRAFOS
+
+	fstream sb ("ExactovsGRASPDiferenciaBaja15.csv", ios::out);
+
+	sb << "cantNod,Res,Tiempo,Tipo" << endl;
+
+	cout << "Arranca Todos contra todos" << endl;
+
+	std::chrono::time_point<std::chrono::system_clock> start, end;
+	std::chrono::time_point<std::chrono::system_clock> start1, end1;
+	std::chrono::time_point<std::chrono::system_clock> startBLN, endBLN;
+
+	for(int i = 1; i < 36; i++){
+		cout << "Voy por n = " << i << endl;
+		for(int j = 0; j < 15; j++){ 
+
+			// Algoritmo exacto
 			//Baja
-			if (i <= 35) {
 				GraphTest grafo;
 				generadorGrafoRandom(&grafo, i, 0.1, rand(), 0);
 				// acá va el traductor de grafo a grafo1 (lista de adyacencias a matriz adyacencias, Graph a GraphMat)
@@ -526,7 +560,6 @@ void TestTodosvsTodosDifer(){
 				sb << elapsed_seconds.count();
 				sb << ",";
 				sb << "GrafoRandomDBajaGRASP" << endl;
-			}
 		}
 	}
 }
@@ -543,6 +576,9 @@ int main(){
 	//expGrafoRandomDensidadMedia();
 	//expGrafoRandom50();
 	
-	TestTodosvsTodosDifer();
+	// TestTodosvsTodosDifer();
+	TestTodosvsTodosDiferAlta();
+	TestTodosvsTodosDiferMedia();
+	TestTodosvsTodosDiferBaja();
 	return 0;
 }

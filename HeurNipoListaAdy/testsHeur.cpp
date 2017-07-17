@@ -1418,15 +1418,11 @@ void expFinalDensidadBaja(){
 	}
 }
 
-void TestTodosvsTodosDifer(){
+void TestTodosvsTodosDiferAlta(){
 	srand(50);  //SEMILLA ARBITRARIA PERO SIEMPRE QUE SEA LA MISMA SI SE QUIEREN LOS MISMO GRAFOS
 
-	fstream sb ("TodosvsTodosDiferenciaBaja.csv", ios::out);
-	fstream sm ("TodosvsTodosDiferenciaMedia.csv", ios::out);
-	fstream sa ("TodosvsTodosDiferenciaAlta.csv", ios::out);
+	fstream sa ("TodosvsTodosDiferenciaAlta15.csv", ios::out);
 
-	sb << "cantNod,Res,Tiempo,Tipo" << endl;
-	sm << "cantNod,Res,Tiempo,Tipo" << endl;
 	sa << "cantNod,Res,Tiempo,Tipo" << endl;
 
 	cout << "Arranca Todos contra todos" << endl;
@@ -1435,13 +1431,12 @@ void TestTodosvsTodosDifer(){
 	std::chrono::time_point<std::chrono::system_clock> start1, end1;
 	std::chrono::time_point<std::chrono::system_clock> startBLN, endBLN;
 
-	for(int i = 1; i < 36; i++){
+	for(int i = 1; i < 24; i++){
 		cout << "Voy por n = " << i << endl;
-		for(int j = 0; j < 30; j++){ 
+		for(int j = 0; j < 15; j++){ 
 
 			// Algoritmo exacto
 			//Alta
-			if (i <= 24){
 				
 				Graph grafo;
 				generadorGrafoRandom(&grafo, i, DENSIDAD_ALTA, rand(), 0);
@@ -1544,11 +1539,30 @@ void TestTodosvsTodosDifer(){
 				sa << elapsed_secondsBLCE.count();
 				sa << ",";
 				sa << "BusquedaLocalCuadraticaEmi" << endl;
+		}
+	}
+}
 
+void TestTodosvsTodosDiferMedia(){
+	srand(50);
 
-			}
-			//Media
-			if (i <= 30){
+	fstream sm ("TodosvsTodosDiferenciaMedia15.csv", ios::out);
+
+	sm << "cantNod,Res,Tiempo,Tipo" << endl;
+
+	cout << "Arranca Todos contra todos" << endl;
+
+	std::chrono::time_point<std::chrono::system_clock> start, end;
+	std::chrono::time_point<std::chrono::system_clock> start1, end1;
+	std::chrono::time_point<std::chrono::system_clock> startBLN, endBLN;
+
+	for(int i = 1; i < 31; i++){
+		cout << "Voy por n = " << i << endl;
+		for(int j = 0; j < 15; j++){ 
+
+			// Algoritmo exacto
+			// Media
+				
 				Graph grafo;
 				generadorGrafoRandom(&grafo, i, DENSIDAD_MEDIA, rand(), 0);
 
@@ -1650,10 +1664,29 @@ void TestTodosvsTodosDifer(){
 				sm << elapsed_secondsBLCE.count();
 				sm << ",";
 				sm << "BusquedaLocalCuadraticaEmi" << endl;
+		}
+	}
+}
 
-			}
+void TestTodosvsTodosDiferBaja(){
+	srand(50);  //SEMILLA ARBITRARIA PERO SIEMPRE QUE SEA LA MISMA SI SE QUIEREN LOS MISMO GRAFOS
+
+	fstream sb ("TodosvsTodosDiferenciaBaja15.csv", ios::out);
+
+	sb << "cantNod,Res,Tiempo,Tipo" << endl;
+
+	cout << "Arranca Todos contra todos" << endl;
+
+	std::chrono::time_point<std::chrono::system_clock> start, end;
+	std::chrono::time_point<std::chrono::system_clock> start1, end1;
+	std::chrono::time_point<std::chrono::system_clock> startBLN, endBLN;
+
+	for(int i = 1; i < 36; i++){
+		cout << "Voy por n = " << i << endl;
+		for(int j = 0; j < 15; j++){ 
+
+			// Algoritmo exacto				
 			//Baja
-			if (i <= 35) {
 				Graph grafo;
 				generadorGrafoRandom(&grafo, i, DENSIDAD_BAJA, rand(), 0);
 
@@ -1755,7 +1788,6 @@ void TestTodosvsTodosDifer(){
 				sb << elapsed_secondsBLCE.count();
 				sb << ",";
 				sb << "BusquedaLocalCuadraticaEmi" << endl;
-			}
 		}
 	}
 }
@@ -1779,7 +1811,10 @@ int main(){
 	// expFinalDensidadBaja();
 	// expFinalDensidadMedia();
 	// expFinalDensidadAlta();
-	TestTodosvsTodosDifer();
+	// TestTodosvsTodosDifer();
+	// TestTodosvsTodosDiferAlta();
+	TestTodosvsTodosDiferMedia();
+	TestTodosvsTodosDiferBaja();
 
 	return 0;
 }
